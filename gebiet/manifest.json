@@ -1,7 +1,7 @@
 {
  "name": "Nachvermarktung",
  "short_name": "Gebiet",
- "id": "./",
+ "id": "aussendienst-gebiet",
  "start_url": "./",
  "scope": "./",
  "lang": "de",

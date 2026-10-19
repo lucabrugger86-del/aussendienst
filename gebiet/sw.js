@@ -14,6 +14,10 @@ self.addEventListener('fetch', function (e) {
   var u = new URL(e.request.url);
   if (u.origin !== self.location.origin) return;
   if (u.href.indexOf(self.registration.scope) !== 0) return;
+  if (/manifest\.json$/.test(u.pathname)) {
+    e.respondWith(fetch(e.request).then(function (n) { return caches.open(V).then(function (c) { if (n && n.ok) c.put(e.request, n.clone()); return n; }); }).catch(function () { return caches.match(e.request); }));
+    return;
+  }
   e.respondWith(caches.open(V).then(function (c) {
     return c.match(e.request, { ignoreSearch: true }).then(function (r) {
       var f = fetch(e.request).then(function (n) { if (n && n.ok) c.put(e.request, n.clone()); return n; }).catch(function () { return r; });
