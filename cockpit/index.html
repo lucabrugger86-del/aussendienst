@@ -3181,9 +3181,33 @@ function BulkEngine(data) {
 
   /* ---------- Die beiden Rechenkerne ---------- */
   var NV = null, BK = null;
+  /* Direktverbindung: Laufen Bulk-Zentrale und Nachvermarktung als Apps unter derselben Adresse,
+     liegen ihre Daten im selben Speicher – dann liest das Cockpit sie live, ohne Sicherung. */
+  var LIVE_LS = { bulk: 'bulk-zentrale-v1', nv: 'nachvermarktung-v1' }, live = { bulk: null, nv: null }, liveSig = '';
+  function readLive(key) {
+    try { var s = localStorage.getItem(LIVE_LS[key]); if (!s) return null; var d = JSON.parse(s); return d && typeof d === 'object' && d.v ? d : null; } catch (e) { return null; }
+  }
+  function liveSigNow() {
+    var out = [];
+    ['bulk', 'nv'].forEach(function (k) { try { var s = localStorage.getItem(LIVE_LS[k]); out.push(s ? s.length + ':' + (/"mod":(\d+)/.exec(s) || [0, 0])[1] : '-'); } catch (e) { out.push('x'); } });
+    return out.join('|');
+  }
+  function srcOf(key) { return live[key] || state[key]; }
   function loadEngines() {
-    NV = state.nv ? NvEngine(state.nv.data) : null;
-    BK = state.bulk ? BulkEngine(state.bulk.data) : null;
+    var lb = readLive('bulk'), ln = readLive('nv');
+    live.bulk = lb ? { data: lb, mod: +lb.mod > 0 ? +lb.mod : 0, at: Date.now(), file: '', live: true } : null;
+    live.nv = ln ? { data: ln, mod: +ln.mod > 0 ? +ln.mod : 0, at: Date.now(), file: '', live: true } : null;
+    liveSig = liveSigNow();
+    var sn = srcOf('nv'), sb = srcOf('bulk');
+    NV = sn ? NvEngine(sn.data) : null;
+    BK = sb ? BulkEngine(sb.data) : null;
+  }
+  /* Wenn in einer anderen App etwas eingetragen wurde: neu einlesen und Ansicht auffrischen. */
+  function syncLive(force) {
+    if (!force && liveSigNow() === liveSig) return false;
+    loadEngines();
+    if (typeof renderAll === 'function') renderAll();
+    return true;
   }
   /* ---------- Verschlüsselung der Sicherung: AES-256-GCM, Schlüssel per PBKDF2-SHA256 ---------- */
   /* Nutzt WebCrypto des Browsers. Ist es nicht verfügbar (z. B. bei manchen Datei-Adressen am Handy), rechnet ein eigener, gleichwertiger Ersatz. */
@@ -3432,7 +3456,7 @@ function BulkEngine(data) {
   }
 
   /* ========== Gemeinsame Sicht auf beide Werkzeuge ========== */
-  function srcStamp(s) { return s ? (s.mod ? 'Stand ' + stamp(s.mod) : 'ohne Datum') + ' · eingelesen ' + stamp(s.at) : 'noch nicht eingelesen'; }
+  function srcStamp(s) { return s ? (s.live ? 'Direkt verbunden · ' + (s.mod ? 'letzte Änderung ' + stamp(s.mod) : 'noch leer') : (s.mod ? 'Stand ' + stamp(s.mod) : 'ohne Datum') + ' · eingelesen ' + stamp(s.at)) : 'noch nicht eingelesen'; }
   function srcAge(s) { return s && s.mod ? Math.floor((Date.now() - s.mod) / 86400000) : 99; }
   function allVisits(day) {
     var out = [];
@@ -3533,7 +3557,7 @@ function BulkEngine(data) {
   function renderHero() {
     var t = todayKey(), nm = nowMin(), el = $('hero'), h = '';
     if (!BK && !NV) {
-      el.innerHTML = '<section class="hero calm" data-k="kunde"><p class="hero-k"><i></i>Willkommen</p><h2 class="hero-t">Alles auf einen Blick</h2><p class="hero-why">Lies die Sicherungen der Bulk-Zentrale und der Nachvermarktung ein. Dann siehst du hier deinen Tag, alle Termine, die Zahlen beider Bereiche und kannst eigene Notizen führen.</p><div class="hero-a"><button type="button" class="btn primary" data-bk="load">Sicherung einlesen</button><button type="button" class="btn" data-tab="notizen">Notizen</button></div></section>';
+      el.innerHTML = '<section class="hero calm" data-k="kunde"><p class="hero-k"><i></i>Willkommen</p><h2 class="hero-t">Alles auf einen Blick</h2><p class="hero-why">Sobald in der Bulk-Zentrale oder der Nachvermarktung auf diesem Gerät etwas drinsteht, erscheint es hier von selbst. Von einem anderen Gerät kannst du Sicherungen einlesen. Dazu eigene Notizen und To-dos.</p><div class="hero-a"><button type="button" class="btn primary" data-bk="load">Sicherung einlesen</button><button type="button" class="btn" data-tab="notizen">Notizen</button></div></section>';
       return;
     }
     var entries = dayEntries(t), cur = null, next = null;
@@ -3566,8 +3590,8 @@ function BulkEngine(data) {
   }
   function srcPanel() {
     var w = [];
-    if (!BK) w.push('Bulk-Zentrale: noch keine Sicherung eingelesen.'); else if (srcAge(state.bulk) >= 2) w.push('Bulk-Zentrale: Stand ist ' + srcAge(state.bulk) + ' Tage alt.');
-    if (!NV) w.push('Nachvermarktung: noch keine Sicherung eingelesen.'); else if (srcAge(state.nv) >= 2) w.push('Nachvermarktung: Stand ist ' + srcAge(state.nv) + ' Tage alt.');
+    if (!BK) w.push('Bulk-Zentrale: noch keine Sicherung eingelesen.'); else if (!live.bulk && srcAge(state.bulk) >= 2) w.push('Bulk-Zentrale: Stand ist ' + srcAge(state.bulk) + ' Tage alt.');
+    if (!NV) w.push('Nachvermarktung: noch keine Sicherung eingelesen.'); else if (!live.nv && srcAge(state.nv) >= 2) w.push('Nachvermarktung: Stand ist ' + srcAge(state.nv) + ' Tage alt.');
     if (!w.length) return '';
     return '<div class="srcwarn"><span>' + esc(w.join(' ')) + '</span><button type="button" class="btn" data-bk="load">Sicherung einlesen</button></div>';
   }
@@ -3731,8 +3755,9 @@ function BulkEngine(data) {
 
   /* ========== Mehr ========== */
   function renderSources() {
-    function row(lbl, s, k) { return '<div class="srcrow" data-k="' + k + '"><div class="srcrow-t"><b>' + lbl + '</b><span class="hint">' + esc(srcStamp(s)) + (s && s.file ? ' · ' + esc(s.file) : '') + '</span></div><button type="button" class="btn" data-bk="load">' + (s ? 'Neu einlesen' : 'Einlesen') + '</button></div>'; }
-    $('srcPanel').innerHTML = '<div class="panel-h"><h3>Werkzeuge einlesen</h3></div><p class="hint">Speichere in der Bulk-Zentrale und in der Nachvermarktung eine Sicherung und lies sie hier ein. Das Cockpit zeigt, ändert aber nichts: Eintragen bleibt in den Werkzeugen.</p>' + row('Bulk-Zentrale', state.bulk, 'bulk') + row('Nachvermarktung', state.nv, 'nv');
+    function row(lbl, s, k) { return '<div class="srcrow" data-k="' + k + '"><div class="srcrow-t"><b>' + lbl + (s && s.live ? ' <span class="bdg" data-k="' + k + '">live</span>' : '') + '</b><span class="hint">' + esc(srcStamp(s)) + (s && s.file ? ' · ' + esc(s.file) : '') + '</span></div>' + (s && s.live ? '' : '<button type="button" class="btn" data-bk="load">' + (s ? 'Neu einlesen' : 'Einlesen') + '</button>') + '</div>'; }
+    var both = live.bulk && live.nv, none = !live.bulk && !live.nv;
+    $('srcPanel').innerHTML = '<div class="panel-h"><h3>Werkzeuge</h3></div><p class="hint">' + (both ? 'Beide Apps laufen auf diesem Gerät – das Cockpit liest sie direkt mit, Sicherungen sind dafür nicht nötig.' : none ? 'Auf diesem Gerät sind die Apps noch leer. Laufen Bulk-Zentrale und Nachvermarktung hier als Apps, erscheinen ihre Daten automatisch; sonst Sicherung speichern und hier einlesen.' : 'Was auf diesem Gerät als App läuft, wird direkt mitgelesen; das andere per Sicherung einlesen.') + ' Das Cockpit zeigt, ändert aber nichts: Eintragen bleibt in den Werkzeugen.</p>' + row('Bulk-Zentrale', srcOf('bulk'), 'bulk') + row('Nachvermarktung', srcOf('nv'), 'nv');
   }
   function renderMehr() { renderSources(); updateBackupInfo(); }
 
@@ -3978,7 +4003,7 @@ function BulkEngine(data) {
     state[key] = { data: inner.data, mod: bmod, at: Date.now(), file: curFile };
     loadEngines();
     markDirty(); renderAll();
-    var E = key === 'bulk' ? BK : NV;
+    if (live[key]) { showToast((key === 'bulk' ? 'Bulk-Zentrale' : 'Nachvermarktung') + ' läuft hier als App – die Direktverbindung hat Vorrang, die Sicherung bleibt als Reserve.', true); return; }
     showToast((key === 'bulk' ? 'Bulk-Zentrale' : 'Nachvermarktung') + ' eingelesen' + (bmod ? ' (Stand ' + stamp(bmod) + ')' : '') + ': ' + (key === 'bulk' ? plural(BK.st.doors.length, 'Wohnung', 'Wohnungen') + ', ' + plural(BK.st.bulks.length, 'Bulk', 'Bulks') : plural(NV.st.items.length, 'Tür', 'Türen') + ', ' + plural(NV.st.termine.length, 'Termin', 'Termine')) + '.', true);
   }
   function offerLoad(inner) {
@@ -4225,8 +4250,12 @@ function BulkEngine(data) {
   var sigNow = '';
   function timeSig() { var n = new Date(); return todayKey() + '|' + Math.floor((n.getHours() * 60 + n.getMinutes()) / 15); }
   function timeCheck() { if (!sigNow || timeSig() === sigNow) return; if (ui.nedit || modalOpen) return; sigNow = timeSig(); renderAll(); }
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) timeCheck(); });
-  setInterval(timeCheck, 60000);
+  function liveCheck() { if (ui.nedit || modalOpen) return; if (!syncLive(false)) timeCheck(); else sigNow = timeSig(); }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) liveCheck(); });
+  window.addEventListener('focus', liveCheck);
+  window.addEventListener('pageshow', liveCheck);
+  window.addEventListener('storage', function (e) { if (!e.key || e.key === LIVE_LS.bulk || e.key === LIVE_LS.nv) liveCheck(); });
+  setInterval(liveCheck, 15000);
   var rz = null;
   window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { growAll(); setDockH(); }, 150); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { growAll(); setDockH(); });
