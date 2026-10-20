@@ -1380,7 +1380,7 @@ function NvEngine(data) {
   /* ---------- Zustand ---------- */
   var state = blank();
   /* area: 'nv' (Nachvermarktung: Häuser, Flyer, Nochmal hin) oder 'bulk' (Bulk-Termine mit Wohnungen) */
-  var ui = { tab: 'heute', gsel: '', ssel: '', lane: {}, pick: '', ask: '', edit: '', hist: '', tedit: '', tpast: false, showClosed: false, day: '', tagSec: 'tag', tday: '', flashId: '', q: '', move: null, focus: '', names: [] };
+  var ui = { tab: 'heute', gsel: '', ssel: '', lane: {}, pick: '', ask: '', edit: '', hist: '', tedit: '', tpast: false, showClosed: false, day: '', tagSec: 'tag', tday: '', flashId: '', q: '', move: null, focus: '', names: [], nsel: {} };
   var lastDeleted = null, toastTimer = null;
 
   function blank() { return { v: 3, mod: 0, items: [], termine: [], skip: [], report: null, cfg: normCfg(null), days: {}, gebiete: {}, last: { strasse: '', ort: '', gebiet: '', nr: '', saved: '', step: 2, res: 'flyer', bres: 'nicht' } }; }
@@ -2552,6 +2552,59 @@ function NvEngine(data) {
     } catch (e) { /* kein Zugriff */ }
     return out;
   }
+  /* ---------- Klingel-genau: ein Haus hat mehrere Klingeln, jede kann ihren eigenen Stand haben ----------
+     Ein Eintrag mit Name (h.nm) gilt nur für diese Klingel, ein Eintrag ohne Name fürs ganze Haus. */
+  function nmKey(n) { return ns(n); }
+  function namesOf(it) { return Array.isArray(it.names) ? it.names : []; }
+  function hasName(it, n) { var k = nmKey(n); return !!k && namesOf(it).some(function (x) { return nmKey(x) === k; }); }
+  /* Letzter Eintrag, der für diese Klingel zählt (eigener oder ein Haus-Eintrag) */
+  function lastFor(it, name) {
+    var k = nmKey(name);
+    var hs = Array.isArray(it.hist) ? it.hist : [];
+    for (var i = hs.length - 1; i >= 0; i--) {
+      var h = hs[i];
+      if (h.re || !RESLBL[h.res]) continue;
+      if (!has(h.nm) || nmKey(h.nm) === k) return h;
+    }
+    return null;
+  }
+  function nameState(it, name) {
+    var h = lastFor(it, name);
+    if (!h) return { k: 'neu', h: null };
+    if (FINAL[h.res]) return { k: 'done', h: h };
+    return { k: h.res === 'spaeter' ? 'spaeter' : h.res === 'flyer' ? 'flyer' : 'nicht', h: h };
+  }
+  function openNames(it) { return namesOf(it).filter(function (n) { return nameState(it, n).k !== 'done'; }); }
+  function doneNames(it) { return namesOf(it).filter(function (n) { return nameState(it, n).k === 'done'; }); }
+  /* Haus ist erst erledigt, wenn alle Klingeln durch sind (oder ein Eintrag ohne Name das ganze Haus abschließt) */
+  function recompute(it) {
+    if (it.status === 'drop') return;
+    sortHist(it);
+    var last = null;
+    for (var i = it.hist.length - 1; i >= 0; i--) { if (!it.hist[i].re) { last = it.hist[i]; break; } }
+    if (!last) { it.status = 'open'; return; }
+    if (!namesOf(it).length || !has(last.nm) || !hasName(it, last.nm)) { it.status = FINAL[last.res] ? 'done' : 'open'; return; }
+    it.status = openNames(it).length ? 'open' : 'done';
+  }
+  /* Letzter offener Versuch: Einträge für schon erledigte Klingeln zählen nicht mehr */
+  function lastMiss(it) {
+    for (var i = it.hist.length - 1; i >= 0; i--) {
+      var h = it.hist[i];
+      if (!ATT[h.res]) continue;
+      if (has(h.nm) && hasName(it, h.nm) && nameState(it, h.nm).k === 'done') continue;
+      return h;
+    }
+    return null;
+  }
+  /* Alle „Später“-Zusagen, die noch offen sind – je Klingel eine */
+  function spaeterHeads(it) {
+    var out = [], seen = {};
+    namesOf(it).forEach(function (n) { var s = nameState(it, n); if (s.k === 'spaeter' && s.h && !seen[s.h.vid]) { seen[s.h.vid] = 1; out.push(s.h); } });
+    var lm = lastMiss(it);
+    if (lm && lm.res === 'spaeter' && !seen[lm.vid] && (!has(lm.nm) || !hasName(it, lm.nm))) out.push(lm);
+    return out;
+  }
+  function nmLabel(h) { return h && has(h.nm) ? String(h.nm).trim() : ''; }
   adopt(data);
   function closedArea(it) { var l = areaOf(it) || 'Ohne Gebiet'; return !!state.gebiete[ns(l) || '~']; }
   function wannAt(h) { if (!h || h.res !== 'spaeter' || !h.wann || !dayOk(h.wday)) return null; return { day: h.wday, m: timeOk(h.wzeit) ? tmin(h.wzeit) : 0 }; }
@@ -2561,8 +2614,21 @@ function NvEngine(data) {
     if (h.wann === 'ruft') return 'meldet sich' + (w ? ' bis ' + w : '');
     return w ? 'nochmal hin ' + w : 'nochmal hin';
   }
+  function dueLater(today, nm) {
+    var out = [];
+    state.items.forEach(function (it) {
+      if (it.status !== 'open' || closedArea(it)) return;
+      spaeterHeads(it).forEach(function (lm) {
+        var a = wannAt(lm);
+        if (!a) { if (lm.day === today && !lm.wann) out.push({ it: it, h: lm, m: -1, due: false, open: true }); return; }
+        if (a.day !== today) return;
+        out.push({ it: it, h: lm, m: a.m, due: a.m <= nm, open: false });
+      });
+    });
+    return out;
+  }
   function plan(now) { resetRates(); return buildPlan(now, state.items.filter(function (it) { return it.status === 'open' && !isBulk(it) && !closedArea(it); }), null); }
-  return { st: state, plan: plan, visitsOn: visitsOn, visitDays: visitDays, termineOn: termineOn, isKunde: isKunde, isBulk: isBulk, lastMiss: lastMiss, tries: tries, flyers: flyers, stOf: stOf, nrOf: nrOf, areaOf: areaOf, addrLine: addrLine, shortOf: shortOf, SLOT: SLOT, termText: termText, dayRec: dayRec, ownRates: ownRates, terminLabel: terminLabel, terminEnd: terminEnd, cmpTermin: cmpTermin, closedArea: closedArea, wannAt: wannAt, wannText: wannText };
+  return { st: state, plan: plan, visitsOn: visitsOn, visitDays: visitDays, termineOn: termineOn, isKunde: isKunde, isBulk: isBulk, lastMiss: lastMiss, dueLater: dueLater, openNames: openNames, tries: tries, flyers: flyers, stOf: stOf, nrOf: nrOf, areaOf: areaOf, addrLine: addrLine, shortOf: shortOf, SLOT: SLOT, termText: termText, dayRec: dayRec, ownRates: ownRates, terminLabel: terminLabel, terminEnd: terminEnd, cmpTermin: cmpTermin, closedArea: closedArea, wannAt: wannAt, wannText: wannText };
 }
 function BulkEngine(data) {
   /* ---------- Bulk-Zentrale: Grundlagen ---------- */
@@ -3544,11 +3610,9 @@ function BulkEngine(data) {
   function dueList(today) {
     var out = [], nm = nowMin();
     if (BK) BK.dueLater(today, nm).forEach(function (x) { out.push({ src: 'bulk', label: BK.shortOf(x.d), name: x.d.name, h: x.h, m: x.m, due: x.due, txt: BK.wannText(x.h) }); });
-    if (NV) NV.st.items.forEach(function (it) {
-      if (it.status !== 'open' || NV.isBulk(it) || NV.closedArea(it)) return;
-      var lm = NV.lastMiss(it); if (!lm || lm.res !== 'spaeter') return;
-      var a = NV.wannAt(lm); if (!a || a.day !== today) return;
-      out.push({ src: 'nv', label: NV.addrLine(it), name: it.name, h: lm, m: a.m, due: a.m <= nm, txt: NV.wannText(lm) });
+    if (NV) NV.dueLater(today, nm).forEach(function (x) {
+      if (x.open || NV.isBulk(x.it)) return;
+      out.push({ src: 'nv', label: NV.addrLine(x.it), name: has(x.h.nm) ? x.h.nm : x.it.name, h: x.h, m: x.m, due: x.due, txt: NV.wannText(x.h) });
     });
     out.sort(function (a, b) { return (a.due ? 0 : 1) - (b.due ? 0 : 1) || a.m - b.m; });
     return out;
