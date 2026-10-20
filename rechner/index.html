@@ -677,23 +677,100 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
 .brk-r.sum { border-top: 2px solid var(--line-strong); font-size: 15px; }
 .brk-r.sum span { color: var(--fg); font-weight: 600; }
 
-/* Kundenansicht: Vollbild, groß, ruhig */
-.kv { position: fixed; inset: 0; z-index: 50; background: var(--bg); overflow: auto; padding: max(20px, env(safe-area-inset-top, 0px)) 20px max(20px, env(safe-area-inset-bottom, 0px)); }
-.kv-in { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; min-height: 100%; justify-content: center; }
-.kv-k { font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: center; }
-.kv-t { font-family: var(--font-display); font-size: clamp(44px, 14vw, 72px); font-weight: 700; line-height: 1; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; font-variant-numeric: tabular-nums; }
-.kv-t small { font-size: 22px; font-weight: 600; color: var(--muted); }
-.kv-t[data-s="plus"] { color: var(--green-ink); }
-.kv-t[data-s="minus"] { color: var(--red-ink); }
-.kv-s { font-size: 17px; text-align: center; color: var(--fg); }
-.kv-f { font-size: 13.5px; color: var(--muted); text-align: center; }
-.kv-a { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+/* Beratungsmodus: eigene, dunkle Bühne mit Telekom-Magenta – unabhängig vom Hell/Dunkel-Modus */
+.kv { position: fixed; inset: 0; z-index: 50; overflow: auto; color: #fff; background: #0E0B14 radial-gradient(120% 60% at 50% -10%, rgba(226, 0, 116, .45), rgba(226, 0, 116, 0) 60%); padding: max(12px, env(safe-area-inset-top, 0px)) 18px max(16px, env(safe-area-inset-bottom, 0px)); color-scheme: dark; }
+.kv-in { max-width: 560px; margin: 0 auto; min-height: 100%; display: flex; flex-direction: column; gap: 12px; }
+.kv-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.kv-brand { font-family: var(--font-display); font-weight: 700; font-size: 17px; letter-spacing: .01em; color: #fff; }
+.kv-brand em { font-style: normal; font-weight: 500; color: rgba(255, 255, 255, .6); }
+.kv .ib { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .18); color: #fff; }
+.kv-dots { display: flex; gap: 6px; }
+.kv-dots i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255, 255, 255, .25); transition: transform .2s, background .2s; }
+.kv-dots i.on { background: #E20074; transform: scale(1.35); box-shadow: 0 0 0 4px rgba(226, 0, 116, .25); }
+.kv-prog { height: 3px; border-radius: 2px; background: rgba(255, 255, 255, .12); overflow: hidden; }
+.kv-prog i { display: block; height: 100%; background: linear-gradient(90deg, #E20074, #FF5CAD); transition: width .35s ease; }
+.kv-stage { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.kvs { display: flex; flex-direction: column; gap: 14px; padding: 22px 20px 22px; border-radius: 26px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .12); box-shadow: 0 20px 60px rgba(0, 0, 0, .45); animation: kvin .4s ease-out; backdrop-filter: blur(10px); }
+@keyframes kvin { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
+.kvs[data-k="new"] { background: linear-gradient(160deg, #E20074 0%, #9A0052 70%, #6B003A 100%); border-color: rgba(255, 255, 255, .25); box-shadow: 0 24px 70px rgba(226, 0, 116, .45); }
+.kvs[data-k="sum"][data-s="plus"] { background: linear-gradient(160deg, rgba(31, 190, 110, .35), rgba(255, 255, 255, .05) 60%); border-color: rgba(60, 220, 140, .5); }
+.kvs[data-k="sum"][data-s="minus"] { background: linear-gradient(160deg, rgba(226, 0, 116, .3), rgba(255, 255, 255, .05) 60%); border-color: rgba(255, 92, 173, .5); }
+.kvs-k { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255, 255, 255, .62); }
+.kvs-h { font-family: var(--font-display); font-size: clamp(24px, 6.5vw, 32px); font-weight: 700; line-height: 1.1; text-wrap: balance; color: #fff; }
+.tk-mark { display: inline-block; padding: 2px 10px; border-radius: 8px; background: #fff; color: #E20074; font-size: .8em; vertical-align: 3px; margin-right: 4px; }
+.kvs-big { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; }
+.kvs-big .cnt { font-family: var(--font-display); font-size: clamp(52px, 16vw, 84px); font-weight: 700; line-height: 1; letter-spacing: -.015em; font-variant-numeric: tabular-nums; color: #fff; text-shadow: 0 6px 30px rgba(0, 0, 0, .35); }
+.kvs[data-s="plus"] .kvs-big .cnt { color: #5CF0A8; }
+.kvs[data-s="minus"] .kvs-big .cnt { color: #FF8AC4; }
+.kvs-big small { font-size: 16px; color: rgba(255, 255, 255, .72); }
+.kvs-s { font-size: 17px; color: #fff; }
+.kvs-hint { font-size: 13px; color: rgba(255, 255, 255, .5); text-align: center; margin-top: 4px; }
+.kvs-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+.kvs-row.one { grid-template-columns: 1fr; }
+.kvs-row > div { display: flex; flex-direction: column; gap: 4px; padding: 11px 13px; border-radius: 14px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .12); min-width: 0; }
+.kvs-row b { font-family: var(--font-display); font-size: 23px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; color: #fff; }
+.kvs-l { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 255, 255, .6); }
+.kvs-f { font-size: 14.5px; color: rgba(255, 255, 255, .72); line-height: 1.45; }
+.kvs-speed { display: flex; flex-direction: column; gap: 6px; }
+.kvs-speed b { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
+.kbar { display: flex; flex-direction: column; gap: 4px; }
+.kbar i { display: block; height: 10px; border-radius: 6px; width: var(--w); background: rgba(255, 255, 255, .35); animation: grow .9s cubic-bezier(.2, .8, .2, 1) both; }
+.kbar.mag i { background: linear-gradient(90deg, #fff, #FFD3E9); box-shadow: 0 0 18px rgba(255, 255, 255, .35); }
+.kvs[data-k="chart"] .kbar.mag i { background: linear-gradient(90deg, #E20074, #FF5CAD); box-shadow: 0 0 18px rgba(226, 0, 116, .45); }
+.kvs[data-k="chart"] .kbar.grey i { background: rgba(255, 255, 255, .28); }
+.kbar.big i { height: 16px; }
+.kbar span { font-size: 13px; color: rgba(255, 255, 255, .7); }
+.kbar span:empty { display: none; }
+.kbar span b { color: #fff; font-variant-numeric: tabular-nums; }
+.kbars { display: flex; flex-direction: column; gap: 10px; }
+@keyframes grow { from { width: 0; } }
+.kvs-tl { display: flex; gap: 2px; height: 14px; }
+.kvs-tl i { flex: 1; border-radius: 3px; background: rgba(255, 255, 255, .25); }
+.kvs-tl i.a { background: #fff; box-shadow: 0 0 10px rgba(255, 255, 255, .5); }
+.kvs-tll { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255, 255, 255, .75); margin-top: -8px; }
+.kvs-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.kvs-chips span { padding: 5px 10px; border-radius: 999px; background: rgba(255, 255, 255, .14); border: 1px solid rgba(255, 255, 255, .22); font-size: 13px; color: #fff; }
+.kvs-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.kvs-tiles > div { display: flex; flex-direction: column; gap: 2px; padding: 12px; border-radius: 14px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .12); }
+.kvs-tiles i { font-style: normal; font-weight: 700; font-size: 18px; width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: #E20074; color: #fff; margin-bottom: 4px; }
+.kvs-tiles b { font-size: 16px; color: #fff; }
+.kvs-tiles span { font-size: 13px; color: rgba(255, 255, 255, .7); }
+.kv .cmp-c { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .14); color: #fff; }
+.kv .chart { height: 150px; }
+.kv .ch-g { stroke: rgba(255, 255, 255, .14); }
+.kv .ch-t { fill: rgba(255, 255, 255, .55); }
+.kv .ch-old { stroke: rgba(255, 255, 255, .55); stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.4s ease-out forwards; }
+.kv .ch-new { stroke: #FF3D9A; stroke-width: 3.5; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.4s ease-out .2s forwards; }
+.kv .ch-area { fill: url(#chg); opacity: 0; animation: kvin .8s ease-out 1.2s forwards; }
+.kv .ch-dot { opacity: 0; animation: kvin .4s ease-out 1.4s forwards; }
+.kv .ch-dot.old { fill: rgba(255, 255, 255, .7); }
+.kv .ch-dot.new { fill: #FF3D9A; stroke: #fff; stroke-width: 2; }
+.kv .ch-l { opacity: 0; animation: kvin .4s ease-out 1.3s forwards; stroke: #0E0B14; }
+.kv .ch-l.old { fill: rgba(255, 255, 255, .8); }
+.kv .ch-l.new { fill: #FF8AC4; }
+.kv .ch-leg { color: rgba(255, 255, 255, .65); }
+.kv .ch-leg i { background: rgba(255, 255, 255, .55); }
+.kv .ch-leg i.new { background: #FF3D9A; }
+.kv .ch-leg .muted { color: rgba(255, 255, 255, .62); }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.kv-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.kv .btn { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .22); color: #fff; }
+.kv .btn[disabled] { opacity: .35; }
+.kv .btn.mag { background: #E20074; border-color: #E20074; color: #fff; box-shadow: 0 8px 24px rgba(226, 0, 116, .4); }
+.kv .btn.mag:hover { background: #C40064; border-color: #C40064; }
+.kv-a { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+.kv-a.one { grid-template-columns: 1fr; }
+.ch-area { fill: none; }
+.ch-dot { display: none; }
+.kv .ch-dot { display: block; }
+@media (prefers-reduced-motion: reduce) { .kvs, .kv .ch-old, .kv .ch-new, .kv .ch-l, .kv .ch-area, .kv .ch-dot, .kbar i { animation: none; opacity: 1; stroke-dashoffset: 0; } }
 body.kv-open { overflow: hidden; }
 .door-acts.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .tabbtn { position: relative; }
 .stepper .knr { padding-inline: 4px; font-size: 24px; }
 .ch-l { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
 .tbn { color: var(--on-accent); }
+.kv-a.one { grid-template-columns: 1fr; }
 </style>
 <link rel="manifest" href="manifest.json">
 <script>if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
@@ -913,8 +990,10 @@ body.kv-open { overflow: hidden; }
     var lbY = oldTop ? [top, bot] : [bot, top];
     var marks = '';
     [6, 12, 18, 24, 36].forEach(function (m) { if (m < L) marks += '<line x1="' + x(m).toFixed(1) + '" y1="' + py + '" x2="' + x(m).toFixed(1) + '" y2="' + (H - py) + '" class="ch-g"/><text x="' + x(m).toFixed(1) + '" y="' + (H - 1) + '" class="ch-t">' + m + '</text>'; });
-    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Gesamtkosten über ' + L + ' Monate: jetziger Anbieter und Telekom">' + marks
-      + '<path d="' + path(r.cumO) + '" class="ch-old"/><path d="' + path(r.cumN) + '" class="ch-new"/>'
+    var area = path(r.cumN) + ' L' + x(L).toFixed(1) + ' ' + (H - py) + ' L' + x(0).toFixed(1) + ' ' + (H - py) + ' Z';
+    return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Gesamtkosten über ' + L + ' Monate: jetziger Anbieter und Telekom"><defs><linearGradient id="chg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E20074" stop-opacity=".45"/><stop offset="1" stop-color="#E20074" stop-opacity="0"/></linearGradient></defs>' + marks
+      + '<path d="' + area + '" class="ch-area"/><path d="' + path(r.cumO) + '" class="ch-old" pathLength="1"/><path d="' + path(r.cumN) + '" class="ch-new" pathLength="1"/>'
+      + '<circle cx="' + x(L).toFixed(1) + '" cy="' + yO.toFixed(1) + '" r="4" class="ch-dot old"/><circle cx="' + x(L).toFixed(1) + '" cy="' + yN.toFixed(1) + '" r="5" class="ch-dot new"/>'
       + '<text x="' + (W - px) + '" y="' + lbY[0].toFixed(1) + '" class="ch-l old">' + esc(eur(r.oldTotal)) + '</text>'
       + '<text x="' + (W - px) + '" y="' + lbY[1].toFixed(1) + '" class="ch-l new">' + esc(eur(r.newTotal)) + '</text></svg>'
       + '<p class="ch-leg"><span><i class="old"></i>' + esc(state.inp.anbieter || 'Jetzt') + '</span><span><i class="new"></i>' + esc(tarifName(state.inp)) + '</span><span class="muted">Monate · Summe bis dahin</span></p>';
@@ -946,7 +1025,7 @@ body.kv-open { overflow: hidden; }
       + chartSvg(r)
       + '<p class="hero-why">' + esc(whenText(r, sp)) + (r.aktM && r.aktM < r.L ? ' Nach der Aktion: ' + esc(eur(r.afterAkt)) + ' statt ' + esc(eur(r.oldAfter)) + ' im Monat.' : '') + '</p>'
       + '<details class="brkd"><summary>So setzt sich die Telekom-Summe zusammen</summary>' + breakdown(r, inp) + '</details>'
-      + '<div class="hero-a"><button type="button" class="btn k big" data-k="wr" data-act="kv">Kundenansicht</button><button type="button" class="btn big" data-act="share">Teilen</button></div></section>';
+      + '<div class="hero-a"><button type="button" class="btn k big" data-k="wr" data-act="kv">Mit dem Kunden durchgehen</button><button type="button" class="btn big" data-act="share">Teilen</button></div></section>';
     el.innerHTML = h;
   }
   function shareText(inp, r) {
@@ -970,20 +1049,86 @@ body.kv-open { overflow: hidden; }
     if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(ok, function () { fallback(); }); } else fallback();
     function fallback() { openModal({ title: 'Text zum Kopieren', html: '<textarea class="in" rows="9" readonly>' + esc(t) + '</textarea>', buttons: [{ label: 'Schließen', primary: true, fn: closeModal }] }); var ta = $('mBody').querySelector('textarea'); if (ta) { ta.focus(); ta.select(); } }
   }
-  /* Kundenansicht: groß, ruhig, zum Hinhalten */
+  /* ---------- Beratungsmodus: Schritt für Schritt mit dem Kunden durchgehen ---------- */
+  var kv = { i: 0, n: 0, slides: [], r: null };
+  function cnt(v, cls) { return '<span class="cnt' + (cls ? ' ' + cls : '') + '" data-cnt="' + (Math.round(v * 100) / 100) + '">' + esc(eur(Math.abs(v))) + '</span>'; }
+  function bar(cls, w, label) { return '<div class="kbar ' + cls + '"><i style="--w:' + Math.max(2, Math.round(w * 100)) + '%"></i><span>' + label + '</span></div>'; }
+  function kvSlides(inp, r) {
+    var saves = r.diff > 0.005, same = Math.abs(r.diff) < 0.005, sp = speedText(r), out = [];
+    var anb = inp.anbieter || 'Ihr jetziger Anbieter', tn = tarifName(inp), smax = Math.max(r.speedOld, r.speedNew, 1), tmax = Math.max(r.oldTotal, r.newTotal, 1);
+    /* 1 – heute */
+    out.push('<section class="kvs" data-k="old"><p class="kvs-k">Schritt 1 · Ihr Anschluss heute</p><h2 class="kvs-h">' + esc(anb) + '</h2>'
+      + '<p class="kvs-big">' + cnt(r.a1) + '<small>im Monat</small></p>'
+      + (inp.aWechsel ? '<p class="kvs-s">ab Monat ' + r.ab + ': ' + esc(eur(r.a2)) + ' im Monat</p>' : '')
+      + '<div class="kvs-row"><div><span class="kvs-l">Über ' + r.L + ' Monate</span><b>' + esc(eur(r.oldTotal)) + '</b></div>' + (r.speedOld ? '<div><span class="kvs-l">Geschwindigkeit</span><b>' + r.speedOld + ' Mbit/s</b>' + bar('grey', r.speedOld / smax, '') + '</div>' : '') + '</div>'
+      + '<p class="kvs-hint">Wischen oder „Weiter“</p></section>');
+    /* 2 – Telekom */
+    var inkl = [];
+    if (r.router) inkl.push('Router ' + eur(r.router) + '/Monat'); else inkl.push('eigener Router');
+    if (r.zusatz) inkl.push('Zusatz ' + eur(r.zusatz) + '/Monat');
+    if (r.eins) inkl.push('MagentaEINS −' + eur(r.eins) + '/Monat');
+    if (r.bereit) inkl.push('Bereitstellung ' + eur(r.bereit) + ' einmalig');
+    if (r.gut) inkl.push('Gutschriften ' + eur(r.gut));
+    var seg = '', i;
+    for (i = 1; i <= r.L; i++) seg += '<i class="' + (i <= r.aktM ? 'a' : 'b') + '"></i>';
+    out.push('<section class="kvs" data-k="new"><p class="kvs-k">Schritt 2 · Ihr Angebot</p><h2 class="kvs-h"><span class="tk-mark">Telekom</span> ' + esc(tn) + '</h2>'
+      + (r.speedNew ? '<div class="kvs-speed"><b>' + r.speedNew + ' Mbit/s</b>' + bar('mag', r.speedNew / smax, '') + (r.speedOld ? bar('grey', r.speedOld / smax, 'heute ' + r.speedOld) : '') + '</div>' : '')
+      + (r.aktM ? '<p class="kvs-big">' + cnt(r.aktP) + '<small>im Monat, die ersten ' + plural(r.aktM, 'Monat', 'Monate') + '</small></p><p class="kvs-s">danach ' + esc(eur(r.afterAkt)) + ' im Monat</p>' : '<p class="kvs-big">' + cnt(r.afterAkt) + '<small>im Monat</small></p>')
+      + '<div class="kvs-tl" aria-hidden="true">' + seg + '</div><p class="kvs-tll"><span>' + (r.aktM ? 'Aktion ' + r.aktM + ' Monate' : 'Monat 1') + '</span><span>Monat ' + r.L + '</span></p>'
+      + '<div class="kvs-chips">' + inkl.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>'
+      + '<div class="kvs-row one"><div><span class="kvs-l">Über ' + r.L + ' Monate · alles drin</span><b>' + esc(eur(r.newTotal)) + '</b></div></div></section>');
+    /* 3 – Verlauf */
+    out.push('<section class="kvs" data-k="chart"><p class="kvs-k">Schritt 3 · Über ' + r.L + ' Monate</p><h2 class="kvs-h">Was unterm Strich zusammenkommt</h2>'
+      + '<div class="kbars">' + bar('grey big', r.oldTotal / tmax, esc(anb) + ' <b>' + esc(eur(r.oldTotal)) + '</b>') + bar('mag big', r.newTotal / tmax, 'Telekom <b>' + esc(eur(r.newTotal)) + '</b>') + '</div>'
+      + chartSvg(r) + '<p class="kvs-f">' + esc(whenText(r, sp)) + '</p></section>');
+    /* 4 – unterm Strich */
+    var tiles = [];
+    if (sp) tiles.push(['⚡', sp.split(' (')[0], r.speedOld + ' → ' + r.speedNew + ' Mbit/s']);
+    if (r.aktM) tiles.push(['%', 'Aktionspreis', plural(r.aktM, 'Monat', 'Monate') + ' nur ' + eur(r.aktP)]);
+    if (r.gut) tiles.push(['€', 'Gutschriften', eur(r.gut) + ' zurück']);
+    if (!r.bereit) tiles.push(['✓', 'Keine Bereitstellung', 'einmalige Kosten 0 €']);
+    out.push('<section class="kvs" data-k="sum" data-s="' + (saves ? 'plus' : same ? 'same' : 'minus') + '"><p class="kvs-k">Schritt 4 · Unterm Strich</p><h2 class="kvs-h">' + (same ? 'Gleich teuer – mehr Leistung' : saves ? 'Sie sparen' : 'Mehr Leistung für') + '</h2>'
+      + (same ? '' : '<p class="kvs-big sum">' + cnt(Math.abs(r.diff)) + '<small>' + (saves ? 'über ' + r.L + ' Monate · ' + esc(eur(Math.abs(r.perMonth))) + ' im Monat' : 'mehr über ' + r.L + ' Monate · ' + esc(eur(Math.abs(r.perMonth))) + ' im Monat') + '</small></p>')
+      + (tiles.length ? '<div class="kvs-tiles">' + tiles.map(function (t) { return '<div><i>' + t[0] + '</i><b>' + esc(t[1]) + '</b><span>' + esc(t[2]) + '</span></div>'; }).join('') + '</div>' : '')
+      + '<p class="kvs-f">' + esc(whenText(r, sp)) + '</p>'
+      + '<div class="kv-a one"><button type="button" class="btn big mag" data-act="share">Als Nachricht schicken</button></div></section>');
+    return out;
+  }
+  function kvRender() {
+    var dots = '';
+    for (var i = 0; i < kv.n; i++) dots += '<i' + (i === kv.i ? ' class="on"' : '') + '></i>';
+    $('kvBody').innerHTML = '<div class="kv-top"><span class="kv-brand">Telekom <em>Beratung</em></span><span class="kv-dots" aria-hidden="true">' + dots + '</span><button type="button" class="ib" data-act="kvx" aria-label="Beratung beenden">✕</button></div><div class="kv-prog" aria-hidden="true"><i style="width:' + Math.round((kv.i + 1) / kv.n * 100) + '%"></i></div>'
+      + '<div class="kv-stage">' + kv.slides[kv.i] + '</div>'
+      + '<div class="kv-nav"><button type="button" class="btn big" data-act="kvprev"' + (kv.i === 0 ? ' disabled' : '') + '>Zurück</button>' + (kv.i < kv.n - 1 ? '<button type="button" class="btn big mag" data-act="kvnext">Weiter</button>' : '<button type="button" class="btn big mag" data-act="kvx">Fertig</button>') + '</div>';
+    kvAnimate();
+  }
+  function kvAnimate() {
+    var els = qsa('.kvs .cnt', $('kvBody'));
+    if (!els.length || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    var t0 = performance.now(), dur = 900;
+    function tick(now) {
+      var p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      els.forEach(function (el) { var v = +el.dataset.cnt; el.textContent = eur(Math.abs(v) * e); });
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
   function openKv() {
     var inp = state.inp; if (!ready(inp)) return;
-    var r = calc(inp), saves = r.diff > 0.005, same = Math.abs(r.diff) < 0.005, sp = speedText(r);
-    $('kvBody').innerHTML = '<p class="kv-k">Über ' + r.L + ' Monate</p><h2 class="kv-t" data-s="' + (saves ? 'plus' : same ? 'same' : 'minus') + '">' + (same ? 'Gleich teuer' : esc(eur(Math.abs(r.diff))) + '<small>' + (saves ? 'weniger' : 'mehr') + '</small>') + '</h2>'
-      + (same ? '' : '<p class="kv-s">' + esc(eur(Math.abs(r.perMonth))) + ' im Monat ' + (saves ? 'gespart' : 'mehr') + (sp ? ' · ' + esc(sp) : '') + '</p>')
-      + '<div class="cmp big"><div class="cmp-c"><span class="cmp-l">' + esc(inp.anbieter || 'Jetzt') + '</span><b>' + esc(eur(r.oldTotal)) + '</b><span class="cmp-s">' + esc(inp.aWechsel ? eur(r.a1) + ', ab Monat ' + r.ab + ' ' + eur(r.a2) : eur(r.a1) + ' im Monat') + '</span></div>'
-      + '<div class="cmp-c tk"><span class="cmp-l">' + esc(tarifName(inp)) + '</span><b>' + esc(eur(r.newTotal)) + '</b><span class="cmp-s">' + esc(r.aktM ? r.aktM + ' Monate ' + eur(r.aktP) + ', dann ' + eur(r.afterAkt) : eur(r.afterAkt) + ' im Monat') + '</span></div></div>'
-      + chartSvg(r)
-      + '<p class="kv-f">' + esc(r.bereit || r.gut ? [r.bereit ? 'Bereitstellung ' + eur(r.bereit) : '', r.gut ? 'Gutschriften ' + eur(r.gut) : ''].filter(Boolean).join(' · ') + ' – alles eingerechnet.' : 'Alles eingerechnet.') + '</p>'
-      + '<div class="kv-a"><button type="button" class="btn big" data-act="share">Teilen</button><button type="button" class="btn k big" data-k="wr" data-act="kvx">Zurück</button></div>';
+    kv.r = calc(inp); kv.slides = kvSlides(inp, kv.r); kv.n = kv.slides.length; kv.i = 0;
     $('kview').hidden = false; document.body.classList.add('kv-open');
+    kvRender();
   }
+  function kvGo(d) { var n = kv.i + d; if (n < 0 || n >= kv.n) return; kv.i = n; kvRender(); }
   function closeKv() { $('kview').hidden = true; document.body.classList.remove('kv-open'); }
+  /* Wischen */
+  var swX = null, swY = null;
+  document.addEventListener('touchstart', function (e) { if ($('kview').hidden || !e.touches.length) return; swX = e.touches[0].clientX; swY = e.touches[0].clientY; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if ($('kview').hidden || swX == null || !e.changedTouches.length) return;
+    var dx = e.changedTouches[0].clientX - swX, dy = e.changedTouches[0].clientY - swY; swX = swY = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) kvGo(dx < 0 ? 1 : -1);
+  }, { passive: true });
 
   /* ---------- Formulare ---------- */
   function fld(id, label, val, ph, extra) { return '<div class="f"><label class="lbl" for="' + id + '">' + label + '</label><input class="in" id="' + id + '" data-i="' + id.slice(2) + '" value="' + esc(val) + '" placeholder="' + esc(ph || '') + '" autocomplete="off"' + (extra || ' inputmode="decimal"') + '></div>'; }
@@ -1160,6 +1305,8 @@ body.kv-open { overflow: hidden; }
     switch (act) {
       case 'kv': openKv(); break;
       case 'kvx': closeKv(); break;
+      case 'kvnext': kvGo(1); break;
+      case 'kvprev': kvGo(-1); break;
       case 'share': doShare(); break;
       case 'reset': resetInput(); break;
       case 'save': saveCompare(); break;
@@ -1185,6 +1332,7 @@ body.kv-open { overflow: hidden; }
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') { if (modalOpen) closeModal(); else if (!$('kview').hidden) closeKv(); return; }
+    if (!$('kview').hidden && !modalOpen) { if (e.key === 'ArrowRight') { kvGo(1); return; } if (e.key === 'ArrowLeft') { kvGo(-1); return; } }
     var el = e.target; if (!(el instanceof Element) || e.key !== 'Enter' || e.isComposing) return;
     if (el.dataset && el.dataset.i && el.tagName === 'INPUT') { e.preventDefault(); el.blur(); show($('result'), 'start'); }
   });
