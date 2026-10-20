@@ -789,6 +789,20 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
 @media (max-width: 419px) { .qe .g21 { grid-template-columns: 1fr; } }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) [data-k="nv"] .btn.k, :root:not([data-theme="light"]) .btn.k[data-k="nv"] { color: #FFFFFF; } }
 :root[data-theme="dark"] [data-k="nv"] .btn.k, :root[data-theme="dark"] .btn.k[data-k="nv"] { color: #FFFFFF; }
+
+/* Klingel-genau: Namen mit Stand, antippbar (für wen gilt der Eintrag) */
+.nchip small { font-size: 12px; font-weight: 600; color: var(--muted); }
+.nchip[data-ns="done"] { color: var(--muted); }
+.nchip[data-ns="done"] small { color: var(--green-ink, var(--muted)); }
+.nchip[data-ns="spaeter"] small { color: var(--amber-ink, var(--muted)); }
+.nchip.sel { padding: 0; overflow: hidden; border: 1px solid var(--line-strong); background: var(--surface); min-height: 36px; }
+.nchip.sel .nsel, .nchip.sel.rm .nsel { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 4px 10px; border: 0; background: transparent; color: inherit; font: inherit; font-weight: 600; }
+.nchip.sel .nx { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; min-height: 36px; border: 0; border-left: 1px solid var(--line); background: transparent; color: var(--muted); font-size: 16px; }
+.nchip.sel[data-ns="on"], .nchip.sel[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); box-shadow: 0 0 0 2px var(--ring); }
+.nchip.sel[aria-pressed="true"] small, .nchip.sel[data-ns="on"] small { color: inherit; }
+.forwho { font-size: 13px; color: var(--muted); margin: 2px 0 0; }
+.forwho b { color: var(--fg); }
+.lnk { border: 0; background: none; padding: 0; color: var(--accent-ink); font: inherit; font-size: 13px; font-weight: 600; text-decoration: underline; min-height: 0; }
 </style>
 <link rel="manifest" href="manifest.json">
 <script>if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
@@ -1400,7 +1414,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   /* ---------- Zustand ---------- */
   var state = blank();
   /* area: 'nv' (Nachvermarktung: Häuser, Flyer, Nochmal hin) oder 'bulk' (Bulk-Termine mit Wohnungen) */
-  var ui = { tab: 'heute', gsel: '', ssel: '', lane: {}, pick: '', ask: '', edit: '', hist: '', tedit: '', tpast: false, showClosed: false, day: '', tagSec: 'tag', tday: '', flashId: '', q: '', move: null, focus: '', names: [] };
+  var ui = { tab: 'heute', gsel: '', ssel: '', lane: {}, pick: '', ask: '', edit: '', hist: '', tedit: '', tpast: false, showClosed: false, day: '', tagSec: 'tag', tday: '', flashId: '', q: '', move: null, focus: '', names: [], nsel: {} };
   var lastDeleted = null, toastTimer = null;
 
   function blank() { return { v: 3, mod: 0, items: [], termine: [], skip: [], report: null, cfg: normCfg(null), days: {}, gebiete: {}, last: { strasse: '', ort: '', gebiet: '', nr: '', saved: '', step: 2, res: 'flyer', bres: 'nicht' } }; }
@@ -2572,6 +2586,59 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     } catch (e) { /* kein Zugriff */ }
     return out;
   }
+  /* ---------- Klingel-genau: ein Haus hat mehrere Klingeln, jede kann ihren eigenen Stand haben ----------
+     Ein Eintrag mit Name (h.nm) gilt nur für diese Klingel, ein Eintrag ohne Name fürs ganze Haus. */
+  function nmKey(n) { return ns(n); }
+  function namesOf(it) { return Array.isArray(it.names) ? it.names : []; }
+  function hasName(it, n) { var k = nmKey(n); return !!k && namesOf(it).some(function (x) { return nmKey(x) === k; }); }
+  /* Letzter Eintrag, der für diese Klingel zählt (eigener oder ein Haus-Eintrag) */
+  function lastFor(it, name) {
+    var k = nmKey(name);
+    var hs = Array.isArray(it.hist) ? it.hist : [];
+    for (var i = hs.length - 1; i >= 0; i--) {
+      var h = hs[i];
+      if (h.re || !RESLBL[h.res]) continue;
+      if (!has(h.nm) || nmKey(h.nm) === k) return h;
+    }
+    return null;
+  }
+  function nameState(it, name) {
+    var h = lastFor(it, name);
+    if (!h) return { k: 'neu', h: null };
+    if (FINAL[h.res]) return { k: 'done', h: h };
+    return { k: h.res === 'spaeter' ? 'spaeter' : h.res === 'flyer' ? 'flyer' : 'nicht', h: h };
+  }
+  function openNames(it) { return namesOf(it).filter(function (n) { return nameState(it, n).k !== 'done'; }); }
+  function doneNames(it) { return namesOf(it).filter(function (n) { return nameState(it, n).k === 'done'; }); }
+  /* Haus ist erst erledigt, wenn alle Klingeln durch sind (oder ein Eintrag ohne Name das ganze Haus abschließt) */
+  function recompute(it) {
+    if (it.status === 'drop') return;
+    sortHist(it);
+    var last = null;
+    for (var i = it.hist.length - 1; i >= 0; i--) { if (!it.hist[i].re) { last = it.hist[i]; break; } }
+    if (!last) { it.status = 'open'; return; }
+    if (!namesOf(it).length || !has(last.nm) || !hasName(it, last.nm)) { it.status = FINAL[last.res] ? 'done' : 'open'; return; }
+    it.status = openNames(it).length ? 'open' : 'done';
+  }
+  /* Letzter offener Versuch: Einträge für schon erledigte Klingeln zählen nicht mehr */
+  function lastMiss(it) {
+    for (var i = it.hist.length - 1; i >= 0; i--) {
+      var h = it.hist[i];
+      if (!ATT[h.res]) continue;
+      if (has(h.nm) && hasName(it, h.nm) && nameState(it, h.nm).k === 'done') continue;
+      return h;
+    }
+    return null;
+  }
+  /* Alle „Später“-Zusagen, die noch offen sind – je Klingel eine */
+  function spaeterHeads(it) {
+    var out = [], seen = {};
+    namesOf(it).forEach(function (n) { var s = nameState(it, n); if (s.k === 'spaeter' && s.h && !seen[s.h.vid]) { seen[s.h.vid] = 1; out.push(s.h); } });
+    var lm = lastMiss(it);
+    if (lm && lm.res === 'spaeter' && !seen[lm.vid] && (!has(lm.nm) || !hasName(it, lm.nm))) out.push(lm);
+    return out;
+  }
+  function nmLabel(h) { return h && has(h.nm) ? String(h.nm).trim() : ''; }
   /* ---------- Verschlüsselung der Sicherung: AES-256-GCM, Schlüssel per PBKDF2-SHA256 ---------- */
   /* Nutzt WebCrypto des Browsers. Ist es nicht verfügbar (z. B. bei manchen Datei-Adressen am Handy), rechnet ein eigener, gleichwertiger Ersatz. */
   var APP_ID = 'nachvermarktung-zentrale';
@@ -2848,6 +2915,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     if (extra) Object.keys(extra).forEach(function (k) { h[k] = extra[k]; });
     return normHist(h);
   }
+
   /* Gebiete: eins je Gegend, mit Straßen */
   function gebGroups() {
     var by = {}, out = [];
@@ -2926,12 +2994,12 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     var out = [];
     nvItems().forEach(function (it) {
       if (it.status !== 'open' || gebClosed(areaLabel(it))) return;
-      var lm = lastMiss(it);
-      if (!lm || lm.res !== 'spaeter') return;
-      var a = wannAt(lm);
-      if (!a) { if (lm.day === today && !lm.wann) out.push({ it: it, h: lm, m: -1, due: false, open: true }); return; }
-      if (a.day !== today) return;
-      out.push({ it: it, h: lm, m: a.m, due: a.m <= nm, open: false });
+      spaeterHeads(it).forEach(function (lm) {
+        var a = wannAt(lm);
+        if (!a) { if (lm.day === today && !lm.wann) out.push({ it: it, h: lm, m: -1, due: false, open: true }); return; }
+        if (a.day !== today) return;
+        out.push({ it: it, h: lm, m: a.m, due: a.m <= nm, open: false });
+      });
     });
     out.sort(function (a, b) { return (a.due ? 0 : 1) - (b.due ? 0 : 1) || (a.m < 0 ? 1e9 : a.m) - (b.m < 0 ? 1e9 : b.m); });
     return out;
@@ -3106,15 +3174,28 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       var h = it.hist[i];
       if (h.re) continue;
       var w = when(h.day, h.zeit);
-      rows.push('<li><div class="hl-main"><span class="hl-w">' + esc(w) + '</span><b class="hl-r">' + esc(RESLBL[h.res] || 'Nicht da') + (h.fl && h.res !== 'flyer' ? ' + Flyer' : '') + '</b>' + (has(h.nz) ? '<span class="hl-n">' + esc(String(h.nz).trim()) + '</span>' : '') + '</div>'
+      rows.push('<li><div class="hl-main"><span class="hl-w">' + esc(w) + '</span><b class="hl-r">' + (has(h.nm) ? esc(String(h.nm).trim()) + ': ' : '') + esc(RESLBL[h.res] || 'Nicht da') + (h.fl && h.res !== 'flyer' ? ' + Flyer' : '') + '</b>' + (has(h.nz) ? '<span class="hl-n">' + esc(String(h.nz).trim()) + '</span>' : '') + '</div>'
         + '<button type="button" class="hl-x" data-act="histx" data-hi="' + i + '" aria-label="Eintrag vom ' + esc(w) + ' entfernen">Entfernen</button></li>');
     }
     if (!rows.length) return '';
     return '<div class="hist"><p class="hl-cap">Aus Versehen getippt? Hier kannst du einzelne Einträge entfernen.</p><ul class="hlist">' + rows.join('') + '</ul></div>';
   }
-  function namesBlock(it) {
+  function nameStateText(it, n) {
+    var s = nameState(it, n), h = s.h;
+    if (s.k === 'done') return RESLBL[h.res] || 'erledigt';
+    if (s.k === 'spaeter') { var w = wannText(h); return 'später' + (w ? ' · ' + w : ''); }
+    if (s.k === 'nicht') return 'nicht da' + (h.fl ? ' + Flyer' : '');
+    if (s.k === 'flyer') return 'Flyer';
+    return '';
+  }
+  function namesBlock(it, pick) {
     if (!it.names.length && !it.units) return '';
-    return '<div class="nlist" aria-label="Namen von den Klingeln">' + it.names.map(function (n) { return '<span class="nchip">' + esc(n) + '</span>'; }).join('')
+    var sel = pick ? (ui.nsel[it.id] || '') : '';
+    return '<div class="nlist' + (pick ? ' pickn' : '') + '" aria-label="Namen von den Klingeln">' + it.names.map(function (n) {
+      var st = nameState(it, n), txt = nameStateText(it, n);
+      if (!pick) return '<span class="nchip" data-ns="' + st.k + '">' + esc(n) + (txt ? '<small>' + esc(txt) + '</small>' : '') + '</span>';
+      return '<button type="button" class="nchip sel" data-act="nsel" data-nm="' + esc(n) + '" data-ns="' + st.k + '" aria-pressed="' + (nmKey(sel) === nmKey(n)) + '" title="Nur für diese Klingel eintragen">' + esc(n) + (txt ? '<small>' + esc(txt) + '</small>' : '') + '</button>';
+    }).join('')
       + (it.units ? '<span class="nchip units">' + esc(plural(it.units, 'Klingel', 'Klingeln')) + '</span>' : '') + '</div>';
   }
   function zchips(sel, attr) {
@@ -3127,16 +3208,20 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     var meta = na > 0
       ? '<button type="button" class="trybtn" data-act="hist" aria-expanded="' + opened + '" title="Einträge ansehen oder entfernen">' + triesHtml(n) + '<span>' + esc(cnt) + '</span>' + ICO_CARET + '</button>'
       : triesHtml(n) + '<span>' + esc(cnt) + '</span>';
+    var heads = spaeterHeads(it);
     if (lm && lm.res !== 'spaeter') meta += '<span>zuletzt ' + (lm.res === 'flyer' ? 'geflyert ' : '') + esc(when(lm.day, lm.zeit)) + '</span>';
-    if (lm && lm.res === 'spaeter') {
-      var wt = wannText(lm), wa = wannAt(lm);
-      meta += '<button type="button" class="bdg bdgb" data-r="spaeter" data-act="wannx" title="Ändern, was ausgemacht ist">Später' + (wt ? ' · ' + esc(wt) : ' · was ist ausgemacht?') + '</button>' + (wa && wa.day === td0 && wa.m <= nowMin() ? '<span class="bdg late">Jetzt dran</span>' : '') + '<span>gesagt ' + esc(lm.day === td0 ? 'um ' + lm.zeit : when(lm.day, lm.zeit)) + '</span>';
-    }
+    heads.forEach(function (sh) {
+      var wt = wannText(sh), wa = wannAt(sh), who = nmLabel(sh);
+      meta += '<button type="button" class="bdg bdgb" data-r="spaeter" data-act="wannx" data-vid="' + esc(sh.vid) + '" title="Ändern, was ausgemacht ist">' + (who ? esc(who) + ': ' : '') + 'Später' + (wt ? ' · ' + esc(wt) : ' · was ist ausgemacht?') + '</button>' + (wa && wa.day === td0 && wa.m <= nowMin() ? '<span class="bdg late">Jetzt dran</span>' : '');
+      if (sh === lm) meta += '<span>gesagt ' + esc(sh.day === td0 ? 'um ' + sh.zeit : when(sh.day, sh.zeit)) + '</span>';
+    });
+    if (it.names.length > 1) { var dn = doneNames(it).length; if (dn) meta += '<span class="chip">' + dn + ' von ' + it.names.length + ' Klingeln durch</span>'; }
     if (has(it.zeit)) meta += '<span class="zchip on">' + esc(ZLBL[it.zeit]) + '</span>';
     if (!noTerm && !(lm && lm.res === 'spaeter' && lm.wann)) meta += termChip(it);
-    var acts;
+    var acts, selN = ui.nsel[it.id] && hasName(it, ui.nsel[it.id]) ? ui.nsel[it.id] : '';
+    var forWho = it.names.length ? '<p class="forwho">' + (selN ? 'Gilt für <b>' + esc(selN) + '</b> · <button type="button" class="lnk" data-act="nselx">ganzes Haus</button>' : 'Gilt fürs ganze Haus – <b>Namen antippen</b>, wenn es nur eine Klingel betrifft.') + '</p>' : '';
     if (ui.pick === it.id) {
-      acts = '<div class="rchips pick" role="group" aria-label="Was kam raus?"><span class="pick-h">Angetroffen. Was kam raus?</span>'
+      acts = '<div class="rchips pick" role="group" aria-label="Was kam raus?"><span class="pick-h">' + (selN ? esc(selN) + ' angetroffen' : 'Angetroffen') + '. Was kam raus?</span>'
         + DONE_RES.map(function (r) { return '<button type="button" class="rchip" data-r="' + r[0] + '" data-res="' + r[0] + '" aria-pressed="false">' + r[1] + '</button>'; }).join('')
         + '<button type="button" class="act quiet" data-act="drop">Streichen</button><button type="button" class="act quiet" data-act="pickx">Zurück</button></div>';
     } else {
@@ -3149,7 +3234,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     }
     return '<article class="door' + (n >= 3 ? ' hard' : '') + (ui.flashId === it.id ? ' just' : '') + '" data-id="' + esc(it.id) + '" data-ln="' + lane + '" data-st="open" role="listitem">'
       + '<div class="door-top"><div class="door-id">' + badgeHtml(it) + titleHtml(it, withArea) + '</div>' + toolsHtml(it, false) + '</div>'
-      + '<div class="door-meta">' + meta + '</div>' + namesBlock(it) + (opened ? histList(it) : '') + (note ? '<p class="door-note">' + esc(note) + '</p>' : '') + acts + '</article>';
+      + '<div class="door-meta">' + meta + '</div>' + namesBlock(it, true) + forWho + (opened ? histList(it) : '') + (note ? '<p class="door-note">' + esc(note) + '</p>' : '') + acts + '</article>';
   }
   function einwChips(it, le) {
     var h = '<div class="rchips pick" role="group" aria-label="Warum nicht?"><span class="pick-h">Warum nicht? (fürs Lernen, freiwillig)</span>';
@@ -3159,7 +3244,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   function doneCard(it, withArea) {
     var le = lastEntry(it) || { res: '', day: '', zeit: '', nm: '', nz: '', einw: '' };
     var meta = '<span class="bdg" data-r="' + esc(le.res) + '">' + esc(RESLBL[le.res] || 'Erledigt') + '</span><span>' + esc(when(le.day, le.zeit)) + '</span>';
-    if (has(le.nm) && le.nm.trim() !== String(it.name).trim()) meta += '<span>' + esc(le.nm.trim()) + '</span>';
+    if (has(le.nm) && le.nm.trim() !== String(it.name).trim() && !hasName(it, le.nm)) meta += '<span>' + esc(le.nm.trim()) + '</span>';
     if (has(le.einw)) meta += '<span class="chip">' + esc(le.einw) + '</span>';
     var kt = state.termine.filter(function (t) { return isKunde(t) && t.itemId === it.id && !tdone(t); })[0];
     if (kt) meta += '<span class="pl-term">Termin ' + esc(dayChipText(kt.date, todayKey())) + (kt.von ? ' ' + esc(kt.von) : '') + '</span>';
@@ -3198,26 +3283,33 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
   /* ========== Aktionen an einer Tür ========== */
   function nextText(it) { var m = plan && plan.map[it.id]; return m ? ' Wieder hin: ' + termText(m, plan.today) + '.' : ''; }
-  function actMiss(it, res, fl) {
+  function selName(it) { var n = ui.nsel[it.id]; return n && hasName(it, n) ? n : ''; }
+  function whoOf(it, nm) { return shortOf(it) + (nm ? ' · ' + nm : ''); }
+  function restText(it) { var o = openNames(it); return it.names.length > 1 && o.length && it.status === 'open' ? ' Noch offen: ' + o.join(', ') + '.' : ''; }
+  function actMiss(it, res, fl, nm) {
+    if (nm === undefined) nm = selName(it);
     snap();
-    it.hist.push(mkHist(res, { fl: fl ? 1 : 0 }));
+    var h = mkHist(res, { fl: fl ? 1 : 0, nm: nm || '' });
+    it.hist.push(h);
     if (it.status === 'drop') it.status = 'open';
-    ui.pick = ''; ui.ask = ''; ui.flashId = it.id;
+    ui.pick = ''; ui.ask = ''; ui.flashId = it.id; delete ui.nsel[it.id];
     recompute(it);
     markDirty(); renderAll();
-    showToast(shortOf(it) + ': ' + (res === 'spaeter' ? 'später' : res === 'flyer' ? 'geflyert' : 'nicht da' + (fl ? ', Flyer drin' : '')) + (MISS[res] ? ' (' + plural(tries(it), 'Versuch', 'Versuche') + ')' : '') + '. Bleibt offen.' + (res === 'spaeter' ? '' : nextText(it)));
-    if (res === 'spaeter') offerSpaeter(it);
+    showToast(whoOf(it, nm) + ': ' + (res === 'spaeter' ? 'später' : res === 'flyer' ? 'geflyert' : 'nicht da' + (fl ? ', Flyer drin' : '')) + (MISS[res] ? ' (' + plural(tries(it), 'Versuch', 'Versuche') + ')' : '') + '. Bleibt offen.' + (res === 'spaeter' ? '' : nextText(it)));
+    if (res === 'spaeter') offerSpaeter(it, h);
   }
-  function actDone(it, res) {
-    if (MISS[res] || res === 'flyer') { actMiss(it, res, 0); return; }
+  function actDone(it, res, nm) {
+    if (nm === undefined) nm = selName(it);
+    if (MISS[res] || res === 'flyer') { actMiss(it, res, 0, nm); return; }
     snap();
-    it.hist.push(mkHist(res));
-    ui.pick = ''; ui.flashId = it.id;
-    recompute(it);
+    it.hist.push(mkHist(res, { nm: nm || '' }));
+    ui.pick = ''; ui.flashId = it.id; delete ui.nsel[it.id];
+    recompute(it); qeAfterCard(it);
     ui.ask = res === 'ki' ? it.id : '';
     markDirty(); renderAll();
-    if (res === 'termin') { offerKundentermin(it, '', shortOf(it) + ': Termin. Erledigt.'); return; }
-    showToast(shortOf(it) + ': ' + RESLBL[res] + '. Erledigt.');
+    var tail = it.status === 'done' ? ' Erledigt.' : restText(it);
+    if (res === 'termin') { offerKundentermin(it, nm, whoOf(it, nm) + ': Termin.' + tail); return; }
+    showToast(whoOf(it, nm) + ': ' + RESLBL[res] + '.' + tail);
     if (ui.ask) { var el = document.querySelector('.door[data-id="' + it.id + '"] .pick'); if (el) show(el, 'nearest'); }
   }
   function setEinw(it, e) {
@@ -3257,11 +3349,11 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     showToast(shortOf(it) + ': Eintrag entfernt.');
   }
   /* Später: Kunde meldet sich (bis wann) oder ich geh nochmal hin (Tag, Uhrzeit) */
-  function offerSpaeter(it) {
-    var lm = lastMiss(it); if (!lm || lm.res !== 'spaeter') return;
+  function offerSpaeter(it, h) {
+    var lm = h || lastMiss(it); if (!lm || lm.res !== 'spaeter') return;
     var t = todayKey(), mode = lm.wann || 'hin', z0 = tmin(lm.zeit), sat = (function () { var d = t; for (var i = 1; i < 8; i++) { d = addDays(t, i); if (dateOf(d).getDay() === 6) return d; } return ''; })();
     function q(lbl, day, zeit) { return '<button type="button" class="zchip" data-wq="1" data-wd="' + day + '" data-wz="' + zeit + '">' + lbl + '</button>'; }
-    var html = '<p class="mtxt"><b>' + esc(shortOf(it)) + (has(it.name) ? ' · ' + esc(it.name) : '') + '</b> hat „später“ gesagt. Was ist ausgemacht?</p>'
+    var html = '<p class="mtxt"><b>' + esc(shortOf(it)) + (has(lm.nm) ? ' · ' + esc(lm.nm) : has(it.name) ? ' · ' + esc(it.name) : '') + '</b> hat „später“ gesagt. Was ist ausgemacht?</p>'
       + '<div class="seg mseg" role="group" aria-label="Wer wird aktiv?">' + WANN.map(function (w) { return '<button type="button" data-wm="' + w[0] + '" aria-pressed="' + (mode === w[0]) + '">' + w[1] + '</button>'; }).join('') + '</div>'
       + '<div id="wWhen"><span class="mlbl" id="wWhenL">Wann?</span><div class="zrow">' + q('Gleich', t, z0 >= 0 ? mtime(z0 + 60) : nowTime()) + q('Heute Abend', t, '17:30') + q('Morgen', addDays(t, 1), '') + q('Morgen Abend', addDays(t, 1), '17:30') + (sat ? q('Samstag', sat, '10:00') : '') + q('Nächste Woche', addDays(t, 7), '') + '</div>'
       + '<div class="g2"><div class="f"><label class="mlbl" for="wDay">Datum</label><input class="in" id="wDay" type="date" value="' + esc(lm.wday || '') + '" min="' + t + '"></div><div class="f"><label class="mlbl" for="wZeit">Uhrzeit</label><input class="in" id="wZeit" type="time" value="' + esc(lm.wzeit || '') + '"></div></div></div>'
@@ -3281,7 +3373,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
         lm.wann = m; lm.wday = dayOk(day) ? day : ''; lm.wzeit = timeOk(zeit) ? zeit : ''; lm.nz = $('wNote').value.trim();
         if (m === 'hin' && lm.wday) it.man = { day: lm.wday, t: attempts(it) }; else it.man = null;
         closeModal(); markDirty(); renderAll();
-        showToast(shortOf(it) + ': ' + wannText(lm) + '.', true);
+        showToast(whoOf(it, nmLabel(lm)) + ': ' + wannText(lm) + '.', true);
       } },
       { label: 'Ohne Angabe', fn: closeModal }
     ] });
@@ -3506,7 +3598,17 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   }
 
   /* ---------- Eintragen: Straße, Nummer, Namen, was war ---------- */
-  var qe = { names: [] };
+  var qe = { names: [], sel: [] };
+  function qeSel() { return qe.sel.filter(function (n) { return qe.names.some(function (x) { return nmKey(x) === nmKey(n); }); }); }
+  function qeChips() {
+    var sel = qeSel();
+    return qe.names.map(function (n, i) {
+      var on = sel.some(function (x) { return nmKey(x) === nmKey(n); });
+      return '<span class="nchip sel rm" data-ns="' + (on ? 'on' : '') + '"><button type="button" class="nsel" data-act="qsel" data-ni="' + i + '" aria-pressed="' + on + '" title="Nur für diese Klingel eintragen">' + esc(n) + '</button><button type="button" class="nx" data-act="qrm" data-ni="' + i + '" aria-label="' + esc(n) + ' entfernen">×</button></span>';
+    }).join('');
+  }
+  function qeSaveLabel() { var sel = qeSel(); return 'Eintragen: ' + ERES_LBL[state.last.res] + (sel.length ? ' · ' + sel.join(', ') : ''); }
+  function qeHint() { var sel = qeSel(); return qe.names.length ? (sel.length ? 'Gilt nur für ' + sel.join(', ') + '. Die anderen Klingeln bleiben, wie sie sind.' : 'Namen antippen, wenn es nur für eine Klingel gilt – sonst gilt es fürs ganze Haus.') : 'Enter = nächster Name · zweimal Enter = eintragen'; }
   function numOf(nr) { var m = /^(\d+)/.exec(String(nr || '').trim()); return m ? +m[1] : NaN; }
   function sufOf(nr) { var m = /^\d+\s*([a-zA-Z]?)/.exec(String(nr || '').trim()); return m ? m[1].toLowerCase() : ''; }
   function nextNr(nr, step) { var n = numOf(nr); return isNaN(n) ? '' : String(n + (step || 2)); }
@@ -3524,58 +3626,84 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       + '<div class="f"><label class="lbl" for="qNr">Hausnummer</label><div class="stepper"><button type="button" class="stp" data-act="qminus" aria-label="Nummer kleiner">−</button><input class="in knr" id="qNr" type="text" inputmode="numeric" value="' + esc(nr) + '" placeholder="Nr." autocomplete="off" autocapitalize="none" enterkeyhint="next"><button type="button" class="stp" data-act="qplus" aria-label="Nummer größer">+</button></div></div></div>'
       + '<div class="g2"><div class="f"><label class="lbl" for="qOrt">Ort</label><input class="in" id="qOrt" type="text" list="dlOrt" value="' + esc(ort) + '" placeholder="Ort" autocomplete="off" autocapitalize="words" enterkeyhint="next"></div>'
       + '<div class="f"><label class="lbl" for="qGeb">Gebiet</label><input class="in" id="qGeb" type="text" list="dlGeb" value="' + esc(geb) + '" placeholder="z. B. Thingers" autocomplete="off" autocapitalize="words" enterkeyhint="next"></div></div>'
-      + '<div class="f"><label class="lbl" for="qName">Namen von den Klingeln</label><div class="nbox" id="nbox"><span class="nlist" id="qNames">' + qe.names.map(function (n, i) { return '<button type="button" class="nchip rm" data-act="qrm" data-ni="' + i + '" aria-label="' + esc(n) + ' entfernen">' + esc(n) + '<i aria-hidden="true">×</i></button>'; }).join('') + '</span><input class="nin" id="qName" type="text" list="dlNames" placeholder="' + (qe.names.length ? 'Noch ein Name' : 'Name von der Klingel') + '" autocomplete="off" autocapitalize="words" enterkeyhint="done"><button type="button" class="nadd" data-act="qadd" aria-label="Name hinzufügen">+</button></div><p class="add-hint">Enter = nächster Name · zweimal Enter = eintragen</p></div>'
+      + '<div class="f"><label class="lbl" for="qName">Namen von den Klingeln</label><div class="nbox" id="nbox"><span class="nlist" id="qNames">' + qeChips() + '</span><input class="nin" id="qName" type="text" list="dlNames" placeholder="' + (qe.names.length ? 'Noch ein Name' : 'Name von der Klingel') + '" autocomplete="off" autocapitalize="words" enterkeyhint="done"><button type="button" class="nadd" data-act="qadd" aria-label="Name hinzufügen">+</button></div><p class="add-hint" id="qHint">' + esc(qeHint()) + '</p></div>'
       + '<div class="f"><span class="lbl">Was war?</span><div class="rsel" id="eRes" role="group" aria-label="Was war an der Tür?">' + ERES.map(function (r) { return '<button type="button" class="rchip" data-er="' + r[0] + '" data-r="' + r[2] + '" aria-pressed="' + (cur === r[0]) + '">' + r[1] + '</button>'; }).join('') + '</div></div>'
       + '<details class="qnote" id="eNoteBox"><summary>Notiz dazu</summary><textarea class="in" id="eNote" rows="1" aria-label="Notiz" placeholder="z. B. Hund, nur abends da, will Partner fragen" enterkeyhint="done"></textarea></details>'
-      + '<div class="savebar"><button type="button" class="btn big k" data-k="nv" data-act="esave" id="eSave">Eintragen: ' + esc(ERES_LBL[cur]) + '</button></div></section>';
+      + '<div class="savebar"><button type="button" class="btn big k" data-k="nv" data-act="esave" id="eSave">' + esc(qeSaveLabel()) + '</button></div></section>';
     return h;
   }
   function qeAddFromInput() {
     var add = splitNames($('qName').value);
     if (!add.length) return false;
     qe.names = cleanNames(qe.names.concat(add)); $('qName').value = '';
-    var box = $('qNames'); if (box) box.innerHTML = qe.names.map(function (n, i) { return '<button type="button" class="nchip rm" data-act="qrm" data-ni="' + i + '" aria-label="' + esc(n) + ' entfernen">' + esc(n) + '<i aria-hidden="true">×</i></button>'; }).join('');
+    qeRefresh();
     return true;
+  }
+  function qeRefresh() {
+    var box = $('qNames'); if (box) box.innerHTML = qeChips();
+    setText('qHint', qeHint()); setText('eSave', qeSaveLabel());
+    var qn = $('qName'); if (qn) qn.placeholder = qe.names.length ? 'Noch ein Name' : 'Name von der Klingel';
+  }
+  function qeToggleSel(i) {
+    var n = qe.names[i]; if (n == null) return;
+    var on = qeSel().some(function (x) { return nmKey(x) === nmKey(n); });
+    qe.sel = on ? qeSel().filter(function (x) { return nmKey(x) !== nmKey(n); }) : qeSel().concat([n]);
+    qeRefresh();
   }
   function qeStep(dir) {
     var nr = $('qNr').value.trim(), n = numOf(nr), step = state.last.step || 2;
     if (isNaN(n)) { $('qNr').value = dir > 0 ? '1' : ''; return; }
     $('qNr').value = String(Math.max(1, n + dir * step)) + (sufOf(nr) ? '' : '');
   }
-  function qeFill(q) { if (!q) return; if ($('qStr')) { $('qStr').value = q.strasse || ''; $('qNr').value = q.nr || ''; $('qOrt').value = q.ort || ''; $('qGeb').value = q.gebiet || ''; qe.names = q.names || []; } }
+  /* Wurde das Haus, bei dem das Formular gerade steht, über die Karte fertig: Formular weiterrücken */
+  function qeAfterCard(it) {
+    if (!it || it.status !== 'done') return;
+    if (ns(state.last.strasse) !== ns(stOf(it)) || nn(state.last.nr) !== nn(nrOf(it))) return;
+    qe.names = []; qe.sel = []; state.last.nr = nextNr(nrOf(it), state.last.step);
+  }
+  function qeFill(q) { if (!q) return; if ($('qStr')) { $('qStr').value = q.strasse || ''; $('qNr').value = q.nr || ''; $('qOrt').value = q.ort || ''; $('qGeb').value = q.gebiet || ''; qe.names = q.names || []; qe.sel = q.sel || []; qeRefresh(); } }
   function saveEntry() {
     if (!$('qe')) return;
     var res = state.last.res, strasse = $('qStr').value.trim(), nr = $('qNr').value.trim(), ort = $('qOrt').value.trim(), geb = $('qGeb').value.trim(), note = $('eNote').value.trim();
     if ($('qName').value.trim()) qeAddFromInput();
-    var names = qe.names.slice(), t = todayKey();
+    var names = qe.names.slice(), sel = qeSel(), t = todayKey();
     var split = splitStreet(strasse, nr);
     if (!split.strasse) { showToast('Trag zuerst die Straße ein.', true); focusEl($('qStr')); return; }
     if (!split.nr && res === 'flyer') { showToast('Trag die Hausnummer ein, sonst erkenne ich das Haus später nicht wieder.', true); focusEl($('qNr')); return; }
     snap();
-    lastDeleted.qe = { strasse: strasse, nr: nr, ort: ort, gebiet: geb, names: names };
-    var hr = res === 'nichtfl' ? 'nicht' : res, name = res !== 'flyer' && names.length === 1 ? names[0] : '';
-    var r = logVisit({ strasse: split.strasse, nr: split.nr, ort: ort, gebiet: geb, name: name, names: names, res: hr, day: t, zeit: nowTime(), note: note });
+    lastDeleted.qe = { strasse: strasse, nr: nr, ort: ort, gebiet: geb, names: names, sel: sel };
+    var hr = res === 'nichtfl' ? 'nicht' : res, perName = sel.length > 0 && res !== 'flyer';
+    var name = perName ? sel[0] : (res !== 'flyer' && names.length === 1 ? names[0] : '');
+    /* Eintrag je Klingel: der erste über logVisit (findet das Haus), weitere Namen als eigene Einträge dazu */
+    var r = logVisit({ strasse: split.strasse, nr: split.nr, ort: ort, gebiet: geb, name: perName ? '' : name, names: names, res: hr, day: t, zeit: nowTime(), note: note });
     var it = r.item;
     if (res === 'nichtfl') r.hist.fl = 1;
     if (names.length && res !== 'flyer') it.names = cleanNames(it.names.concat(names));
-    if (it.status === 'drop') { it.status = 'open'; recompute(it); }
+    if (perName) {
+      r.hist.nm = sel[0];
+      sel.slice(1).forEach(function (n) { it.hist.push(mkHist(hr, { nm: n, fl: r.hist.fl, nz: r.hist.nz })); });
+    }
+    if (it.status === 'drop') it.status = 'open';
+    recompute(it);
     ui.ask = hr === 'ki' ? it.id : '';
-    /* nächste Nummer vorschlagen, Schrittweite lernen (1 oder 2) */
+    var stay = perName && it.status === 'open' && openNames(it).length > 0;
+    /* nächste Nummer vorschlagen, Schrittweite lernen (1 oder 2) – beim Haus bleiben, solange Klingeln offen sind */
     var prev = numOf(state.last.saved), cur = numOf(split.nr);
-    if (!isNaN(prev) && !isNaN(cur) && ns(state.last.strasse) === ns(split.strasse)) { var df = Math.abs(cur - prev); if (df === 1 || df === 2) state.last.step = df; }
-    state.last.strasse = split.strasse; state.last.ort = ort; state.last.gebiet = geb; state.last.saved = split.nr; state.last.nr = nextNr(split.nr, state.last.step);
-    qe.names = []; ui.flashId = it.id; ui.pick = ''; ui.edit = '';
+    if (!isNaN(prev) && !isNaN(cur) && ns(state.last.strasse) === ns(split.strasse) && cur !== prev) { var df = Math.abs(cur - prev); if (df === 1 || df === 2) state.last.step = df; }
+    state.last.strasse = split.strasse; state.last.ort = ort; state.last.gebiet = geb; state.last.saved = split.nr; state.last.nr = stay ? split.nr : nextNr(split.nr, state.last.step);
+    if (stay) { qe.names = it.names.slice(); qe.sel = []; } else { qe.names = []; qe.sel = []; }
+    ui.flashId = it.id; ui.pick = ''; ui.edit = '';
     if (geb) ui.gsel = ns(geb) || '~'; else if (ort) ui.gsel = ns(ort) || '~';
     ui.ssel = ns(split.strasse) || '~';
     markDirty(); renderAll();
-    var lbl = shortOf(it), msg;
+    var lbl = shortOf(it) + (perName ? ' · ' + sel.join(', ') : ''), msg, rest = stay ? ' Noch offen: ' + openNames(it).join(', ') + '.' : '';
     if (res === 'flyer') msg = lbl + (r.fresh ? ' eingetragen' + (names.length ? ' (' + plural(names.length, 'Name', 'Namen') + ')' : '') : ' war schon drauf: ' + plural(flyers(it), 'Flyer', 'Flyer')) + '.' + nextText(it);
-    else if (res === 'spaeter') { showToast(lbl + ': später. Bleibt offen.'); offerSpaeter(it); return; }
-    else if (ATT[hr]) msg = lbl + ': nicht da' + (res === 'nichtfl' ? ', Flyer drin' : '') + ' (' + plural(tries(it), 'Versuch', 'Versuche') + '). Bleibt offen.' + nextText(it);
-    else msg = lbl + ': ' + RESLBL[hr] + '. Erledigt.';
+    else if (res === 'spaeter') { showToast(lbl + ': später. Bleibt offen.' + rest); offerSpaeter(it, r.hist); return; }
+    else if (ATT[hr]) msg = lbl + ': nicht da' + (res === 'nichtfl' ? ', Flyer drin' : '') + ' (' + plural(tries(it), 'Versuch', 'Versuche') + '). Bleibt offen.' + rest + nextText(it);
+    else msg = lbl + ': ' + RESLBL[hr] + '.' + (it.status === 'done' ? ' Erledigt.' : rest);
     if (hr === 'termin') { offerKundentermin(it, name, msg); return; }
     showToast(msg);
-    focusEl($('qName'));
+    focusEl(stay ? $('eSave') : $('qName'));
     var el = $('qe'); if (el) show(el, 'start');
   }
   function laneOpen(key, lane) { var k = key + '|' + lane; if (ui.lane[k] !== undefined) return !!ui.lane[k]; return lane !== 'done' && lane !== 'drop'; }
@@ -4353,7 +4481,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     var ss = t.closest('[data-ssel]');
     if (ss) { ui.ssel = ss.dataset.ssel; ui.pick = ''; saveView(); renderBoard(); return; }
     var er = t.closest('[data-er]');
-    if (er) { state.last.res = er.dataset.er; persistLocal(); qsa('#eRes [data-er]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === er)); }); setText('eSave', 'Eintragen: ' + ERES_LBL[er.dataset.er]); return; }
+    if (er) { state.last.res = er.dataset.er; persistLocal(); qsa('#eRes [data-er]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === er)); }); setText('eSave', qeSaveLabel()); return; }
     var dd = t.closest('[data-dd]');
     if (dd) { ui.day = dd.dataset.dd; ui.pick = ''; ui.edit = ''; ui.dayScroll = true; if (ui.tab !== 'heute') { setTab('heute', true); show($('dbScroll'), 'start'); } else { renderDaybar(); $('tList').innerHTML = dayView(curDay()); setText('dbTitle', curDay() === todayKey() ? 'Heute' : 'Nächste Tage'); show($('dbScroll'), 'start'); } return; }
     var pd = t.closest('[data-pd]');
@@ -4388,7 +4516,9 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       case 'met': if (it) { ui.pick = it.id; ui.ask = ''; renderActive(); var pk = document.querySelector('.door[data-id="' + it.id + '"] .pick'); if (pk) show(pk, 'nearest'); } break;
       case 'pickx': ui.pick = ''; renderActive(); break;
       case 'askx': ui.ask = ''; renderActive(); break;
-      case 'wannx': if (it) offerSpaeter(it); break;
+      case 'wannx': if (it) { var wh = null; if (b.dataset.vid) it.hist.forEach(function (x) { if (x.vid === b.dataset.vid) wh = x; }); offerSpaeter(it, wh); } break;
+      case 'nsel': if (it) { var nn = b.dataset.nm || ''; ui.nsel[it.id] = nmKey(ui.nsel[it.id]) === nmKey(nn) ? '' : nn; renderActive(); } break;
+      case 'nselx': if (it) { delete ui.nsel[it.id]; renderActive(); } break;
       case 'edit': if (it) { ui.edit = ui.edit === it.id ? '' : it.id; ui.pick = ''; renderActive(); if (ui.edit) { var fi = document.querySelector('.editing input'); if (fi) fi.focus(); } } break;
       case 'editdone': ui.edit = ''; renderAll(); break;
       case 'hist': if (it) { ui.hist = ui.hist === it.id ? '' : it.id; ui.pick = ''; renderActive(); } break;
@@ -4412,6 +4542,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       case 'qminus': qeStep(-1); break;
       case 'qadd': qeAddFromInput(); focusEl($('qName')); break;
       case 'qrm': { var qi = parseInt(b.dataset.ni, 10); if (qi >= 0 && qi < qe.names.length) { qe.names.splice(qi, 1); renderBoard(); focusEl($('qName')); } break; }
+      case 'qsel': qeToggleSel(parseInt(b.dataset.ni, 10)); break;
       case 'gebneu': gebNeu(); break;
       case 'gclose': { var gc = curGeb(gebGroups()); if (gc && !gc.closed) offerClose(gc); break; }
       case 'gopen': { var go = curGeb(gebGroups()); if (go && go.closed) { snap(); reopenGeb(go.label); markDirty(); renderAll(); showToast(go.label + ' ist wieder offen.'); } break; }

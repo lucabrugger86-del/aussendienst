@@ -1,5 +1,5 @@
 /* Service Worker: App sofort aus dem Cache, im Hintergrund frisch nachladen. */
-var V = 'gebiet-59cb09d803';
+var V = 'gebiet-2babee15db';
 var FILES = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(V).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
