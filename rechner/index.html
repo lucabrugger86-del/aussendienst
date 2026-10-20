@@ -771,6 +771,20 @@ body.kv-open { overflow: hidden; }
 .ch-l { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
 .tbn { color: var(--on-accent); }
 .kv-a.one { grid-template-columns: 1fr; }
+.tvf { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--line); }
+.chip.gq[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
+.panel-h.tvh { margin-top: 10px; }
+.tk-tv { display: inline-block; padding: 2px 8px; border-radius: 8px; background: rgba(255, 255, 255, .2); font-size: .7em; vertical-align: 4px; }
+.kvs-f.tvinkl { color: #fff; }
+
+/* Gewählte Chips: Farbton des Rechners (die Variablen fehlten im Formular) */
+.tfc .rchip { --tone: var(--w-c); --soft: var(--w-soft); --ink: var(--w-ink); border-color: var(--line-strong); }
+.tfc .rchip[aria-pressed="true"] { border-color: var(--tone); }
+.tfc .rchip::before { display: none; }
+.tfc .rchip[aria-pressed="true"] { font-weight: 700; }
+.tvf .tfc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.tvf .tfc .rchip { width: 100%; justify-content: center; min-height: 52px; white-space: normal; text-align: left; }
+.tvf .tfc .rchip small { overflow-wrap: anywhere; }
 </style>
 <link rel="manifest" href="manifest.json">
 <script>if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
@@ -880,11 +894,24 @@ body.kv-open { overflow: hidden; }
       t('MagentaZuhause M', 50, 10, 42.95, 'DSL · Preis prüfen'),
       t('MagentaZuhause L', 100, 40, 47.95, 'DSL · Preis prüfen'),
       t('MagentaZuhause XL', 250, 40, 52.95, 'DSL · Preis prüfen')
+    ].concat(presetTv());
+  }
+  /* MagentaTV (Stand Oktober 2026, bitte abgleichen): die ersten 6 Monate 0 € in der Aktion */
+  function presetTv() {
+    function v(id, name, preis, inkl) { return { id: id, art: 'tv', name: name, speed: 0, up: 0, preis: preis, aPreis: 0, aMon: 6, bereit: 0, router: 0, gut: 0, gutNote: '', note: inkl }; }
+    return [
+      v('tvsmart', 'MagentaTV Smart', 11, 'MagentaTV+ · RTL+ Premium'),
+      v('tvsmartstream', 'MagentaTV SmartStream', 20, 'RTL+ Premium · Netflix Standard · Disney+ Standard (mit Werbung)'),
+      v('tvmegastream', 'MagentaTV MegaStream', 30, 'RTL+ Premium · Netflix · Disney+ · Apple TV+ (werbefrei)')
     ];
   }
+  var TV_GERAET = [['Kein Gerät', 0], ['TV Stick', 4], ['MagentaTV One', 6]];
+  function netTarife() { return state.tarife.filter(function (t) { return t.art !== 'tv'; }); }
+  function tvTarife() { return state.tarife.filter(function (t) { return t.art === 'tv'; }); }
   function blankInput() {
     return { anbieter: '', aPreis: '', aSpeed: '', aWechsel: false, aAb: 13, aPreis2: '', rest: 0, doppel: true,
-             tarif: '', preis: '', aktPreis: '', aktMon: 6, bereit: '', router: '', zusatz: '', gut: '', gutNote: '', eins: false, einsBetrag: '', label: '' };
+             tarif: '', preis: '', aktPreis: '', aktMon: 6, bereit: '', router: '', zusatz: '', gut: '', gutNote: '', eins: false, einsBetrag: '', label: '',
+             aTv: '', tv: '', tvPreis: '', tvAkt: '', tvMon: 6, tvGeraet: '' };
   }
   var state = blank();
   var ui = { tab: 'rechnen', tfedit: '', vlOpen: '' };
@@ -892,7 +919,7 @@ body.kv-open { overflow: hidden; }
   function blank() { return { v: 1, mod: 0, tarife: presetTarife(), inp: blankInput(), verlauf: [], cfg: { laufzeit: 24, eins: 5 } }; }
   function normTarif(t) {
     if (!t || typeof t !== 'object' || !has(t.name)) return null;
-    return { id: has(t.id) ? txt(t.id, 40) : uid(), name: txt(t.name, 60), speed: num(t.speed), up: num(t.up), preis: num(t.preis), aPreis: num(t.aPreis), aMon: intOf(t.aMon, 0, 36), bereit: num(t.bereit), router: num(t.router), gut: num(t.gut), gutNote: txt(t.gutNote, 120), note: txt(t.note, 120) };
+    return { id: has(t.id) ? txt(t.id, 40) : uid(), art: t.art === 'tv' ? 'tv' : 'net', name: txt(t.name, 60), speed: num(t.speed), up: num(t.up), preis: num(t.preis), aPreis: num(t.aPreis), aMon: intOf(t.aMon, 0, 36), bereit: num(t.bereit), router: num(t.router), gut: num(t.gut), gutNote: txt(t.gutNote, 120), note: txt(t.note, 120) };
   }
   function normInput(i) {
     var o = blankInput();
@@ -906,6 +933,7 @@ body.kv-open { overflow: hidden; }
       s.mod = +data.mod > 0 ? +data.mod : 0;
       var tf = (Array.isArray(data.tarife) ? data.tarife : []).map(normTarif).filter(Boolean);
       if (tf.length) s.tarife = tf;
+      if (!s.tarife.some(function (t) { return t.art === 'tv'; })) s.tarife = s.tarife.concat(presetTv());
       s.inp = normInput(data.inp);
       s.verlauf = (Array.isArray(data.verlauf) ? data.verlauf : []).map(function (v) { return v && typeof v === 'object' ? { id: has(v.id) ? txt(v.id, 40) : uid(), at: +v.at > 0 ? +v.at : Date.now(), label: txt(v.label, 120), inp: normInput(v.inp), laufzeit: intOf(v.laufzeit || 24, 1, 60) } : null; }).filter(Boolean).slice(0, 60);
       if (data.cfg && typeof data.cfg === 'object') { s.cfg.laufzeit = intOf(data.cfg.laufzeit || 24, 1, 60); s.cfg.eins = num(data.cfg.eins); }
@@ -943,11 +971,12 @@ body.kv-open { overflow: hidden; }
     var a1 = num(inp.aPreis), a2 = inp.aWechsel ? num(inp.aPreis2) : a1, ab = Math.max(1, intOf(inp.aAb, 1, 60));
     var preis = num(inp.preis), aktP = num(inp.aktPreis), aktM = intOf(inp.aktMon, 0, 60), bereit = num(inp.bereit), router = num(inp.router), zusatz = num(inp.zusatz), gut = num(inp.gut);
     var eins = inp.eins ? num(inp.einsBetrag) : 0, rest = intOf(inp.rest, 0, 24), doppel = inp.doppel && rest > 0;
+    var tvT = inp.tv ? tarifById(inp.tv) : null, tvP = tvT ? num(inp.tvPreis) : 0, tvA = tvT ? num(inp.tvAkt) : 0, tvM = tvT ? intOf(inp.tvMon, 0, 60) : 0, tvG = tvT ? num(inp.tvGeraet) : 0, aTv = num(inp.aTv);
     var oldM = [], newM = [], cumO = [], cumN = [], so = 0, sn = 0, i;
     var oneTime = bereit - gut;
     for (i = 1; i <= L; i++) {
-      var o = inp.aWechsel && i >= ab ? a2 : a1;
-      var n = (i <= aktM ? aktP : preis) + router + zusatz - eins;
+      var o = (inp.aWechsel && i >= ab ? a2 : a1) + aTv;
+      var n = (i <= aktM ? aktP : preis) + router + zusatz - eins + (tvT ? (i <= tvM ? tvA : tvP) + tvG : 0);
       if (doppel && i <= rest) n += o;
       if (i === 1) n += oneTime;
       oldM.push(o); newM.push(n); so += o; sn += n; cumO.push(so); cumN.push(sn);
@@ -956,9 +985,11 @@ body.kv-open { overflow: hidden; }
     var lastWorse = 0, lastBetter = 0;
     for (i = 0; i < L; i++) { if (cumN[i] > cumO[i] + 0.005) lastWorse = i + 1; if (cumN[i] < cumO[i] - 0.005) lastBetter = i + 1; }
     var be = so - sn > 0.005 ? lastWorse + 1 : 0;
-    var afterAkt = preis + router + zusatz - eins, oldAfter = inp.aWechsel ? a2 : a1;
+    var tvAfter = tvT ? tvP + tvG : 0, tvAkt = tvT ? (tvM >= aktM ? tvA : tvP) + tvG : 0;
+    var afterAkt = preis + router + zusatz - eins + tvAfter, oldAfter = (inp.aWechsel ? a2 : a1) + aTv;
     return { L: L, oldTotal: so, newTotal: sn, diff: so - sn, perMonth: (so - sn) / L, oldM: oldM, newM: newM, cumO: cumO, cumN: cumN, be: be, lastBetter: lastBetter,
-             afterAkt: afterAkt, oldAfter: oldAfter, aktM: Math.min(aktM, L), aktP: aktP + router + zusatz - eins, oneTime: oneTime, bereit: bereit, gut: gut, router: router, zusatz: zusatz, eins: eins, rest: doppel ? rest : 0, doppelSum: doppel ? oldM.slice(0, rest).reduce(function (x, y) { return x + y; }, 0) : 0,
+             afterAkt: afterAkt, oldAfter: oldAfter, aktM: Math.min(aktM, L), aktP: aktP + router + zusatz - eins + tvAkt, oneTime: oneTime,
+             tv: tvT ? { name: tvT.name, inkl: tvT.note, preis: tvP, akt: tvA, mon: Math.min(tvM, L), ger: tvG, sum: Math.min(tvM, L) * tvA + (L - Math.min(tvM, L)) * tvP + tvG * L } : null, aTv: aTv, a1Full: a1 + aTv, a2Full: (inp.aWechsel ? a2 : a1) + aTv, bereit: bereit, gut: gut, router: router, zusatz: zusatz, eins: eins, rest: doppel ? rest : 0, doppelSum: doppel ? oldM.slice(0, rest).reduce(function (x, y) { return x + y; }, 0) : 0,
              preis: preis, a1: a1, a2: a2, ab: ab, speedOld: num(inp.aSpeed), speedNew: (tarifById(inp.tarif) || {}).speed || 0 };
   }
   function ready(inp) { return num(inp.aPreis) > 0 && num(inp.preis) > 0; }
@@ -1005,6 +1036,7 @@ body.kv-open { overflow: hidden; }
     if (r.router) rows.push(['darin Router ' + eur(r.router) + ' × ' + r.L, eur(r.router * r.L)]);
     if (r.zusatz) rows.push(['darin Zusatz ' + eur(r.zusatz) + ' × ' + r.L, eur(r.zusatz * r.L)]);
     if (r.eins) rows.push(['darin MagentaEINS-Vorteil −' + eur(r.eins) + ' × ' + r.L, eur(-r.eins * r.L)]);
+    if (r.tv) rows.push(['darin ' + r.tv.name + (r.tv.mon ? ': ' + r.tv.mon + ' × ' + eur(r.tv.akt) + ', dann ' + eur(r.tv.preis) : ' ' + eur(r.tv.preis) + ' × ' + r.L) + (r.tv.ger ? ' + Gerät ' + eur(r.tv.ger) : ''), eur(r.tv.sum)]);
     if (r.bereit) rows.push(['Bereitstellung einmalig', eur(r.bereit)]);
     if (r.gut) rows.push(['Gutschriften' + (has(inp.gutNote) ? ' (' + inp.gutNote + ')' : ''), eur(-r.gut)]);
     if (r.rest) rows.push([plural(r.rest, 'Monat', 'Monate') + ' alter Vertrag läuft noch', eur(r.doppelSum)]);
@@ -1020,8 +1052,8 @@ body.kv-open { overflow: hidden; }
     var h = '<section class="hero res" data-k="wr" data-s="' + (saves ? 'plus' : same ? 'same' : 'minus') + '"><p class="hero-k"><i></i>Über ' + r.L + ' Monate</p>'
       + '<h2 class="hero-t">' + (same ? 'Gleich teuer' : esc(eur(Math.abs(r.diff))) + (saves ? ' weniger' : ' mehr')) + '</h2>'
       + '<p class="hero-s">' + (same ? 'Kein Unterschied über die Laufzeit.' : 'Das sind im Schnitt <b>' + esc(eur(Math.abs(r.perMonth))) + ' im Monat ' + (saves ? 'weniger' : 'mehr') + '</b>' + (sp ? ' – und ' + esc(sp) : '') + '.') + '</p>'
-      + '<div class="cmp"><div class="cmp-c"><span class="cmp-l">' + esc(inp.anbieter || 'Jetzt') + '</span><b>' + esc(eur(r.oldTotal)) + '</b><span class="cmp-s">' + esc(inp.aWechsel ? eur(r.a1) + ' bis Monat ' + (r.ab - 1) + ', dann ' + eur(r.a2) : eur(r.a1) + ' im Monat') + '</span></div>'
-      + '<div class="cmp-c tk"><span class="cmp-l">' + esc(tarifName(inp)) + '</span><b>' + esc(eur(r.newTotal)) + '</b><span class="cmp-s">' + esc(r.aktM ? r.aktM + ' Monate ' + eur(r.aktP) + ', dann ' + eur(r.afterAkt) : eur(r.afterAkt) + ' im Monat') + '</span></div></div>'
+      + '<div class="cmp"><div class="cmp-c"><span class="cmp-l">' + esc(inp.anbieter || 'Jetzt') + '</span><b>' + esc(eur(r.oldTotal)) + '</b><span class="cmp-s">' + esc((inp.aWechsel ? eur(r.a1Full) + ' bis Monat ' + (r.ab - 1) + ', dann ' + eur(r.a2Full) : eur(r.a1Full) + ' im Monat') + (r.aTv ? ' inkl. TV' : '')) + '</span></div>'
+      + '<div class="cmp-c tk"><span class="cmp-l">' + esc(tarifName(inp)) + (r.tv ? ' + TV' : '') + '</span><b>' + esc(eur(r.newTotal)) + '</b><span class="cmp-s">' + esc(r.aktM ? r.aktM + ' Monate ' + eur(r.aktP) + ', dann ' + eur(r.afterAkt) : eur(r.afterAkt) + ' im Monat') + '</span></div></div>'
       + chartSvg(r)
       + '<p class="hero-why">' + esc(whenText(r, sp)) + (r.aktM && r.aktM < r.L ? ' Nach der Aktion: ' + esc(eur(r.afterAkt)) + ' statt ' + esc(eur(r.oldAfter)) + ' im Monat.' : '') + '</p>'
       + '<details class="brkd"><summary>So setzt sich die Telekom-Summe zusammen</summary>' + breakdown(r, inp) + '</details>'
@@ -1030,8 +1062,9 @@ body.kv-open { overflow: hidden; }
   }
   function shareText(inp, r) {
     var lines = ['Vergleich über ' + r.L + ' Monate (' + dm(todayKey()) + (new Date()).getFullYear() + ')', ''];
-    lines.push((inp.anbieter || 'Jetziger Anbieter') + ': ' + (inp.aWechsel ? eur(r.a1) + '/Monat bis Monat ' + (r.ab - 1) + ', danach ' + eur(r.a2) : eur(r.a1) + '/Monat') + ' → ' + eur(r.oldTotal));
-    lines.push('Telekom ' + tarifName(inp) + ': ' + (r.aktM ? r.aktM + ' Monate ' + eur(r.aktP) + ', danach ' + eur(r.afterAkt) : eur(r.afterAkt) + '/Monat') + (r.bereit ? ', Bereitstellung ' + eur(r.bereit) : '') + (r.gut ? ', Gutschriften ' + eur(r.gut) : '') + ' → ' + eur(r.newTotal));
+    lines.push((inp.anbieter || 'Jetziger Anbieter') + (r.aTv ? ' inkl. TV' : '') + ': ' + (inp.aWechsel ? eur(r.a1Full) + '/Monat bis Monat ' + (r.ab - 1) + ', danach ' + eur(r.a2Full) : eur(r.a1Full) + '/Monat') + ' → ' + eur(r.oldTotal));
+    lines.push('Telekom ' + tarifName(inp) + (r.tv ? ' + ' + r.tv.name : '') + ': ' + (r.aktM ? r.aktM + ' Monate ' + eur(r.aktP) + ', danach ' + eur(r.afterAkt) : eur(r.afterAkt) + '/Monat') + (r.bereit ? ', Bereitstellung ' + eur(r.bereit) : '') + (r.gut ? ', Gutschriften ' + eur(r.gut) : '') + ' → ' + eur(r.newTotal));
+    if (r.tv && has(r.tv.inkl)) lines.push('Dabei: ' + r.tv.inkl);
     lines.push('');
     lines.push(Math.abs(r.diff) < 0.005 ? 'Gleich teuer.' : (r.diff > 0 ? 'Ersparnis: ' : 'Mehrkosten: ') + eur(Math.abs(r.diff)) + ' (' + eur(Math.abs(r.perMonth)) + ' im Monat)');
     var sp = speedText(r); if (sp) lines.push('Geschwindigkeit: ' + sp);
@@ -1058,8 +1091,8 @@ body.kv-open { overflow: hidden; }
     var anb = inp.anbieter || 'Ihr jetziger Anbieter', tn = tarifName(inp), smax = Math.max(r.speedOld, r.speedNew, 1), tmax = Math.max(r.oldTotal, r.newTotal, 1);
     /* 1 – heute */
     out.push('<section class="kvs" data-k="old"><p class="kvs-k">Schritt 1 · Ihr Anschluss heute</p><h2 class="kvs-h">' + esc(anb) + '</h2>'
-      + '<p class="kvs-big">' + cnt(r.a1) + '<small>im Monat</small></p>'
-      + (inp.aWechsel ? '<p class="kvs-s">ab Monat ' + r.ab + ': ' + esc(eur(r.a2)) + ' im Monat</p>' : '')
+      + '<p class="kvs-big">' + cnt(r.a1Full) + '<small>im Monat' + (r.aTv ? ' · inkl. TV ' + esc(eur(r.aTv)) : '') + '</small></p>'
+      + (inp.aWechsel ? '<p class="kvs-s">ab Monat ' + r.ab + ': ' + esc(eur(r.a2Full)) + ' im Monat</p>' : '')
       + '<div class="kvs-row"><div><span class="kvs-l">Über ' + r.L + ' Monate</span><b>' + esc(eur(r.oldTotal)) + '</b></div>' + (r.speedOld ? '<div><span class="kvs-l">Geschwindigkeit</span><b>' + r.speedOld + ' Mbit/s</b>' + bar('grey', r.speedOld / smax, '') + '</div>' : '') + '</div>'
       + '<p class="kvs-hint">Wischen oder „Weiter“</p></section>');
     /* 2 – Telekom */
@@ -1069,13 +1102,15 @@ body.kv-open { overflow: hidden; }
     if (r.eins) inkl.push('MagentaEINS −' + eur(r.eins) + '/Monat');
     if (r.bereit) inkl.push('Bereitstellung ' + eur(r.bereit) + ' einmalig');
     if (r.gut) inkl.push('Gutschriften ' + eur(r.gut));
+    if (r.tv) inkl.unshift(r.tv.name + (r.tv.mon ? ': ' + r.tv.mon + ' Monate ' + eur(r.tv.akt) + ', dann ' + eur(r.tv.preis) : ' ' + eur(r.tv.preis)) + (r.tv.ger ? ' + Gerät ' + eur(r.tv.ger) : ''));
     var seg = '', i;
     for (i = 1; i <= r.L; i++) seg += '<i class="' + (i <= r.aktM ? 'a' : 'b') + '"></i>';
-    out.push('<section class="kvs" data-k="new"><p class="kvs-k">Schritt 2 · Ihr Angebot</p><h2 class="kvs-h"><span class="tk-mark">Telekom</span> ' + esc(tn) + '</h2>'
-      + (r.speedNew ? '<div class="kvs-speed"><b>' + r.speedNew + ' Mbit/s</b>' + bar('mag', r.speedNew / smax, '') + (r.speedOld ? bar('grey', r.speedOld / smax, 'heute ' + r.speedOld) : '') + '</div>' : '')
+    out.push('<section class="kvs" data-k="new"><p class="kvs-k">Schritt 2 · Ihr Angebot</p><h2 class="kvs-h"><span class="tk-mark">Telekom</span> ' + esc(tn) + (r.tv ? ' <span class="tk-tv">+ TV</span>' : '') + '</h2>'
+      + (r.speedNew ? '<div class="kvs-speed"><b>' + r.speedNew + ' Mbit/s</b>' + bar('mag', r.speedNew / smax, '') + (r.speedOld ? bar('grey', r.speedOld / smax, 'heute ' + r.speedOld + ' Mbit/s') : '') + '</div>' : '')
       + (r.aktM ? '<p class="kvs-big">' + cnt(r.aktP) + '<small>im Monat, die ersten ' + plural(r.aktM, 'Monat', 'Monate') + '</small></p><p class="kvs-s">danach ' + esc(eur(r.afterAkt)) + ' im Monat</p>' : '<p class="kvs-big">' + cnt(r.afterAkt) + '<small>im Monat</small></p>')
       + '<div class="kvs-tl" aria-hidden="true">' + seg + '</div><p class="kvs-tll"><span>' + (r.aktM ? 'Aktion ' + r.aktM + ' Monate' : 'Monat 1') + '</span><span>Monat ' + r.L + '</span></p>'
       + '<div class="kvs-chips">' + inkl.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>'
+      + (r.tv && has(r.tv.inkl) ? '<p class="kvs-f tvinkl">Mit dabei: ' + esc(r.tv.inkl) + '</p>' : '')
       + '<div class="kvs-row one"><div><span class="kvs-l">Über ' + r.L + ' Monate · alles drin</span><b>' + esc(eur(r.newTotal)) + '</b></div></div></section>');
     /* 3 – Verlauf */
     out.push('<section class="kvs" data-k="chart"><p class="kvs-k">Schritt 3 · Über ' + r.L + ' Monate</p><h2 class="kvs-h">Was unterm Strich zusammenkommt</h2>'
@@ -1086,6 +1121,7 @@ body.kv-open { overflow: hidden; }
     if (sp) tiles.push(['⚡', sp.split(' (')[0], r.speedOld + ' → ' + r.speedNew + ' Mbit/s']);
     if (r.aktM) tiles.push(['%', 'Aktionspreis', plural(r.aktM, 'Monat', 'Monate') + ' nur ' + eur(r.aktP)]);
     if (r.gut) tiles.push(['€', 'Gutschriften', eur(r.gut) + ' zurück']);
+    if (r.tv) tiles.push(['▶', r.tv.name.replace(/^MagentaTV /, 'MagentaTV '), has(r.tv.inkl) ? r.tv.inkl : 'Fernsehen & Streaming']);
     if (!r.bereit) tiles.push(['✓', 'Keine Bereitstellung', 'einmalige Kosten 0 €']);
     out.push('<section class="kvs" data-k="sum" data-s="' + (saves ? 'plus' : same ? 'same' : 'minus') + '"><p class="kvs-k">Schritt 4 · Unterm Strich</p><h2 class="kvs-h">' + (same ? 'Gleich teuer – mehr Leistung' : saves ? 'Sie sparen' : 'Mehr Leistung für') + '</h2>'
       + (same ? '' : '<p class="kvs-big sum">' + cnt(Math.abs(r.diff)) + '<small>' + (saves ? 'über ' + r.L + ' Monate · ' + esc(eur(Math.abs(r.perMonth))) + ' im Monat' : 'mehr über ' + r.L + ' Monate · ' + esc(eur(Math.abs(r.perMonth))) + ' im Monat') + '</small></p>')
@@ -1137,7 +1173,8 @@ body.kv-open { overflow: hidden; }
     var i = state.inp;
     $('pAlt').innerHTML = '<div class="panel-h"><h3>Jetziger Anbieter</h3><span class="hint">Was steht auf der Rechnung?</span></div>'
       + '<div class="g21">' + fld('i_anbieter', 'Anbieter', i.anbieter, 'z. B. Vodafone', ' list="dlAnbieter" autocapitalize="words"') + fld('i_aPreis', 'Monatlich jetzt', i.aPreis, '€') + '</div>'
-      + '<div class="g2">' + fld('i_aSpeed', 'Geschwindigkeit (Mbit/s)', i.aSpeed, 'z. B. 50', ' inputmode="numeric"') + '<div class="f"><label class="lbl" for="i_rest">Alter Vertrag läuft noch</label><div class="stepper"><button type="button" class="stp" data-step="rest" data-d="-1" aria-label="weniger">−</button><input class="in knr" id="i_rest" data-i="rest" inputmode="numeric" value="' + i.rest + '" aria-label="Monate"><button type="button" class="stp" data-step="rest" data-d="1" aria-label="mehr">+</button></div></div></div>'
+      + '<div class="g2">' + fld('i_aSpeed', 'Geschwindigkeit (Mbit/s)', i.aSpeed, 'z. B. 50', ' inputmode="numeric"') + fld('i_aTv', 'TV / Streaming heute', i.aTv, '€ im Monat') + '</div>'
+      + '<div class="g2"><div class="f"><span class="lbl">&nbsp;</span><span class="hint">Kabel-TV, GigaTV, Netflix & Co. – was der Kunde heute dafür zahlt.</span></div><div class="f"><label class="lbl" for="i_rest">Alter Vertrag läuft noch</label><div class="stepper"><button type="button" class="stp" data-step="rest" data-d="-1" aria-label="weniger">−</button><input class="in knr" id="i_rest" data-i="rest" inputmode="numeric" value="' + i.rest + '" aria-label="Monate"><button type="button" class="stp" data-step="rest" data-d="1" aria-label="mehr">+</button></div></div></div>'
       + '<p class="hint">' + (i.rest ? plural(i.rest, 'Monat', 'Monate') + ' Restlaufzeit. ' : 'Restlaufzeit in Monaten – wenn der alte Vertrag erst später endet. ') + '</p>'
       + (i.rest ? chk('i_doppel', 'Doppelt zahlen einrechnen', i.doppel, 'Aus, wenn die Telekom die Restlaufzeit übernimmt oder der Anschluss erst zum Vertragsende startet.') : '')
       + chk('i_aWechsel', 'Preis ändert sich während der Laufzeit', i.aWechsel, 'z. B. wenn beim alten Anbieter gerade eine Aktion läuft')
@@ -1146,7 +1183,7 @@ body.kv-open { overflow: hidden; }
   function renderNeu() {
     var i = state.inp, t = tarifById(i.tarif);
     $('pNeu').innerHTML = '<div class="panel-h"><h3>Telekom</h3><span class="hint">Tarif antippen, dann anpassen, was anders ist.</span></div>'
-      + '<div class="chips tfc">' + state.tarife.map(function (x) { return '<button type="button" class="rchip" data-tf="' + esc(x.id) + '" aria-pressed="' + (x.id === i.tarif) + '">' + esc(x.name) + '<small>' + esc(x.speed ? x.speed + ' Mbit' : '') + ' · ' + esc(eur(x.preis)) + '</small></button>'; }).join('') + '</div>'
+      + '<div class="chips tfc">' + netTarife().map(function (x) { return '<button type="button" class="rchip" data-tf="' + esc(x.id) + '" aria-pressed="' + (x.id === i.tarif) + '">' + esc(x.name) + '<small>' + esc(x.speed ? x.speed + ' Mbit' : '') + ' · ' + esc(eur(x.preis)) + '</small></button>'; }).join('') + '</div>'
       + (t ? '<div class="g2">' + fld('i_preis', 'Monatlich regulär', i.preis, '€') + fld('i_router', 'Router monatlich', i.router, '0 = eigener') + '</div>'
         + '<div class="g2">' + fld('i_aktPreis', 'Aktionspreis', i.aktPreis, '€') + '<div class="f"><label class="lbl" for="i_aktMon">Aktion für Monate</label><div class="stepper"><button type="button" class="stp" data-step="aktMon" data-d="-1" aria-label="weniger">−</button><input class="in knr" id="i_aktMon" data-i="aktMon" inputmode="numeric" value="' + i.aktMon + '"><button type="button" class="stp" data-step="aktMon" data-d="1" aria-label="mehr">+</button></div></div></div>'
         + '<div class="g2">' + fld('i_bereit', 'Bereitstellung einmalig', i.bereit, '€') + fld('i_zusatz', 'Zusatz monatlich', i.zusatz, 'z. B. MagentaTV') + '</div>'
@@ -1154,7 +1191,27 @@ body.kv-open { overflow: hidden; }
         + fld('i_gutNote', 'Welche Gutschriften', i.gutNote, 'z. B. Wechselbonus 100, Online 50', ' autocapitalize="sentences"')
         + chk('i_eins', 'MagentaEINS-Vorteil', i.eins, 'Kunde hat oder nimmt Telekom-Mobilfunk')
         + (i.eins ? fld('i_einsBetrag', 'Vorteil monatlich', i.einsBetrag, '€') : '')
+        + tvForm(i)
         : '<p class="hint">Noch kein Tarif gewählt.</p>');
+  }
+  function tvForm(i) {
+    var tv = i.tv ? tarifById(i.tv) : null;
+    var h = '<div class="f tvf"><span class="lbl">MagentaTV dazu?</span><div class="chips tfc"><button type="button" class="rchip" data-tv="" aria-pressed="' + (!tv) + '">Ohne TV</button>'
+      + tvTarife().map(function (x) { return '<button type="button" class="rchip" data-tv="' + esc(x.id) + '" aria-pressed="' + (tv && x.id === tv.id) + '">' + esc(x.name.replace(/^MagentaTV /, '')) + '<small>' + (x.aMon ? esc(x.aMon + ' Mon. ' + eur(x.aPreis)) + '<br>dann ' + esc(eur(x.preis)) : esc(eur(x.preis) + ' / Monat')) + '</small></button>'; }).join('') + '</div></div>';
+    if (!tv) return h;
+    h += (has(tv.note) ? '<p class="hint">' + esc(tv.name) + ': ' + esc(tv.note) + '</p>' : '')
+      + '<div class="g2">' + fld('i_tvPreis', 'TV monatlich regulär', i.tvPreis, '€') + fld('i_tvAkt', 'TV Aktionspreis', i.tvAkt, '€') + '</div>'
+      + '<div class="g2"><div class="f"><label class="lbl" for="i_tvMon">TV-Aktion für Monate</label><div class="stepper"><button type="button" class="stp" data-step="tvMon" data-d="-1" aria-label="weniger">−</button><input class="in knr" id="i_tvMon" data-i="tvMon" inputmode="numeric" value="' + i.tvMon + '"><button type="button" class="stp" data-step="tvMon" data-d="1" aria-label="mehr">+</button></div></div>'
+      + fld('i_tvGeraet', 'TV-Gerät monatlich', i.tvGeraet, '0 = eigenes') + '</div>'
+      + '<div class="chips">' + TV_GERAET.map(function (g) { return '<button type="button" class="chip gq" data-tvg="' + g[1] + '" aria-pressed="' + !!(num(i.tvGeraet) === g[1] && (g[1] || has(i.tvGeraet))) + '">' + esc(g[0]) + (g[1] ? ' ' + esc(eur(g[1])) : '') + '</button>'; }).join('') + '</div>';
+    return h;
+  }
+  function pickTv(id) {
+    var i = state.inp, t = id ? tarifById(id) : null;
+    if (!t) { i.tv = ''; }
+    else { i.tv = id; i.tvPreis = eurIn(t.preis); i.tvAkt = eurIn(t.aPreis); i.tvMon = t.aMon; if (!has(i.tvGeraet)) i.tvGeraet = '0'; }
+    persist(); renderAll();
+    var el = document.querySelector('.tvf'); if (el) show(el, 'start');
   }
   function pickTarif(id) {
     var t = tarifById(id); if (!t) return;
@@ -1168,7 +1225,7 @@ body.kv-open { overflow: hidden; }
     var k = el.dataset.i; if (!k) return;
     var i = state.inp;
     if (el.type === 'checkbox') { i[k] = el.checked; if (k === 'eins' && el.checked && !has(i.einsBetrag)) i.einsBetrag = eurIn(state.cfg.eins); persist(); renderAll(); return; }
-    var nv = (k === 'rest' || k === 'aktMon' || k === 'aAb') ? intOf(el.value, k === 'aAb' ? 1 : 0, 60) : txt(el.value, 200);
+    var nv = (k === 'rest' || k === 'aktMon' || k === 'aAb' || k === 'tvMon') ? intOf(el.value, k === 'aAb' ? 1 : 0, 60) : txt(el.value, 200);
     if (i[k] === nv) return; /* schon übernommen (z. B. change nach input) – nichts neu zeichnen */
     i[k] = nv;
     persist(); renderResult();
@@ -1210,7 +1267,8 @@ body.kv-open { overflow: hidden; }
   function renderTarife() {
     var el = $('tfList');
     setText('tfSub', plural(state.tarife.length, 'Tarif', 'Tarife'));
-    el.innerHTML = '<div class="cards">' + state.tarife.map(function (t) { return ui.tfedit === t.id ? tfEdit(t) : tfCard(t); }).join('') + '</div>';
+    function grp(list) { return '<div class="cards">' + list.map(function (t) { return ui.tfedit === t.id ? tfEdit(t) : tfCard(t); }).join('') + '</div>'; }
+    el.innerHTML = '<div class="panel-h"><h3>Internet</h3></div>' + grp(netTarife()) + '<div class="panel-h tvh"><h3>MagentaTV</h3><button type="button" class="btn" data-act="tfnewtv">' + ICO_PLUS + 'TV-Tarif</button></div>' + grp(tvTarife());
     if (ui.tfedit) { var f = el.querySelector('.editing input'); if (f) focusEl(f); }
   }
   function tfCard(t) {
@@ -1219,6 +1277,12 @@ body.kv-open { overflow: hidden; }
   }
   function tfEdit(t) {
     function f(k, label, ph, extra) { return '<div class="f"><label class="lbl" for="t_' + k + '">' + label + '</label><input class="in" id="t_' + k + '" data-t="' + k + '" value="' + esc(k === 'name' || k === 'note' || k === 'gutNote' ? t[k] : (t[k] ? String(t[k]).replace('.', ',') : '')) + '" placeholder="' + esc(ph || '') + '" autocomplete="off"' + (extra || ' inputmode="decimal"') + '></div>'; }
+    if (t.art === 'tv') return '<article class="door editing" data-tid="' + esc(t.id) + '"><div class="door-top"><h4 class="door-addr">TV-Tarif bearbeiten</h4></div>'
+      + f('name', 'Name', 'z. B. MagentaTV Smart', ' autocapitalize="words"')
+      + '<div class="g2">' + f('preis', 'Monatlich regulär', '€') + f('aPreis', 'Aktionspreis', '0') + '</div>'
+      + '<div class="g2">' + f('aMon', 'Aktion für Monate', '6', ' inputmode="numeric"') + '</div>'
+      + f('note', 'Was ist drin', 'z. B. RTL+, Netflix, Disney+', ' autocapitalize="sentences"')
+      + '<div class="door-acts three"><button type="button" class="act ok" data-act="tfdone">Fertig</button><button type="button" class="act quiet" data-act="tfcopy">Kopieren</button><button type="button" class="act quiet" data-act="tfdel">Entfernen</button></div></article>';
     return '<article class="door editing" data-tid="' + esc(t.id) + '"><div class="door-top"><h4 class="door-addr">Tarif bearbeiten</h4></div>'
       + f('name', 'Name', 'z. B. Glasfaser 300', ' autocapitalize="words"')
       + '<div class="g2">' + f('speed', 'Download Mbit/s', '', ' inputmode="numeric"') + f('up', 'Upload Mbit/s', '', ' inputmode="numeric"') + '</div>'
@@ -1232,7 +1296,7 @@ body.kv-open { overflow: hidden; }
     qsa('[data-t]', card).forEach(function (el) { var k = el.dataset.t; t[k] = k === 'name' || k === 'note' || k === 'gutNote' ? txt(el.value, 120) : k === 'aMon' ? intOf(el.value, 0, 36) : num(el.value); });
     if (!has(t.name)) t.name = 'Tarif';
   }
-  function tfNew() { var t = normTarif({ name: 'Neuer Tarif', preis: 0, aMon: 6, aPreis: 19.95, bereit: 69.95, router: 7.95 }); state.tarife.push(t); ui.tfedit = t.id; persist(); renderTarife(); }
+  function tfNew(tv) { var t = normTarif(tv ? { art: 'tv', name: 'Neuer TV-Tarif', preis: 0, aMon: 6, aPreis: 0 } : { name: 'Neuer Tarif', preis: 0, aMon: 6, aPreis: 19.95, bereit: 69.95, router: 7.95 }); state.tarife.push(t); ui.tfedit = t.id; persist(); renderTarife(); var c = document.querySelector('.door.editing'); if (c) show(c, 'start'); }
 
   /* ---------- Mehr ---------- */
   function renderMehr() {
@@ -1296,6 +1360,8 @@ body.kv-open { overflow: hidden; }
     var t = e.target; if (!(t instanceof Element)) return;
     var tb = t.closest('[data-tab]'); if (tb && !t.closest('.tabp')) { setTab(tb.dataset.tab); return; }
     var tf = t.closest('[data-tf]'); if (tf) { pickTarif(tf.dataset.tf); return; }
+    var tvc = t.closest('[data-tv]'); if (tvc) { pickTv(tvc.dataset.tv); return; }
+    var tvg = t.closest('[data-tvg]'); if (tvg) { state.inp.tvGeraet = eurIn(num(tvg.dataset.tvg)) || '0'; persist(); renderAll(); return; }
     var gq = t.closest('[data-gq]'); if (gq) { state.inp.gut = eurIn(num(state.inp.gut) + num(gq.dataset.gq)); persist(); renderAll(); return; }
     var st = t.closest('[data-step]'); if (st) { step(st.dataset.step, +st.dataset.d); return; }
     var cs = t.closest('[data-cstep]'); if (cs) { state.cfg.laufzeit = intOf(state.cfg.laufzeit + (+cs.dataset.d), 1, 60); persist(); renderMehr(); renderResult(); return; }
@@ -1312,12 +1378,13 @@ body.kv-open { overflow: hidden; }
       case 'save': saveCompare(); break;
       case 'vload': { var v = vById(vid); if (v) { state.inp = clone(v.inp); persist(); setTab('rechnen'); showToast('Vergleich geladen.', true); } break; }
       case 'vdel': { var vv = vById(vid); if (vv) { state.verlauf = state.verlauf.filter(function (x) { return x.id !== vid; }); persist(); renderAll(); showToast('Entfernt.', false, [{ label: 'Rückgängig', fn: function () { state.verlauf.unshift(vv); persist(); renderAll(); } }]); } break; }
-      case 'tfnew': tfNew(); break;
+      case 'tfnew': tfNew(false); break;
+      case 'tfnewtv': tfNew(true); break;
       case 'tfedit': ui.tfedit = ui.tfedit === tid ? '' : tid; renderTarife(); break;
       case 'tfdone': if (tt) { tfRead(card, tt); ui.tfedit = ''; persist(); renderAll(); } break;
       case 'tfcopy': if (tt) { tfRead(card, tt); var c = clone(tt); c.id = uid(); c.name = tt.name + ' (Kopie)'; state.tarife.splice(state.tarife.indexOf(tt) + 1, 0, c); ui.tfedit = c.id; persist(); renderTarife(); } break;
-      case 'tfdel': if (tt) { var idx = state.tarife.indexOf(tt); state.tarife.splice(idx, 1); ui.tfedit = ''; if (state.inp.tarif === tt.id) state.inp.tarif = ''; persist(); renderAll(); showToast(tt.name + ' entfernt.', false, [{ label: 'Rückgängig', fn: function () { state.tarife.splice(idx, 0, tt); persist(); renderAll(); } }]); } break;
-      case 'tfreset': openModal({ title: 'Vorlage wiederherstellen?', html: '<p class="mtxt">Deine Änderungen an den Tarifen gehen verloren, die Vorlage (Stand Oktober 2026) kommt zurück.</p>', buttons: [{ label: 'Wiederherstellen', primary: true, fn: function () { state.tarife = presetTarife(); state.inp.tarif = ''; ui.tfedit = ''; persist(); closeModal(); renderAll(); } }, { label: 'Abbrechen', fn: closeModal }] }); break;
+      case 'tfdel': if (tt) { var idx = state.tarife.indexOf(tt); state.tarife.splice(idx, 1); ui.tfedit = ''; if (state.inp.tarif === tt.id) state.inp.tarif = ''; if (state.inp.tv === tt.id) state.inp.tv = ''; persist(); renderAll(); showToast(tt.name + ' entfernt.', false, [{ label: 'Rückgängig', fn: function () { state.tarife.splice(idx, 0, tt); persist(); renderAll(); } }]); } break;
+      case 'tfreset': openModal({ title: 'Vorlage wiederherstellen?', html: '<p class="mtxt">Deine Änderungen an den Tarifen gehen verloren, die Vorlage (Stand Oktober 2026) kommt zurück.</p>', buttons: [{ label: 'Wiederherstellen', primary: true, fn: function () { state.tarife = presetTarife(); state.inp.tarif = ''; state.inp.tv = ''; ui.tfedit = ''; persist(); closeModal(); renderAll(); } }, { label: 'Abbrechen', fn: closeModal }] }); break;
     }
   });
   document.addEventListener('input', function (e) {
