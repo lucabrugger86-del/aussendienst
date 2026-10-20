@@ -1,0 +1,16 @@
+{
+ "name": "Außendienst-Apps",
+ "short_name": "Apps",
+ "id": "aussendienst-start",
+ "start_url": "./index.html",
+ "scope": "./index.html",
+ "display": "browser",
+ "lang": "de",
+ "icons": [
+  {
+   "src": "cockpit/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  }
+ ]
+}
