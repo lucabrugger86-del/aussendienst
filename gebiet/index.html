@@ -13,7 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#E20074">
-<meta name="app-version" content="20.10.2026">
+<meta name="app-version" content="21.10.2026">
 <script>try{var t=localStorage.getItem("wp-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <style>
 /* Grundlage (in der Claude-Ansicht kommt das vom Rahmen) */
@@ -895,7 +895,7 @@ a.btn { text-decoration: none; }
 :root[data-theme="dark"] { --accent: #E20074; --accent-ink: #FF5CAD; --accent-soft: #3A1429; --ring: rgba(255, 92, 173, .35); --on-accent: #FFFFFF; }
 .tbn { color: #fff; }
 #pdfRoot { --accent: #E20074; --accent-ink: #BE0067; --accent-soft: #FCE5F1; }
-.hd h1 { font-size: 22px; }
+:root { --hd-fs: 24px; }
 .door-acts.q5 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .door-acts.q5 .act { grid-column: span 2; }
 .door-acts.q5 .act:nth-child(4) { grid-column: span 3; }
@@ -1120,6 +1120,102 @@ small { font-size: 13px; }
 .aipanel .hint { margin: 0; }
 .aipanel .aistate { margin: 0; font-weight: 600; }
 .aibtns { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ===== Gemeinsamer Look (aus dem Auftragsbuch): Telekom-Magenta, ruhige Grautöne, große Farbkarte, runde Kacheln. =====
+   Gilt für Bulk, Nachvermarktung, Cockpit und Rechner. Die Farben für Art und Stand (Bulk blau, Kunde grün, erledigt, später ...) bleiben, damit man sie unterscheiden kann. */
+:root {
+  --bg: #F4F4F6; --surface: #FFFFFF; --surface-2: #EEEEF1; --fg: #191919; --muted: #5E5E67; --line: #E1E1E6; --line-strong: #C3C3CB;
+  --accent: #E20074; --accent-ink: #C0005F; --accent-soft: #FDE7F2; --ring: rgba(226, 0, 116, .3); --on-accent: #FFFFFF;
+  --shadow: 0 12px 32px rgba(25, 25, 25, .08);
+  --r: 20px;
+  /* Farbverlauf der großen Karte */
+  --hk-a: #E20074; --hk-b: #A8004F;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101012; --surface: #1B1B1F; --surface-2: #26262B; --fg: #F3F3F5; --muted: #A5A5AE; --line: #2D2D33; --line-strong: #4B4B54;
+    --accent: #E20074; --accent-ink: #FF70B8; --accent-soft: #3B1228; --ring: rgba(255, 112, 184, .38); --on-accent: #FFFFFF;
+    --shadow: 0 12px 32px rgba(0, 0, 0, .45);
+    --hk-a: #D4006C; --hk-b: #7E0040;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101012; --surface: #1B1B1F; --surface-2: #26262B; --fg: #F3F3F5; --muted: #A5A5AE; --line: #2D2D33; --line-strong: #4B4B54;
+  --accent: #E20074; --accent-ink: #FF70B8; --accent-soft: #3B1228; --ring: rgba(255, 112, 184, .38); --on-accent: #FFFFFF;
+  --shadow: 0 12px 32px rgba(0, 0, 0, .45);
+  --hk-a: #D4006C; --hk-b: #7E0040;
+}
+
+/* Kopf: Name mit Punkt in der Leitfarbe der App */
+.hd h1 { color: var(--fg); font-size: var(--hd-fs, 28px); white-space: nowrap; }
+.hd h1::after { content: ""; display: inline-block; width: .26em; height: .26em; margin-left: .1em; border-radius: 50%; background: var(--accent); }
+.hd-date { font-weight: 500; }
+
+/* ---------- Große Karte „Jetzt dran / Als Nächstes“: Farbverlauf mit weichen Formen ---------- */
+.hero { border-radius: 24px; padding: 20px 20px 18px; gap: 8px; }
+.hero::before { left: auto; bottom: auto; top: -80px; right: -70px; width: 250px; height: 250px; border-radius: 58% 42% 52% 48% / 46% 58% 42% 54%; pointer-events: none; }
+.hero > * { position: relative; z-index: 1; }
+.hero:not(.calm) { border: 0; color: #fff; background: linear-gradient(140deg, var(--hk-a) 0%, var(--hk-b) 100%); box-shadow: 0 10px 24px rgba(20, 12, 30, .22); }
+.hero:not(.calm)::before { background: rgba(255, 255, 255, .14); }
+.hero:not(.calm)::after { content: ""; position: absolute; z-index: 0; left: -100px; bottom: -130px; width: 240px; height: 240px; border-radius: 44% 56% 60% 40% / 55% 45% 55% 45%; background: rgba(255, 255, 255, .08); pointer-events: none; }
+.hero.calm { box-shadow: var(--shadow); }
+.hero.calm::before { background: var(--tone, var(--accent)); opacity: .08; }
+.hero:not(.calm) .hero-k { color: #fff; }
+.hero:not(.calm) .hero-k i { background: #fff; box-shadow: 0 0 0 4px rgba(255, 255, 255, .28); }
+.hero:not(.calm) .hero-t { color: #fff; font-size: 30px; line-height: 1.08; }
+.hero:not(.calm) .hero-s, .hero:not(.calm) .hero-why, .hero:not(.calm) .tle-why, .hero:not(.calm) .tle-doors, .hero:not(.calm) .hint, .hero:not(.calm) .muted { color: #fff; }
+.hero:not(.calm) .hero-why b, .hero:not(.calm) .tle-why b, .hero:not(.calm) .hero-s b { color: #fff; }
+.hero:not(.calm) .time { color: #fff; font-size: 24px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.hero:not(.calm) .chip, .hero:not(.calm) .bdg, .hero:not(.calm) .pl-slot { background: rgba(0, 0, 0, .22); border-color: rgba(255, 255, 255, .4); color: #fff; }
+.hero:not(.calm) .pl-slot::before { background: #fff; }
+.hero:not(.calm) .bdg.late { background: #fff; border-color: #fff; color: var(--red-ink); }
+.hero:not(.calm) .dtile { background: var(--surface); border-color: transparent; color: var(--fg); }
+.hero:not(.calm) .btn { background: rgba(0, 0, 0, .2); border: 1.5px solid rgba(255, 255, 255, .6); color: #fff; border-radius: 14px; min-height: 50px; }
+html:root .hero:not(.calm) .btn.k, html:root .hero:not(.calm) .btn.primary { background: #fff; border-color: #fff; color: var(--hk-b); }
+.hero:not(.calm) a:focus-visible, .hero:not(.calm) button:focus-visible { outline-color: #fff; }
+.hero:not(.calm) .pbar { height: 16px; padding: 2px; border-radius: 999px; background: #fff; }
+.hero:not(.calm) .pbar i { border-radius: 999px; }
+.bhead { border-radius: 22px; }
+
+/* ---------- Rechner: Ergebnis-Karte; der Punkt zeigt den Ausgang (grün: Kunde spart, gelb: Kunde zahlt mehr) ---------- */
+.hero.res[data-s="plus"] .hero-k i { background: #6CF0B0; box-shadow: 0 0 0 4px rgba(108, 240, 176, .38); }
+.hero.res[data-s="minus"] .hero-k i { background: #FFD25E; box-shadow: 0 0 0 4px rgba(255, 210, 94, .4); }
+.hero.res:not(.calm) .hero-t { font-size: 40px; color: #fff; }
+.hero.res:not(.calm) .hero-s b { color: #fff; }
+.hero:not(.calm) .cmp-c { color: var(--fg); }
+.hero.res .chart { background: var(--surface); color: var(--fg); border-radius: 16px 16px 0 0; padding: 10px 8px 0; margin: 4px 0 -8px; }
+.hero.res .ch-leg { background: var(--surface); border-radius: 0 0 16px 16px; padding: 6px 12px 10px; color: var(--fg); }
+.hero.res .ch-leg .muted { color: var(--muted); }
+.hero.res .brkd { background: var(--surface); color: var(--fg); border-radius: 14px; padding: 6px 14px; }
+.hero.res .brkd summary { color: var(--fg); }
+
+/* ---------- Aktionsknöpfe in Magenta (die Art zeigt sich am Streifen und am Wort, nicht am Knopf) ---------- */
+.btn.k { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.tle-a .btn.k { background: var(--accent-soft); border-color: var(--accent-soft); color: var(--accent-ink); }
+
+/* ---------- Karten: runder, ruhiger ---------- */
+.door, .tle-c, .ecard, .ncard, .vcard { border-radius: 18px; }
+.dcol { flex-basis: 78px; border-radius: 18px; }
+.dcol[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); box-shadow: 0 8px 18px var(--ring); }
+.dcol[aria-pressed="true"] .dc-w, .dcol[aria-pressed="true"] .dc-d, .dcol[aria-pressed="true"] .dc-n, .dcol[aria-pressed="true"] .dc-t { color: var(--on-accent); }
+.dcol[aria-pressed="true"] .dc-dots i { background: var(--on-accent); }
+
+/* ---------- Zahlenkacheln mit weichem Kreis ---------- */
+.kt { position: relative; overflow: hidden; border-radius: 18px; padding: 12px 14px; }
+.kt::after { content: ""; position: absolute; right: -18px; top: -18px; width: 60px; height: 60px; border-radius: 50%; background: var(--surface-2); pointer-events: none; }
+.kt[data-s]::after { display: none; }
+.kt > * { position: relative; z-index: 1; }
+.kt-v { font-size: 34px; }
+
+/* ---------- Reiter unten: Strich oben statt Fläche ---------- */
+.tabbtn[aria-selected="true"] { background: transparent; color: var(--accent-ink); }
+.tabbtn::before { content: ""; position: absolute; top: -7px; left: 26%; right: 26%; height: 3px; border-radius: 0 0 3px 3px; background: transparent; }
+.tabbtn[aria-selected="true"]::before { background: var(--accent); }
+.dock { box-shadow: 0 -8px 24px rgba(25, 25, 25, .05); }
+
+/* ---------- Hinweise und Fenster ---------- */
+.toast { width: max-content; max-width: min(92vw, 520px); }
+.mbox { gap: 14px; border-radius: 22px; }
 </style>
 <link rel="manifest" href="manifest.json">
 <script>if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
