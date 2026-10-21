@@ -13,6 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#1E6FE0">
+<meta name="app-version" content="20.10.2026">
 <script>try{var t=localStorage.getItem("wp-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <style>
 /* Grundlage (in der Claude-Ansicht kommt das vom Rahmen) */
@@ -162,8 +163,8 @@ b, strong { font-weight: 600; }
 .sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 6px 2px 0; }
 .sec-h .sub { font-size: 14px; color: var(--muted); }
 .hint { font-size: 14px; color: var(--muted); line-height: 1.4; }
-.chip { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); font-size: 12.5px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.bdg { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px; font-size: 12.5px; font-weight: 600; line-height: 1.3; border: 1px solid var(--tone, var(--line-strong)); background: var(--soft, var(--surface-2)); color: var(--ink, var(--fg)); white-space: nowrap; }
+.chip { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); font-size: 13px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bdg { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px; font-size: 13px; font-weight: 600; line-height: 1.3; border: 1px solid var(--tone, var(--line-strong)); background: var(--soft, var(--surface-2)); color: var(--ink, var(--fg)); white-space: nowrap; }
 .bdg.warn { --tone: var(--amber); --soft: var(--amber-soft); --ink: var(--amber-ink); }
 .bdg.new { --tone: var(--blue); --soft: var(--blue-soft); --ink: var(--blue-ink); }
 .bdg.ok { --tone: var(--green); --soft: var(--green-soft); --ink: var(--green-ink); }
@@ -198,7 +199,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 /* Segmente (Auswahl nebeneinander) */
 .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; padding: 4px; background: var(--surface-2); border-radius: 14px; }
 .seg button { border: 0; border-radius: 10px; background: transparent; min-height: 44px; padding: 6px 8px; font-weight: 600; font-size: 15px; color: var(--muted); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; line-height: 1.15; min-width: 0; }
-.seg button span { font-size: 12px; font-weight: 500; color: var(--muted); }
+.seg button span { font-size: 13px; font-weight: 500; color: var(--muted); }
 .seg button[aria-pressed="true"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
 .seg.kinds button[aria-pressed="true"] { color: var(--ink); box-shadow: inset 0 0 0 2px var(--tone), 0 1px 3px rgba(0, 0, 0, .1); }
 .seg button b { font-weight: 700; }
@@ -211,7 +212,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 /* ---------- Heute: Jetzt dran ---------- */
 .hero { position: relative; overflow: hidden; border-radius: 20px; padding: 18px 18px 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; }
 .hero::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: var(--tone, var(--accent)); }
-.hero-k { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink, var(--accent-ink)); }
+.hero-k { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink, var(--accent-ink)); }
 .hero-k i { width: 8px; height: 8px; border-radius: 50%; background: var(--tone, var(--accent)); box-shadow: 0 0 0 4px var(--soft, var(--accent-soft)); }
 .hero-t { font-family: var(--font-display); font-size: 32px; font-weight: 700; line-height: 1.05; text-wrap: balance; overflow-wrap: anywhere; }
 .hero-s { font-size: 16px; color: var(--muted); }
@@ -228,12 +229,12 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .dcol { flex: 0 0 86px; scroll-snap-align: start; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 10px 10px 8px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); text-align: left; min-height: 84px; }
 .dcol[aria-pressed="true"] { border-color: var(--fg); box-shadow: inset 0 0 0 1px var(--fg); }
 .dcol.now .dc-w { color: var(--accent-ink); }
-.dc-w { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.dc-w { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
 .dc-d { font-size: 13px; color: var(--muted); }
 .dc-dots { display: flex; gap: 3px; margin-top: 4px; min-height: 8px; }
 .dc-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--tone); }
 .dc-n { font-family: var(--font-display); font-size: 18px; font-weight: 700; line-height: 1; margin-top: 2px; }
-.dc-t { font-size: 10.5px; font-weight: 700; color: var(--warn); text-transform: uppercase; letter-spacing: .05em; }
+.dc-t { font-size: 13px; font-weight: 700; color: var(--warn); text-transform: uppercase; letter-spacing: .05em; }
 .dcol.weak { opacity: .75; }
 
 /* Zeitstrahl */
@@ -242,13 +243,13 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 @media (max-width: 379px) { .tle { grid-template-columns: 46px minmax(0, 1fr); gap: 8px; } .tle-t b { font-size: 15px; } }
 .tle-t { padding-top: 14px; text-align: right; font-variant-numeric: tabular-nums; }
 .tle-t b { display: block; font-family: var(--font-display); font-size: 17px; font-weight: 600; line-height: 1.1; }
-.tle-t span { display: block; font-size: 12px; color: var(--muted); }
+.tle-t span { display: block; font-size: 13px; color: var(--muted); }
 .tle-c { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px 12px 18px; display: flex; flex-direction: column; gap: 8px; min-width: 0; overflow: hidden; }
 .tle-c::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--tone); }
 .tle.done .tle-c { opacity: .62; }
 .tle.gap .tle-c { border-style: dashed; background: transparent; }
 .tle.gap .tle-c::before { display: none; }
-.tle-k { font-size: 11.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink); }
+.tle-k { font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ink); }
 .tle-h { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
 .tle-h h3 { font-family: var(--font-display); font-size: 20px; font-weight: 600; line-height: 1.15; overflow-wrap: anywhere; }
 .tle-s { font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
@@ -348,7 +349,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .pl-tg svg { width: 18px; height: 18px; flex: none; color: var(--muted); transition: transform .15s; }
 .pl-tg[aria-expanded="true"] svg { transform: rotate(180deg); }
 .pl-tt { display: flex; flex-direction: column; min-width: 0; }
-.pl-kind { font-size: 11.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-style: normal; }
+.pl-kind { font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-style: normal; }
 .pl-title { font-family: var(--font-display); font-size: 20px; font-weight: 600; line-height: 1.15; overflow-wrap: anywhere; }
 .pl-sub { font-size: 14px; color: var(--muted); }
 .pl-sr { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
@@ -421,7 +422,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .rep-g { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 .rp-b { display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); text-align: left; min-height: 56px; }
 .rp-b b { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1; }
-.rp-b span { font-size: 12px; color: var(--muted); }
+.rp-b span { font-size: 13px; color: var(--muted); }
 .rp-b[aria-pressed="true"] { border-color: var(--fg); }
 .rp-b[disabled] { opacity: .5; }
 .rep-s, .rep-w { font-size: 13.5px; color: var(--muted); }
@@ -438,7 +439,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .rsel .rchip[aria-pressed="true"]::after { background: var(--on-tone); opacity: .7; }
 @media (max-width: 340px) { .rsel { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .addrsum { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 54px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2); text-align: left; }
-.as-k { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); flex: none; }
+.as-k { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); flex: none; }
 .addrsum b { flex: 1 1 auto; min-width: 0; font-size: 16px; font-weight: 600; overflow-wrap: anywhere; }
 .as-e { color: var(--accent-ink); font-weight: 600; font-size: 14px; flex: none; }
 .stepper { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; gap: 6px; }
@@ -455,7 +456,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .qdue[data-ds="today"]::before { background: var(--green); }
 .qdue[data-ds="done"]::before { background: var(--line-strong); }
 .qd-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-.qd-k { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.qd-k { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .qd-t { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1.1; }
 .qd-slot { font-size: 15px; font-weight: 600; }
 .qd-why, .qd-ex { font-size: 13.5px; color: var(--muted); }
@@ -464,7 +465,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .fd-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .qnote summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); min-height: 36px; display: flex; align-items: center; }
 .qnote[open] summary { margin-bottom: 6px; }
-.add-hint { font-size: 12.5px; color: var(--muted); }
+.add-hint { font-size: 13px; color: var(--muted); }
 .eday { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-radius: 12px; background: var(--amber-soft); color: var(--amber-ink); font-size: 14px; }
 .savebar { position: sticky; bottom: calc(var(--dock-h) + 8px); z-index: 5; padding: 6px 0 0; }
 .savebar .btn { box-shadow: var(--shadow); }
@@ -472,7 +473,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 
 
 .rlist li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
-.rr-r { font-size: 12.5px; font-weight: 700; color: var(--ink); padding: 2px 8px; border-radius: 999px; background: var(--soft); white-space: nowrap; }
+.rr-r { font-size: 13px; font-weight: 700; color: var(--ink); padding: 2px 8px; border-radius: 999px; background: var(--soft); white-space: nowrap; }
 .rr-m { display: flex; flex-direction: column; min-width: 0; }
 .rr-m b { overflow-wrap: anywhere; }
 .rr-m span { font-size: 13px; }
@@ -480,7 +481,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .tchips { display: flex; flex-wrap: wrap; gap: 8px; }
 .tchip { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-height: 52px; padding: 7px 14px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); text-align: left; min-width: 0; max-width: 100%; }
 .tchip b { font-size: 15px; overflow-wrap: anywhere; }
-.tchip span { font-size: 12.5px; color: var(--muted); }
+.tchip span { font-size: 13px; color: var(--muted); }
 .tchip[aria-pressed="true"] { border-color: var(--tone, var(--b-c)); background: var(--soft, var(--b-soft)); box-shadow: inset 0 0 0 1px var(--tone, var(--b-c)); }
 .tchip[aria-pressed="true"] b { color: var(--ink, var(--b-ink)); }
 
@@ -490,13 +491,13 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .trow.off { opacity: .6; }
 .tr-t { font-variant-numeric: tabular-nums; }
 .tr-t b { display: block; font-family: var(--font-display); font-size: 17px; font-weight: 600; line-height: 1.1; }
-.tr-t span { display: block; font-size: 12px; color: var(--muted); }
+.tr-t span { display: block; font-size: 13px; color: var(--muted); }
 .tr-m { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .tr-m h4 { font-family: var(--font-display); font-size: 19px; font-weight: 600; line-height: 1.15; overflow-wrap: anywhere; }
 .tr-m p { font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
 .tr-s { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
 .tr-body { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
-.tr-k { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
+.tr-k { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
 .tstat { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface-2); font-size: 13px; font-weight: 600; appearance: none; -webkit-appearance: none; }
 .tstat[data-st="erledigt"] { background: var(--green-soft); color: var(--green-ink); border-color: var(--green); }
 .tstat[data-st="abgesagt"] { background: var(--red-soft); color: var(--red-ink); border-color: var(--red); }
@@ -506,7 +507,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 @media (max-width: 479px) { .kseg { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .kseg button { min-height: 60px; min-width: 0; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13.5px; line-height: 1.1; padding: 6px 4px; text-align: center; overflow-wrap: anywhere; hyphens: manual; }
 @media (max-width: 339px) { .kseg { grid-template-columns: 1fr 1fr; } }
-.kseg button span { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+.kseg button span { font-size: 13px; font-weight: 500; color: var(--muted); }
 .kseg button i { width: 10px; height: 10px; border-radius: 50%; background: var(--tone); margin-bottom: 2px; }
 .kseg button[aria-pressed="true"] { background: var(--soft); border-color: var(--tone); color: var(--ink); box-shadow: inset 0 0 0 1px var(--tone); }
 
@@ -514,9 +515,9 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .ktiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 @media (min-width: 640px) { .ktiles { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
 .kt { display: grid; gap: 1px; min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-.kt-l { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.kt-l { font-size: 13px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
 .kt-v { font-family: var(--font-display); font-size: 28px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.kt-s { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.kt-s { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .kt-s:empty { display: none; }
 .kt[data-s="green"] { border-color: var(--green); background: var(--green-soft); }
 .kt[data-s="green"] .kt-v { color: var(--green-ink); }
@@ -537,10 +538,10 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .rate b { text-align: right; font-variant-numeric: tabular-nums; }
 .rate .bar { height: 12px; }
 .rate.best .bar i { background: var(--green); }
-.rate .n { font-size: 12px; color: var(--muted); display: block; }
+.rate .n { font-size: 13px; color: var(--muted); display: block; }
 .rank li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; align-items: center; }
 .rank li:first-child { border-top: 0; }
-.rank .sub { display: block; font-size: 12.5px; color: var(--muted); }
+.rank .sub { display: block; font-size: 13px; color: var(--muted); }
 .rank b { font-variant-numeric: tabular-nums; }
 .vcards { display: flex; flex-direction: column; gap: 8px; }
 .vcard { display: flex; flex-direction: column; gap: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
@@ -552,7 +553,7 @@ select.in { appearance: none; -webkit-appearance: none; padding-right: 36px; bac
 .ewchip { min-height: 40px; padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); font-size: 14px; font-weight: 500; }
 .ewchip.other { border-style: dashed; color: var(--muted); }
 .ewsum { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; }
-.ewsum-h { font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-size: 11px; }
+.ewsum-h { font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-size: 13px; }
 .ewc { padding: 3px 9px; border-radius: 999px; background: var(--surface-2); }
 .ecards, .ncards { display: flex; flex-direction: column; gap: 8px; }
 .ecard { display: grid; grid-template-columns: minmax(0, 1fr) 40px; gap: 6px 8px; padding: 10px; border: 1px solid var(--line); border-radius: 12px; }
@@ -589,12 +590,12 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
 .dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
 .dock-in { max-width: 760px; margin-inline: auto; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 6px 6px; gap: 2px; }
 @media (min-width: 900px) { .dock-in { max-width: 1040px; } }
-.tabbtn { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; min-width: 0; padding: 6px 0; border: 0; border-radius: 12px; background: transparent; color: var(--muted); font-size: 12px; font-weight: 600; }
+.tabbtn { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; min-width: 0; padding: 6px 0; border: 0; border-radius: 12px; background: transparent; color: var(--muted); font-size: 13px; font-weight: 600; }
 .tabbtn > span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-@media (max-width: 359px) { .tabbtn { font-size: 11px; } }
+@media (max-width: 359px) { .tabbtn { font-size: 13px; } }
 .tabbtn svg { width: 24px; height: 24px; }
 .tabbtn[aria-selected="true"] { color: var(--accent-ink); background: var(--accent-soft); }
-.tbn { position: absolute; top: 4px; left: calc(50% + 6px); min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; font-style: normal; display: inline-flex; align-items: center; justify-content: center; }
+.tbn { position: absolute; top: 4px; left: calc(50% + 6px); min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; font-style: normal; display: inline-flex; align-items: center; justify-content: center; }
 .tbn.dot { min-width: 10px; height: 10px; padding: 0; background: var(--amber); left: calc(50% + 10px); }
 
 /* ---------- Hinweise und Fenster ---------- */
@@ -619,7 +620,7 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
 .mv-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .mv-day { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-height: 56px; padding: 8px 10px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); text-align: left; }
 .mv-day b { font-size: 14px; }
-.mv-day span, .mv-day i { font-size: 12px; color: var(--muted); font-style: normal; }
+.mv-day span, .mv-day i { font-size: 13px; color: var(--muted); font-style: normal; }
 .mv-day[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
 .mv-day.q-weak { opacity: .7; }
 .tabp[hidden] { display: none !important; }
@@ -702,7 +703,7 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
 :root[data-theme="dark"] { --accent: #5B9BFF; --accent-ink: #8DB8FF; --accent-soft: #15243D; --ring: rgba(91, 155, 255, .35); --on-accent: #15121A; }
 .tbn { color: var(--on-accent); }
 .hd h1 { color: var(--accent-ink); }
-.act small { display: block; font-size: 11px; font-weight: 500; opacity: .8; line-height: 1.1; margin-top: 1px; }
+.act small { display: block; font-size: 13px; font-weight: 500; opacity: .8; line-height: 1.1; margin-top: 1px; }
 .door-acts.q4 .act { padding: 6px 4px; min-height: 48px; line-height: 1.15; }
 @media (max-width: 479px) { .door-acts.q4 { grid-template-columns: 1fr 1fr; } .door-acts.q4 .act { font-size: 14.5px; } }
 .act.ok small { opacity: .75; }
@@ -744,9 +745,9 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
 .ecard, .ncard { display: flex; flex-direction: column; gap: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .trow[data-k="termin"] { --tone: var(--c-termin); --ink: var(--i-termin); --soft: var(--s-termin); }
 .tr-s .btn.k { min-height: 40px; padding: 6px 12px; font-size: 14px; }
-.pl-term { font-size: 12.5px; }
+.pl-term { font-size: 13px; }
 #pdfRoot { --accent: #1E6FE0; --accent-ink: #1554B0; --accent-soft: #E3EDFC; }
-.bdgb { cursor: pointer; font: inherit; font-size: 12.5px; font-weight: 600; min-height: 28px; }
+.bdgb { cursor: pointer; font: inherit; font-size: 13px; font-weight: 600; min-height: 28px; }
 .bdgb[aria-expanded="true"] { box-shadow: 0 0 0 2px var(--tone); }
 .mseg { margin: 6px 0 10px; }
 .mseg button { font-size: 14px; padding: 6px 4px; }
@@ -764,6 +765,198 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
 .bhead.closed { --tone: var(--line-strong); background: var(--surface-2); }
 .bhead.closed .bh-t { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--muted); }
 .bclose { margin-left: auto; }
+
+/* ===== Gemeinsam: verstecktes bleibt versteckt ===== */
+[hidden] { display: none !important; }
+
+/* ===== Flyer-Markierung (Wort + Zeichen, nicht nur Farbe) ===== */
+.fl { display: inline-flex; align-items: center; padding: 0 8px; border: 1px solid var(--c-flyer); border-radius: 999px; background: var(--s-flyer); color: var(--i-flyer); font-size: 13px; font-weight: 700; line-height: 1.5; }
+.bdgfl { gap: 5px; }
+.bdgfl svg { width: 14px; height: 14px; flex: none; }
+.bdgfl[data-fl="1"] { --tone: var(--c-flyer); --soft: var(--s-flyer); --ink: var(--i-flyer); }
+.bdgfl[data-fl="0"] { --tone: var(--c-nicht); --soft: var(--surface); --ink: var(--i-nicht); border-style: dashed; }
+.kdb { max-width: 100%; text-align: left; }
+
+/* ===== Einklappbare Kopfzeile ===== */
+.bhead:not(.closed) .hero-k, .bhead:not(.closed) .bh-t { padding-right: 52px; }
+.bh-fold { position: absolute; top: 8px; right: 8px; z-index: 1; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); color: var(--fg); }
+.bh-fold svg { width: 20px; height: 20px; transition: transform .15s; }
+.bh-fold[aria-expanded="true"] svg { transform: rotate(180deg); }
+.bhead.folded { gap: 2px; padding-top: 12px; padding-bottom: 12px; min-height: 68px; justify-content: center; }
+.bhead.folded .hero-k { display: none; }
+.bhead.folded .bh-t { font-size: 20px; line-height: 1.2; }
+.bh-mini { color: var(--muted); }
+
+/* ===== Termin an der Tür: Chips, Name und Telefon zuerst ===== */
+.mbox .zchip[aria-pressed="false"] { background: var(--surface); }
+.mmore { border-top: 1px solid var(--line); padding-top: 4px; }
+.mmore summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); }
+.mmore[open] summary { margin-bottom: 6px; }
+.mmore .in { margin-bottom: 8px; }
+
+/* ===== Bulk-Termin: Datum breiter, Chip „Jetzt“ ===== */
+.tform .g3.tdt { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr) minmax(0, 1fr); }
+@media (max-width: 420px) { .tform .g3.tdt { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .tform .g3.tdt > .f:first-child { grid-column: 1 / -1; } }
+.tnow { align-items: center; gap: 8px 10px; }
+.tnow .hint { font-size: 13px; }
+
+/* ===== Klingelbrett ===== */
+.bvw { display: flex; flex-direction: column; gap: 8px; }
+.bvw .seg { max-width: 380px; }
+.bvw .seg button { flex-direction: row; font-size: 15px; }
+.bvw .dlegend svg { width: 14px; height: 14px; flex: none; }
+.brett { display: flex; flex-direction: column; gap: 8px; }
+.brow { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 8px; align-items: start; }
+.brow.nofl { grid-template-columns: minmax(0, 1fr); }
+.bfl { display: flex; align-items: center; justify-content: center; align-self: stretch; min-height: 68px; padding: 0 4px; border-radius: 10px; background: var(--surface-2); color: var(--muted); font-size: 14px; font-weight: 700; text-align: center; }
+.bcells { display: grid; grid-template-columns: repeat(auto-fill, minmax(116px, 1fr)); gap: 8px; }
+.bt { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-width: 0; min-height: 70px; padding: 7px 10px 7px 12px; border: 1px solid var(--line-strong); border-left: 6px solid var(--lt, var(--line-strong)); border-radius: 12px; background: var(--ls, var(--surface)); color: var(--fg); text-align: left; }
+.bt[data-ln="nicht"] { --lt: var(--c-nicht); --ls: var(--s-nicht); --li: var(--i-nicht); }
+.bt[data-ln="spaeter"] { --lt: var(--c-spaeter); --ls: var(--s-spaeter); --li: var(--i-spaeter); }
+.bt[data-ln="flyer"] { --lt: var(--c-flyer); --ls: var(--s-flyer); --li: var(--i-flyer); }
+.bt[data-ln="neu"] { --lt: var(--line-strong); --ls: var(--surface); --li: var(--muted); }
+.bt[data-ln="done"] { --lt: var(--green); --ls: var(--green-soft); --li: var(--green-ink); }
+.bt[data-ln="drop"] { --lt: var(--line-strong); --ls: var(--surface-2); --li: var(--muted); border-style: dashed; opacity: .75; }
+.bt[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--ring); }
+.bt.just { animation: just 1.6s ease-out; }
+.bt-n { font-size: 15px; font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; }
+.bt-w { font-size: 13px; line-height: 1.3; color: var(--muted); overflow-wrap: anywhere; }
+.bt-w .fl { padding: 0 6px; line-height: 1.35; }
+.bt-s { display: flex; align-items: flex-start; gap: 5px; margin-top: auto; padding-top: 2px; color: var(--li, var(--muted)); font-size: 13px; font-weight: 600; line-height: 1.25; }
+.bt-s svg { width: 14px; height: 14px; flex: none; margin-top: 1px; }
+.bt-o { width: 10px; height: 10px; flex: none; margin-top: 3px; border: 2px solid currentColor; border-radius: 50%; }
+.bdoorcard { display: flex; flex-direction: column; gap: 6px; }
+.bdoorcard .acts { justify-content: flex-end; }
+
+/* ===== Zahlen: Kurzfassung und Sprung-Chips ===== */
+#tagBody > .kurz { margin-top: 2px; }
+#tagBody > .jumps { margin: 0; }
+[id^="zs-"] { scroll-margin-top: 12px; }
+
+/* ===== Feinschliff (Tippflächen, schmale Spalten) ===== */
+.rchip { min-height: 44px; }
+.tform[data-tid] .g21 { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+@media (min-width: 1000px) { .cards.grid .door-acts.q4 { grid-template-columns: 1fr 1fr; } }
+.mmore summary::after { content: "▾"; margin-left: 8px; }
+.mmore[open] summary::after { content: "▴"; }
+
+/* ===== Phase 3: Eintragen mit Name zuerst, Mehrere Namen, Klingelbrett-Foto ===== */
+.qe .g21 { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.qe-more { display: flex; flex-wrap: wrap; gap: 8px; }
+.qe-more .btn { flex: 1 1 150px; min-height: 48px; padding: 8px 12px; font-size: 14.5px; }
+#mNames { min-height: 140px; resize: vertical; line-height: 1.5; }
+.nofl-h, .bnofl { margin: 10px 2px 2px; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.lane .nofl-h:first-child { margin-top: 2px; }
+.brett .bnofl { margin: 6px 2px 0; }
+.lane .cards + .nofl-h { padding-top: 8px; border-top: 1px dashed var(--line-strong); }
+
+/* ===== Phase 3: Termine (Bulk und Kunden), Karte, Verschieben, Absagen ===== */
+[data-k="termin"] { --tone: var(--c-termin); --ink: var(--i-termin); --soft: var(--s-termin); }
+.tfilt { padding: 2px 0; }
+.tfilt .zchip { min-width: 74px; min-height: 44px; font-size: 15px; }
+.kcard { position: relative; display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; gap: 8px; align-items: start; min-width: 0; padding: 12px 12px 12px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+.kcard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--tone); }
+.kcard[data-od="1"] { border-color: var(--red); --tone: var(--red); }
+.kcard[data-st="erledigt"], .kcard[data-st="abgesagt"] { background: var(--surface-2); --tone: var(--line-strong); }
+.kcard.just { animation: just 1.6s ease-out; }
+.kc-t { font-variant-numeric: tabular-nums; }
+.kc-t b { display: block; font-family: var(--font-display); font-size: 17px; font-weight: 600; line-height: 1.1; }
+.kc-t span { display: block; font-size: 13px; color: var(--muted); }
+.kc-m { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.kc-m h4 { font-family: var(--font-display); font-size: 19px; font-weight: 600; line-height: 1.15; overflow-wrap: anywhere; }
+.kc-m p { font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
+.kc-m .kc-th { color: var(--fg); font-weight: 600; }
+.kc-m .kc-note { font-style: italic; }
+.kc-m .kc-b { margin-top: 2px; }
+.kc-s { display: flex; align-items: flex-start; }
+.kc-l, .kc-a, .kc-p { grid-column: 1 / -1; }
+.kc-l { display: flex; flex-wrap: wrap; gap: 8px; }
+.kc-l .btn { flex: 1 1 120px; }
+.kc-a { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.kc-a .btn { padding: 6px 4px; font-size: 14.5px; min-width: 0; }
+.kc-a .btn:only-child { grid-column: 1 / -1; }
+.kc-a .btn[aria-expanded="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-ink); }
+.kc-p { display: flex; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 1px solid var(--line); }
+.kc-p .btn.quiet { align-self: flex-start; }
+.kc-p .acts { gap: 8px; }
+.bdg svg { width: 14px; height: 14px; flex: none; }
+.kc-od { gap: 5px; font-weight: 700; }
+.kc-over .grp-h h3 { color: var(--red-ink); }
+.ktoday { border-color: var(--c-termin); }
+.ktoday .panel-h h3 { display: flex; align-items: center; gap: 8px; color: var(--i-termin); }
+@media (min-width: 1000px) { .cards:has(> .kcard) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+a.btn { text-decoration: none; }
+
+/* Hinweis: so breit wie der Text (left: 50 % schneidet sonst die Breite ab), Knöpfe in einer Reihe */
+.toast { width: max-content; max-width: min(92vw, 520px); }
+
+/* ===== Gemeinsam: Speicher-Hinweis, Tippflächen ab 44 px, Schrift ab 13 px, kein Herunterziehen ===== */
+html, body { overscroll-behavior-y: contain; }
+
+.sbar { margin: 8px 0 0; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--amber); background: var(--amber-soft); color: var(--amber-ink); font-size: 14px; font-weight: 600; line-height: 1.35; }
+.sbar[data-s="err"] { border-color: var(--red, #C62828); background: var(--red-soft, #FDE7E7); color: var(--red-ink, #8E1B1B); }
+.verbox { display: flex; flex-direction: column; gap: 8px; }
+.verbox .vrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.verbox .vver { font-weight: 700; font-variant-numeric: tabular-nums; }
+.verbox .vtxt { color: var(--muted); font-size: 14px; }
+
+/* Tippflächen */
+.tool, .trybtn, .gmove, .pl-term, .bdgb, .act, .zchip, .tstat, .nin, .nadd, .nchip, .pl-tg, .toast button,
+.btn, summary, select, input.in, input[type="date"], input[type="time"], input[type="number"], input[type="search"], input[type="text"] { min-height: 44px; }
+.tool, .nadd, .chk { min-width: 44px; }
+.tool { width: 44px; height: 44px; }
+.chk { width: 44px; height: 44px; border-radius: 12px; }
+.chk.on::after { left: 15px; top: 9px; }
+.bdgb { padding-block: 8px; }
+.nchip.rm, .nchip.sel { min-height: 44px; }
+a.btn { min-height: 44px; }
+summary { display: flex; align-items: center; }
+.tbn { min-width: 20px; height: 20px; font-size: 13px; }
+.tbn.dot { min-width: 10px; height: 10px; }
+
+/* Beschriftungen in Großbuchstaben: bei 13 px etwas enger setzen */
+.tle-k, .tr-k, .kt-l, .pl-kind, .qd-k, .as-k, .ewsum-h, .dc-t, .dc-w { letter-spacing: .04em; }
+small { font-size: 13px; }
+
+/* Stellen, an denen eine genauere Regel weiter oben 40 px oder weniger setzt */
+.btn, a.btn, .tle-a .btn, .hero-a .btn, .gmove, .tstat, .pl-tg, summary, .qnote summary, details.help summary, .nchip, .toast button { min-height: 44px !important; }
+.kt-l { text-transform: none; letter-spacing: .01em; overflow-wrap: anywhere; }
+.g3 > .f > .lbl { display: flex; align-items: flex-end; min-height: 2.8em; line-height: 1.3; }
+
+/* Handy im Querformat: schmalere Reiterleiste, Symbol und Wort nebeneinander */
+@media (orientation: landscape) and (max-height: 500px) {
+  .dock-in { padding: 3px 6px; }
+  .tabbtn { flex-direction: row; gap: 8px; min-height: 44px; padding: 2px 4px; }
+  .tabbtn svg { width: 22px; height: 22px; }
+  .tbn { top: 2px; left: calc(50% + 4px); }
+  .tbn.dot { top: 8px; }
+}
+
+/* Sicherungspunkt zeigt auch am schmalen Handy sein Wort (Gesichert / Sichern) */
+@media (max-width: 419px) { #bkChip span:not(.dot) { display: inline; } #bkChip { padding: 0 12px; } }
+
+/* Gemeinsame Bausteine: Tageslegende, Kurzfassung, Sprung-Chips, Markierung nach Sprung */
+.dlegend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; font-size: 13px; color: var(--muted); }
+.dlegend span { display: inline-flex; align-items: center; gap: 6px; }
+.dlegend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+.kurz { padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); font-size: 15px; line-height: 1.45; }
+.kurz b { font-variant-numeric: tabular-nums; }
+.jumps { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 2px 0; }
+.jumps button { flex: none; min-height: 44px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--fg); font-weight: 600; }
+@keyframes adflash { 0%, 55% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 3px transparent; } }
+.hl-flash { animation: adflash 2.4s ease-out 1; border-radius: 14px; }
+
+/* Foto vom Klingelbrett: Prüf-Fenster und Panel in Mehr */
+.phot { display: flex; flex-direction: column; gap: 10px; }
+.phot-img { display: block; width: 100%; max-height: 190px; object-fit: contain; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); }
+.phrow, .phadd { display: flex; gap: 8px; align-items: center; }
+.phrow .in, .phadd .in { flex: 1; min-width: 0; }
+.phx { flex: none; width: 44px; height: 44px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface); color: var(--fg); font-size: 22px; line-height: 1; }
+#phList { display: flex; flex-direction: column; gap: 8px; }
+.aipanel { display: flex; flex-direction: column; gap: 10px; }
+.aipanel .hint { margin: 0; }
+.aipanel .aistate { margin: 0; font-weight: 600; }
+.aibtns { display: flex; flex-wrap: wrap; gap: 8px; }
 </style>
 <link rel="manifest" href="manifest.json">
 <script>if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
@@ -782,6 +975,7 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
   <!-- ===== Heute ===== -->
   <section class="tabp" id="tp-heute" data-tab="heute" role="tabpanel" aria-labelledby="tb-heute">
     <div id="hero"></div>
+    <section class="panel ktoday" id="ktoday" aria-label="Kundentermine" hidden></section>
     <section class="panel due" id="due" aria-label="Jetzt nochmal" hidden></section>
     <main id="tList"></main>
   </section>
@@ -792,17 +986,16 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
     <div class="ctx" id="ctx"></div>
     <input class="in" type="search" id="q" placeholder="Suchen: Haus, Wohnung, Name" aria-label="Wohnungen suchen" autocomplete="off" enterkeyhint="search">
     <main id="list"></main>
-    <div class="acts end"><button type="button" class="btn quiet" data-act="pdf">PDF für unterwegs</button></div>
   </section>
 
   <!-- ===== Termine ===== -->
   <section class="tabp" id="tp-termine" data-tab="termine" role="tabpanel" aria-labelledby="tb-termine" hidden>
-    <div class="sec-h"><h2>Bulk-Termine</h2><span class="sub" id="trSub" role="status"></span></div>
+    <div class="sec-h"><h2>Termine</h2><span class="sub" id="trSub" role="status"></span></div>
     <div class="acts">
       <button type="button" class="btn k" data-k="bulk" data-act="tnew"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Bulk-Termin</button>
       <button type="button" class="btn" data-bk="load">Wochenplan einlesen</button>
-      <button type="button" class="btn quiet" data-act="pdf">PDF</button>
     </div>
+    <div class="zrow tfilt" id="tFilt" role="group" aria-label="Termine filtern"></div>
     <main id="trList"></main>
   </section>
 
@@ -840,7 +1033,7 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
         <summary>So läuft ein Bulk hier</summary>
         <ol>
           <li><b>Termin anlegen</b> (oder aus dem Wochenplan einlesen): Tag, Uhrzeit, Haus, Techniker.</li>
-          <li><b>Wohnungen anlegen</b> unter „Türen“: „Liste anlegen“ (Etagen × Wohnungen je Etage) oder einzeln. Beim nächsten Bulk im selben Haus sind sie schon da.</li>
+          <li><b>Kunden anlegen</b> unter „Türen“: Name von der Klingel eintippen (die Wohnung ist egal), „Mehrere Namen“ einfügen oder das Klingelbrett fotografieren. Jeder Name ist ein eigener Kunde. Beim nächsten Bulk im selben Haus sind sie schon da.</li>
           <li><b>Tür für Tür:</b> Nicht da (mit oder ohne Flyer), Später (mit „wann wieder“), Angetroffen → Interesse, Termin, Abschluss, Kein Interesse, Schon Kunde. Jede Tür wandert in ihre Spalte. „Später“-Türen stehen auf „Heute“ unter „Jetzt nochmal“, sobald die Zeit da ist.</li>
           <li><b>Zahlen:</b> Türen, Quote, Termine, Abschlüsse pro Tag, Woche, Haus und Techniker. Einwände mit deiner Antwort, Notizen zum Tag.</li>
         </ol>
@@ -856,6 +1049,10 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
     <section class="panel" aria-label="Darstellung">
       <div class="themerow"><div><b>Darstellung</b><p class="hint">Hell, dunkel oder wie das Gerät.</p></div>
         <button type="button" class="btn" id="themeBtn" aria-label="Darstellung wechseln"><span id="themeIco" aria-hidden="true">◐</span><span id="themeTxt">Auto</span></button></div>
+    </section>
+    <section class="panel verbox" aria-label="App-Version">
+      <div class="vrow"><b>App</b><span class="vver" id="appVer"></span></div>
+      <div class="vrow"><span class="vtxt" id="updTxt" role="status">Neue Versionen meldet die App selbst.</span><button type="button" class="btn" id="updChk">Nach Update suchen</button></div>
     </section>
   </section>
 </div>
@@ -875,6 +1072,7 @@ details.help p { font-size: 14px; color: var(--muted); margin-top: 8px; }
 <datalist id="dlTeam"></datalist>
 <datalist id="dlNames"></datalist>
 <datalist id="dlLage"></datalist>
+<datalist id="dlHNames"></datalist>
 
 <div class="toast" id="toast" hidden><span id="toastMsg"></span><button type="button" id="toastUndo">Rückgängig</button><span id="toastActs"></span></div>
 
@@ -1363,7 +1561,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
   /* ---------- Zustand ---------- */
   var state = blank();
-  var ui = { tab: 'heute', bsel: '', lane: {}, badd: false, pick: '', ask: '', edit: '', hist: '', tedit: '', tpast: false, wann: '', showClosed: false, tnew: false, day: '', tagSec: 'tag', tday: '', flashId: '', q: '', hday: '' };
+  var ui = { tab: 'heute', bsel: '', lane: {}, badd: false, pick: '', ask: '', edit: '', hist: '', tedit: '', tpast: false, wann: '', showClosed: false, tnew: false, day: '', tagSec: 'tag', tday: '', flashId: '', q: '', hday: '', hc: false, vw: 'liste', bdoor: '', flashSet: {}, tfilt: 'alle', kact: '' };
   var lastDeleted = null, toastTimer = null;
   function blank() { return { v: 1, mod: 0, bulks: [], doors: [], haeuser: {}, days: {}, cfg: normCfg(null), last: { tech: '', stadt: '', team: '', bres: 'nichtfl' } }; }
   function normCfg(c) {
@@ -1396,11 +1594,34 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     if (!timeOk(h.wzeit)) h.wzeit = '';
     h.fl = h.fl ? 1 : 0;
     h.re = h.re ? 1 : 0;
+    var kd = h.res === 'kunde' ? normKd(h.kd) : null;
+    if (kd) h.kd = kd; else delete h.kd;
     return h;
   }
+  /* Schon Kunde: bei wem, was zahlt er, wann läuft der Vertrag aus */
+  function normKd(k) {
+    if (!k || typeof k !== 'object') return null;
+    var anb = txt(k.anb, 40).replace(/\s+/g, ' ').trim(), pr = '', n = parseFloat(String(k.preis == null ? '' : k.preis).replace(/[€\s]/g, '').replace(',', '.'));
+    if (isFinite(n) && n >= 0 && n < 100000) pr = Math.round(n * 100) / 100;
+    var en = /^\d{4}-(0[1-9]|1[0-2])$/.test(String(k.ende || '')) ? String(k.ende) : '';
+    if (!anb && pr === '' && !en) return null;
+    return { anb: anb, preis: pr, ende: en };
+  }
+  function eurTxt(n) { return (Math.round(n * 100) / 100).toFixed(2).replace('.', ',') + ' €'; }
+  function kdLine(kd) {
+    if (!kd) return '';
+    var p = [];
+    if (kd.anb) p.push(kd.anb);
+    if (kd.preis !== '' && kd.preis != null) p.push(eurTxt(kd.preis));
+    if (/^\d{4}-\d{2}$/.test(kd.ende || '')) p.push('bis ' + kd.ende.slice(5) + '/' + kd.ende.slice(0, 4));
+    return p.join(' · ');
+  }
+  /* Kundentermin an einer Tür: status fehlt in alten Sicherungen → 'geplant'; ergebnis = kurzer Text (Ergebnis oder Absagegrund) */
+  var TSTAT_K = { geplant: 1, erledigt: 1, abgesagt: 1 };
   function normTermin(t) {
-    if (!t || typeof t !== 'object' || !(dayOk(t.date) && timeOk(t.von) || has(t.thema))) return null;
-    return { date: dayOk(t.date) ? t.date : '', von: timeOk(t.von) ? t.von : '', thema: txt(t.thema, 200).trim() };
+    if (!t || typeof t !== 'object' || !(dayOk(t.date) || has(t.thema))) return null;
+    return { date: dayOk(t.date) ? t.date : '', von: timeOk(t.von) ? t.von : '', thema: txt(t.thema, 200).trim(), tel: txt(t.tel, 60).replace(/\s+/g, ' ').trim(),
+      status: TSTAT_K[t.status] ? t.status : 'geplant', ergebnis: txt(t.ergebnis, 200).replace(/\s+/g, ' ').trim() };
   }
   function normDoor(d) {
     if (!d || typeof d !== 'object') d = {};
@@ -1757,6 +1978,538 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       .then(function (pt) { return unutf8(pt); }, function () { return Promise.reject({ code: 'badpw' }); });
   }
 
+  /* ========== Gemeinsames in allen Apps: Version, Update-Hinweis, Speicher, Zurück-Wischen, Reiter merken, Display an ========== */
+  var AD_QUOTA = 5200000;              /* Zeichen, die der Browser pro Adresse ungefähr zulässt (alle Apps zusammen) */
+  var AD_WARN_PCT = 70;
+  var AD_VER = (function () { var m = document.querySelector('meta[name="app-version"]'); return m ? m.getAttribute('content') : ''; })();
+
+  /* ---------- Speicher: voll oder bald voll ---------- */
+  function adStoreChars() {
+    var n = 0;
+    try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); n += k.length + (localStorage.getItem(k) || '').length; } } catch (e) { /* egal */ }
+    return n;
+  }
+  function adStorePct() { return Math.round(adStoreChars() / AD_QUOTA * 100); }
+  var adCheckAt = 0, adFailAt = 0, adFailOn = false;
+  function adStoreBar(text, kind) {
+    var bar = document.getElementById('storeBar');
+    if (!bar) {
+      var wrap = document.querySelector('.wrap'), hd = wrap && wrap.querySelector('.hd');
+      if (!wrap) return;
+      bar = document.createElement('p'); bar.id = 'storeBar'; bar.className = 'sbar'; bar.setAttribute('role', 'status'); bar.hidden = true;
+      if (hd && hd.nextSibling) wrap.insertBefore(bar, hd.nextSibling); else wrap.appendChild(bar);
+    }
+    if (!text) { bar.hidden = true; bar.textContent = ''; return; }
+    bar.textContent = text; bar.setAttribute('data-s', kind || 'warn'); bar.hidden = false;
+  }
+  function adStoreCheck(force) {
+    var now = Date.now();
+    if (!force && now - adCheckAt < 20000) return;
+    adCheckAt = now;
+    if (adFailOn) return;
+    var p = adStorePct();
+    adStoreBar(p >= AD_WARN_PCT ? 'Speicher zu ' + Math.min(p, 100) + ' % voll. Mach eine Sicherung und schließ alte Häuser ab, bevor es eng wird.' : '', 'warn');
+  }
+  /* wird von persistLocal gerufen: ok = Speichern hat geklappt */
+  function adStoreState(ok) {
+    if (ok) { if (adFailOn) { adFailOn = false; adStoreBar('', ''); adStoreCheck(true); } else adStoreCheck(false); return; }
+    adFailOn = true;
+    adStoreBar('Speichern hat nicht geklappt. Der Speicher ist voll oder gesperrt. Mach jetzt eine Sicherung, sonst gehen neue Einträge verloren.', 'err');
+    var now = Date.now();
+    if (now - adFailAt < 15000) return;
+    adFailAt = now;
+    try {
+      showToast('Speichern hat nicht geklappt. Bitte jetzt eine Sicherung machen.', true, typeof startSave === 'function' ? [{ label: 'Sicherung', fn: function () { startSave(); } }] : []);
+    } catch (e) { /* egal */ }
+  }
+
+  /* ---------- Zurück-Wischen schließt den Dialog, nicht die App ---------- */
+  var adBackDepth = 0, adBackSkip = 0, adFromPop = false, adPushWait = false;
+  function adBackPush() {
+    if (adBackSkip > 0) { adPushWait = true; return; }       /* erst nach dem Zurück, das noch läuft */
+    try { history.pushState({ ad: 1 }, ''); adBackDepth++; } catch (e) { /* egal */ }
+  }
+  function adBackPop() {
+    if (adPushWait) { adPushWait = false; return; }
+    if (adBackDepth <= 0) return;
+    adBackDepth--; adBackSkip++;
+    try { history.back(); } catch (e) { adBackSkip--; }
+  }
+  window.addEventListener('popstate', function () {
+    if (adBackSkip > 0) {
+      adBackSkip--;
+      if (adBackSkip === 0 && adPushWait) { adPushWait = false; adBackPush(); }
+      return;
+    }
+    if (adBackDepth <= 0) return;
+    adBackDepth--;
+    if (typeof modalOpen !== 'undefined' && modalOpen) {
+      if (typeof modalBusy !== 'undefined' && modalBusy) { adBackPush(); return; }
+      adFromPop = true; try { closeModal(); } finally { adFromPop = false; }
+    }
+  });
+
+  /* ---------- Letzten Reiter merken (nach Pause oder Anruf geht es dort weiter) ---------- */
+  function adTabKey() { return 'ad-tab-' + LS; }
+  function adTabSave(tab) { if (tab === 'mehr') return; try { localStorage.setItem(adTabKey(), JSON.stringify({ t: tab, at: Date.now() })); } catch (e) { /* egal */ } }
+  function adTabRecall(tabs) {
+    try {
+      var v = JSON.parse(localStorage.getItem(adTabKey()) || 'null');
+      if (v && tabs.indexOf(v.t) >= 0 && v.t !== 'mehr' && Date.now() - v.at < 3 * 3600 * 1000) return v.t;
+    } catch (e) { /* egal */ }
+    return 'heute';
+  }
+
+  /* ---------- Display bleibt beim Eintragen an (nach 10 Minuten ohne Berührung wieder frei) ---------- */
+  var adWl = null, adWlWant = false, adTouchAt = Date.now();
+  function adWake(on) {
+    adWlWant = !!on;
+    if (on) {
+      adTouchAt = Date.now();
+      if (!adWl && !document.hidden && navigator.wakeLock && navigator.wakeLock.request) {
+        try {
+          navigator.wakeLock.request('screen').then(function (l) {
+            adWl = l;
+            l.addEventListener('release', function () { if (adWl === l) adWl = null; });
+            if (!adWlWant) { try { l.release(); } catch (e) { /* egal */ } }
+          }, function () { /* nicht erlaubt: egal */ });
+        } catch (e) { /* egal */ }
+      }
+    } else if (adWl) {
+      var l2 = adWl; adWl = null;
+      try { l2.release(); } catch (e) { /* egal */ }
+    }
+  }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && adWlWant) adWake(true); });
+  ['pointerdown', 'keydown', 'scroll'].forEach(function (ev) {
+    document.addEventListener(ev, function () { adTouchAt = Date.now(); if (adWlWant && !adWl) adWake(true); }, { passive: true, capture: true });
+  });
+  setInterval(function () { if (adWl && Date.now() - adTouchAt > 10 * 60 * 1000) { var l = adWl; adWl = null; try { l.release(); } catch (e) { /* egal */ } } }, 30000);
+
+  /* ---------- Neue Version: Hinweis und Prüfknopf ---------- */
+  var adUpdReady = false;
+  function adUpdateReady() {
+    adUpdReady = true;
+    try { showToast('Neue Version ist da.', true, [{ label: 'Neu laden', fn: function () { location.reload(); } }]); } catch (e) { /* egal */ }
+    var u = document.getElementById('updTxt'); if (u) u.textContent = 'Neue Version ist bereit. Tippe „Neu laden“.';
+  }
+  function adUpdateInit() {
+    var v = document.getElementById('appVer'); if (v) v.textContent = AD_VER ? 'Version ' + AD_VER : '';
+    if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) return;
+    var had = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', function () { if (!had) { had = true; return; } adUpdateReady(); });
+  }
+  function adUpdateCheck() {
+    var u = document.getElementById('updTxt');
+    function say(t) { if (u) u.textContent = t; }
+    if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) { say('Das geht nur in der installierten App.'); return; }
+    say('Ich schaue nach …');
+    navigator.serviceWorker.getRegistration().then(function (r) {
+      if (!r) { say('Das geht nur in der installierten App.'); return; }
+      return r.update().then(function () { setTimeout(function () { if (!adUpdReady) say('Du hast die neueste Version.'); }, 1500); });
+    }).catch(function () { say('Gerade nicht erreichbar. Prüfe das Netz und versuche es nochmal.'); });
+  }
+  document.addEventListener('click', function (e) { var b = e.target && e.target.closest ? e.target.closest('#updChk') : null; if (b) adUpdateCheck(); });
+
+  function adInit() { adUpdateInit(); adStoreCheck(true); }
+
+  /* ---------- Gemeinsame Helfer: Sprung-Chips, Kurzlinks zwischen den Apps, Markierung ---------- */
+  document.addEventListener('click', function (e) {
+    var j = e.target && e.target.closest ? e.target.closest('[data-jump]') : null;
+    if (!j) return;
+    var t = document.getElementById(j.getAttribute('data-jump'));
+    if (t) { try { t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (x) { t.scrollIntoView(); } }
+  });
+  function adFlash(el) {
+    if (!el) return;
+    try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { el.scrollIntoView(); }
+    el.classList.remove('hl-flash'); void el.offsetWidth; el.classList.add('hl-flash');
+    setTimeout(function () { el.classList.remove('hl-flash'); }, 2600);
+  }
+  /* Adresse nach dem # lesen (z. B. #door=ABC&x=1) und danach aus der Adresszeile entfernen */
+  function adTakeHash() {
+    var h = (location.hash || '').replace(/^#/, ''); if (!h) return null;
+    var o = {};
+    h.split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) { try { o[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); } catch (e) { /* egal */ } } });
+    try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* egal */ }
+    return Object.keys(o).length ? o : null;
+  }
+  var adHashFn = null;
+  function adOnHash(fn) { adHashFn = fn; var o = adTakeHash(); if (o) fn(o); }
+  window.addEventListener('hashchange', function () { if (!adHashFn) return; var o = adTakeHash(); if (o) adHashFn(o); });
+  /* Verweis auf eine andere App im selben Ordner (Bulk, Gebiet, Cockpit, Rechner); leer, wenn die App nicht auf einer Webadresse läuft */
+  function adAppUrl(app, hash) {
+    var base = typeof window.AD_TEST_BASE === 'string' ? window.AD_TEST_BASE : '';
+    if (!base) {
+      if (!/^https?:$/.test(location.protocol)) return '';
+      var m = location.pathname.match(/^(.*\/)(?:bulk|gebiet|cockpit|rechner)\/(?:index\.html)?$/);
+      if (!m) return '';
+      base = m[1];
+    }
+    return base + app + '/' + (hash ? '#' + hash : '');
+  }
+  /* Schon-Kunde → Wechselrechner: kd = { anb, preis, ende } */
+  function adRechnerUrl(kd) {
+    if (!kd || !kd.anb || /^telekom$/i.test(kd.anb)) return '';
+    var p = ['anb=' + encodeURIComponent(kd.anb)];
+    if (kd.preis !== '' && kd.preis != null && !isNaN(+String(kd.preis).replace(',', '.'))) p.push('preis=' + encodeURIComponent(String(kd.preis).replace(',', '.')));
+    if (/^\d{4}-\d{2}$/.test(kd.ende || '')) p.push('ende=' + kd.ende);
+    return adAppUrl('rechner', p.join('&'));
+  }
+
+  /* ---------- Andere offene Fenster der Apps auffrischen (z. B. nach „Alles einlesen“ im Cockpit) ---------- */
+  var adBc = null;
+  try {
+    adBc = new BroadcastChannel('ad-sync');
+    adBc.onmessage = function (m) {
+      var d = m && m.data;
+      if (d && d.t === 'reload' && Array.isArray(d.keys) && d.keys.indexOf(LS) >= 0) location.reload();
+    };
+  } catch (e) { adBc = null; }
+  function adBroadcast(keys) { try { if (adBc) adBc.postMessage({ t: 'reload', keys: keys }); } catch (e) { /* egal */ } }
+
+  /* ---------- Karten-Navi und Kalender-Datei für Termine ---------- */
+  function adNaviUrl(addr) {
+    var a = String(addr || '').replace(/\s+/g, ' ').trim();
+    return a ? 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(a) : '';
+  }
+  function adIcsEsc(s) { return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n'); }
+  function adIcsFold(line) {
+    var out = [], s = line;
+    while (s.length > 74) { out.push(s.slice(0, 74)); s = ' ' + s.slice(74); }
+    out.push(s);
+    return out.join('\r\n');
+  }
+  function adIcsText(ev) {
+    ev = ev || {};
+    var d = /^\d{4}-\d{2}-\d{2}$/.test(ev.date || '') ? ev.date.replace(/-/g, '') : '';
+    if (!d) return '';
+    var von = /^\d{1,2}:\d{2}$/.test(ev.von || '') ? ev.von : '', bis = /^\d{1,2}:\d{2}$/.test(ev.bis || '') ? ev.bis : '';
+    function hm(t) { var p = t.split(':'); return ('0' + p[0]).slice(-2) + p[1] + '00'; }
+    var now = new Date(), z = function (n) { return ('0' + n).slice(-2); };
+    var stamp = now.getUTCFullYear() + z(now.getUTCMonth() + 1) + z(now.getUTCDate()) + 'T' + z(now.getUTCHours()) + z(now.getUTCMinutes()) + z(now.getUTCSeconds()) + 'Z';
+    var L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Aussendienst//DE', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
+      'UID:' + d + (von ? hm(von) : '') + '-' + Math.random().toString(36).slice(2, 10) + '@aussendienst', 'DTSTAMP:' + stamp];
+    if (von) {
+      L.push('DTSTART:' + d + 'T' + hm(von));
+      if (bis) L.push('DTEND:' + d + 'T' + hm(bis));
+      else { var p = von.split(':'), m = (+p[0]) * 60 + (+p[1]) + 60; if (m >= 1440) m = 1439; L.push('DTEND:' + d + 'T' + z(Math.floor(m / 60)) + z(m % 60) + '00'); }
+    } else {
+      var dt = new Date(+d.slice(0, 4), +d.slice(4, 6) - 1, +d.slice(6, 8) + 1);
+      L.push('DTSTART;VALUE=DATE:' + d, 'DTEND;VALUE=DATE:' + dt.getFullYear() + z(dt.getMonth() + 1) + z(dt.getDate()));
+    }
+    L.push('SUMMARY:' + adIcsEsc(ev.titel || 'Termin'));
+    if (ev.ort) L.push('LOCATION:' + adIcsEsc(ev.ort));
+    if (ev.notiz) L.push('DESCRIPTION:' + adIcsEsc(ev.notiz));
+    if (von) L.push('BEGIN:VALARM', 'TRIGGER:-PT30M', 'ACTION:DISPLAY', 'DESCRIPTION:' + adIcsEsc(ev.titel || 'Termin'), 'END:VALARM');
+    L.push('END:VEVENT', 'END:VCALENDAR');
+    return L.map(adIcsFold).join('\r\n') + '\r\n';
+  }
+  /* Teilen-Fenster des Handys (dort „Kalender“ wählen), sonst normaler Download */
+  function adIcsDownload(ev, opt) {
+    var txt = adIcsText(ev);
+    if (!txt) { try { showToast('Für den Kalender fehlt das Datum.', true); } catch (e) { /* egal */ } return; }
+    var name = 'Termin-' + ev.date + (ev.von ? '-' + ev.von.replace(':', '') : '') + '.ics';
+    var blob = new Blob([txt], { type: 'text/calendar' });
+    try {
+      var f = typeof File === 'function' ? new File([blob], name, { type: 'text/calendar' }) : null;
+      if (!(opt && opt.forceDownload) && f && navigator.canShare && navigator.canShare({ files: [f] }) && navigator.share) {
+        navigator.share({ files: [f], title: ev.titel || 'Termin' }).catch(function (e) { if (!e || e.name !== 'AbortError') adIcsSave(blob, name); });
+        return;
+      }
+    } catch (e) { /* weiter mit Download */ }
+    adIcsSave(blob, name);
+  }
+  function adIcsSave(blob, name) {
+    var u = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = u; a.download = name; a.style.display = 'none'; document.body.appendChild(a); a.click();
+    setTimeout(function () { try { document.body.removeChild(a); URL.revokeObjectURL(u); } catch (e) { /* egal */ } }, 1500);
+  }
+
+  /* ---------- Foto vom Klingelbrett: Namen lesen (KI mit eigenem Schlüssel oder Texterkennung auf dem Handy) ---------- */
+  var AD_PH_LS = 'ad-photo-last';                    /* nur wann zuletzt ein Foto gemacht wurde (kein Bild), nie in Sicherungen */
+  function adPhRead() { try { var v = JSON.parse(localStorage.getItem(AD_PH_LS) || 'null'); return v && +v.t > 0 ? { t: +v.t, nag: +v.nag || 0 } : null; } catch (e) { return null; } }
+  function adPhWrite(o) { try { if (o) localStorage.setItem(AD_PH_LS, JSON.stringify(o)); else localStorage.removeItem(AD_PH_LS); } catch (e) { /* egal */ } }
+  function adPhStamp() { adPhWrite({ t: Date.now(), nag: 0 }); adPhPanel(); }
+  function adPhAgeDays(t) { return Math.floor((Date.now() - t) / 86400000); }
+  function adPhText(t) {
+    var d = adPhAgeDays(t);
+    return d >= 2 ? 'Das letzte Klingelbrett-Foto war vor ' + d + ' Tagen. Lösch es in deiner Galerie, die App kann das nicht selbst.' : 'Letztes Klingelbrett-Foto: ' + (d === 0 ? 'heute' : 'gestern') + '. Lösch es in den nächsten Tagen aus deiner Galerie (die App speichert es nicht, das Handy evtl. schon).';
+  }
+  /* Alle 2 Tage ein Hinweis, bis die Fotos als gelöscht bestätigt sind */
+  function adPhRemind() {
+    var o = adPhRead();
+    if (!o || adPhAgeDays(o.t) < 2 || Date.now() - o.nag < 12 * 3600 * 1000 || typeof showToast !== 'function') return;
+    adPhWrite({ t: o.t, nag: Date.now() });
+    showToast(adPhText(o.t), true, [{ label: 'Gelöscht', fn: function () { adPhWrite(null); adPhPanel(); } }, { label: 'Später', fn: function () { /* nag steht schon */ } }]);
+  }
+  function adPhPanel() {
+    var el = document.getElementById('aiClean'); if (!el) return;
+    var o = adPhRead();
+    el.hidden = !o;
+    if (o) { var t = el.querySelector('.aiCleanT'); if (t) t.textContent = adPhText(o.t); }
+  }
+  var AD_AI_LS = 'ad-ai-v1';                         /* nur dieses Gerät, nie in Sicherungen */
+  var AD_AI_MODEL = 'claude-sonnet-5-5';
+  var AD_AI_URL = 'https://api.anthropic.com/v1/messages';
+  var AD_TESS_JS = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+  var AD_TESS_LANG = 'https://cdn.jsdelivr.net/npm/@tesseract.js-data/deu/4.0.0_best_int';
+  var AD_AI_PROMPT = 'Das Foto zeigt ein Klingelbrett oder Klingelschilder an einem Haus. Lies jeden Namen, der auf einem Schild steht. '
+    + 'Reihenfolge: von oben nach unten, bei mehreren Spalten zuerst links, dann rechts. '
+    + 'Schreib die Namen so, wie sie dort stehen, aber normale Groß-/Kleinschreibung (MÜLLER wird Müller). '
+    + 'Stehen mehrere Namen auf einem Schild, gib sie als einen Eintrag mit " / " dazwischen. Firmen- und Praxisschilder nimm mit. '
+    + 'Lass Hausnummern, Stockwerke, Knöpfe ohne Namen und alles Unleserliche weg. Rate nicht: was du nicht sicher lesen kannst, lass weg. '
+    + 'Antworte nur mit JSON ohne weiteren Text: {"namen": ["…", "…"]}';
+  function adAiGet() { try { var v = JSON.parse(localStorage.getItem(AD_AI_LS) || 'null'); return v && typeof v.key === 'string' ? v.key : ''; } catch (e) { return ''; } }
+  function adAiSet(k) {
+    try { if (k) localStorage.setItem(AD_AI_LS, JSON.stringify({ key: k })); else localStorage.removeItem(AD_AI_LS); return true; } catch (e) { return false; }
+  }
+  function adPEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function adPNs(s) { var t = String(s || '').toLowerCase().replace(/ß/g, 'ss'); if (t.normalize) t = t.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); return t.replace(/[^a-z0-9]+/g, ' ').trim(); }
+  function adNameClean(s) { return String(s || '').replace(/\s+/g, ' ').replace(/^[\s"'„“”•·\-–—.,;:|]+|[\s"'„“”•·\-–—.,;:|]+$/g, '').slice(0, 60); }
+
+  /* Foto verkleinern (längste Seite max px), Ergebnis: JPEG-Blob */
+  function adImgScale(file, max, q, type) {
+    return new Promise(function (res, rej) {
+      function fromSrc(src, w, h, done) {
+        var s = Math.min(1, max / Math.max(w, h)), cw = Math.max(1, Math.round(w * s)), ch = Math.max(1, Math.round(h * s));
+        var c = document.createElement('canvas'); c.width = cw; c.height = ch;
+        var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cw, ch); x.drawImage(src, 0, 0, cw, ch);
+        c.toBlob(function (b) { if (done) done(); if (b) res(b); else rej(new Error('blob')); }, type || 'image/jpeg', q || 0.85);
+      }
+      if (window.createImageBitmap) {
+        createImageBitmap(file, { imageOrientation: 'from-image' }).then(function (bm) { fromSrc(bm, bm.width, bm.height, function () { try { bm.close(); } catch (e) { /* egal */ } }); }, function () { viaImg(); });
+      } else viaImg();
+      function viaImg() {
+        var u = URL.createObjectURL(file), im = new Image();
+        im.onload = function () { fromSrc(im, im.naturalWidth, im.naturalHeight, function () { URL.revokeObjectURL(u); }); };
+        im.onerror = function () { URL.revokeObjectURL(u); rej(new Error('img')); };
+        im.src = u;
+      }
+    });
+  }
+  function adBlobB64(blob) {
+    return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1] || ''); }; r.onerror = function () { rej(r.error); }; r.readAsDataURL(blob); });
+  }
+  function adAiErr(status) {
+    if (status === 401 || status === 403) return 'Der Schlüssel stimmt nicht oder darf das nicht.';
+    if (status === 429) return 'Gerade zu viele Anfragen. Warte kurz und versuch es nochmal.';
+    if (status === 402 || status === 400) return 'Die KI hat die Anfrage abgelehnt (Guthaben leer oder Foto unlesbar?).';
+    if (status >= 500) return 'Die KI ist gerade nicht erreichbar. Versuch es später nochmal.';
+    return 'Die KI hat nicht geantwortet.';
+  }
+  function adAiCall(key, content, maxTok, sig) {
+    return fetch(AD_AI_URL, {
+      method: 'POST', signal: sig,
+      headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: AD_AI_MODEL, max_tokens: maxTok, messages: [{ role: 'user', content: content }] })
+    }).then(function (r) {
+      if (!r.ok) { var e = new Error('http'); e.status = r.status; e.msg = adAiErr(r.status); throw e; }
+      return r.json();
+    }, function (e) { if (e && e.name === 'AbortError') throw e; var x = new Error('net'); x.msg = 'Kein Internet. Versuch es nochmal oder lies mit der Texterkennung.'; throw x; });
+  }
+  function adAiParseNames(txt) {
+    var m = /\{[\s\S]*\}/.exec(String(txt || '')), arr = [];
+    if (m) { try { var o = JSON.parse(m[0]); if (o && Array.isArray(o.namen)) arr = o.namen; } catch (e) { arr = []; } }
+    return adNamesTidy(arr);
+  }
+  function adNamesTidy(arr) {
+    var seen = {}, out = [];
+    (arr || []).forEach(function (n) {
+      var c = adNameClean(typeof n === 'string' ? n : ''), k = adPNs(c);
+      if (!c || !k || seen[k] || out.length >= 80) return;
+      seen[k] = 1; out.push(c);
+    });
+    return out;
+  }
+  function adAiRead(blob, sig) {
+    var key = adAiGet();
+    return adBlobB64(blob).then(function (b64) {
+      return adAiCall(key, [{ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b64 } }, { type: 'text', text: AD_AI_PROMPT }], 1000, sig);
+    }).then(function (j) {
+      var t = '';
+      (j && j.content || []).forEach(function (c) { if (c && c.type === 'text') t += c.text; });
+      return adAiParseNames(t);
+    });
+  }
+
+  /* Texterkennung auf dem Handy: Tesseract wird erst beim ersten Mal nachgeladen */
+  var adTessP = null;
+  function adTessLoad() {
+    if (window.Tesseract) return Promise.resolve(window.Tesseract);
+    if (adTessP) return adTessP;
+    adTessP = new Promise(function (res, rej) {
+      var s = document.createElement('script');
+      s.src = typeof window.AD_TEST_TESS === 'string' ? window.AD_TEST_TESS : AD_TESS_JS;
+      s.onload = function () { window.Tesseract ? res(window.Tesseract) : rej(new Error('tess')); };
+      s.onerror = function () { adTessP = null; rej(new Error('tessload')); };
+      document.head.appendChild(s);
+    });
+    return adTessP;
+  }
+  function adOcrNames(text) {
+    var out = [];
+    String(text || '').split(/\r?\n/).forEach(function (ln) {
+      var s = ln.replace(/[^A-Za-zÄÖÜäöüßÀ-ÿ&\.\-'’ \/]/g, ' ').replace(/\s+/g, ' ').trim();
+      var letters = (s.match(/[A-Za-zÄÖÜäöüßÀ-ÿ]/g) || []).length;
+      if (letters < 3 || letters < s.replace(/\s/g, '').length * 0.7) return;
+      if (/^(klingel|bitte|hausmeister|postfach|briefkasten|tel|telefon|bell|ring)\b/i.test(s)) return;
+      s = s.replace(/\b[A-ZÄÖÜ]{3,}\b/g, function (w) { return w.charAt(0) + w.slice(1).toLowerCase(); });
+      out.push(s);
+    });
+    return adNamesTidy(out);
+  }
+  function adOcrRead(blob, onProg) {
+    return adTessLoad().then(function (T) {
+      var opt = { logger: function (m) { if (onProg && m && typeof m.progress === 'number') onProg(m.status || '', m.progress); } };
+      var lp = typeof window.AD_TEST_TESSLANG === 'string' ? window.AD_TEST_TESSLANG : AD_TESS_LANG;
+      if (typeof window.AD_TEST_TESSWORKER === 'string') { opt.workerPath = window.AD_TEST_TESSWORKER; }
+      if (typeof window.AD_TEST_TESSCORE === 'string') { opt.corePath = window.AD_TEST_TESSCORE; }
+      opt.langPath = lp;
+      return T.createWorker('deu', 1, opt).then(function (w) {
+        return w.setParameters({ tessedit_pageseg_mode: '11' }).then(function () { return w.recognize(blob); }).then(function (r) {
+          return w.terminate().then(function () { return adOcrNames(r && r.data && r.data.text); }, function () { return adOcrNames(r && r.data && r.data.text); });
+        }, function (e) { try { w.terminate(); } catch (x) { /* egal */ } throw e; });
+      });
+    });
+  }
+
+  /* Ablauf: Foto → lesen → Liste zum Prüfen → „Alle anlegen“ → opts.onDone(namen) */
+  var adPhotoRunId = 0, adPhotoUrl = '';
+  function adPhotoNames(o) {
+    o = o || {};
+    var inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = 'image/*'; if (!o.gallery) inp.setAttribute('capture', 'environment');
+    inp.style.display = 'none'; document.body.appendChild(inp);
+    inp.addEventListener('change', function () {
+      var f = inp.files && inp.files[0];
+      try { document.body.removeChild(inp); } catch (e) { /* egal */ }
+      if (f) adPhotoRun(f, o);
+    });
+    inp.click();
+  }
+  function adPhotoRun(file, o) {
+    var id = ++adPhotoRunId, ctrl = typeof AbortController === 'function' ? new AbortController() : null, useKi = !!adAiGet(), forced = o.engine;
+    adPhStamp();
+    if (forced === 'local') useKi = false;
+    if (adPhotoUrl) { try { URL.revokeObjectURL(adPhotoUrl); } catch (e) { /* egal */ } adPhotoUrl = ''; }
+    function live() { return id === adPhotoRunId && (typeof modalOpen === 'undefined' || modalOpen); }
+    function cancel() { adPhotoRunId++; if (ctrl) { try { ctrl.abort(); } catch (e) { /* egal */ } } closeModal(); }
+    openModal({ title: o.title || 'Klingelbrett lesen', html: '<p class="mtxt" id="phWait" role="status">Foto wird vorbereitet …</p>', buttons: [{ label: 'Abbrechen', fn: cancel }] });
+    var info = function (t) { var w = document.getElementById('phWait'); if (w) w.textContent = t; };
+    adImgScale(file, useKi ? 1568 : 2000, 0.85, useKi ? 'image/jpeg' : 'image/png').then(function (blob) {
+      if (!live()) return;
+      adPhotoUrl = URL.createObjectURL(blob);
+      if (useKi) {
+        info('Die KI liest das Foto … (das Foto geht dafür an Anthropic)');
+        return adAiRead(blob, ctrl ? ctrl.signal : undefined).then(function (names) { if (live()) adPhotoReview(names, o, 'ki', blob); }, function (e) {
+          if (!live() || (e && e.name === 'AbortError')) return;
+          adPhotoFail((e && e.msg) || 'Das Lesen hat nicht geklappt.', o, blob, true);
+        });
+      }
+      info('Texterkennung auf dem Handy … ' + (window.Tesseract ? '' : '(beim ersten Mal lädt sie einmalig nach)'));
+      return adOcrRead(blob, function (st, p) { if (live()) info('Texterkennung auf dem Handy … ' + Math.round(p * 100) + ' %'); }).then(function (names) { if (live()) adPhotoReview(names, o, 'local', blob); }, function () {
+        if (live()) adPhotoFail('Die Texterkennung konnte nicht geladen werden. Beim ersten Mal braucht sie Internet.', o, blob, false);
+      });
+    }, function () { if (live()) adPhotoFail('Das Foto konnte nicht geöffnet werden.', o, null, false); });
+  }
+  function adPhotoFail(msg, o, blob, canLocal) {
+    var btns = [];
+    if (blob && canLocal) btns.push({ label: 'Mit Texterkennung lesen', primary: true, fn: function () { adPhotoRun(new File([blob], 'k.jpg', { type: 'image/jpeg' }), { title: o.title, existing: o.existing, onDone: o.onDone, engine: 'local' }); } });
+    btns.push({ label: 'Namen selbst eintippen', primary: !(blob && canLocal), fn: function () { adPhotoReview([], o, 'hand', blob); } });
+    btns.push({ label: 'Abbrechen', fn: function () { adPhotoRunId++; closeModal(); } });
+    openModal({ title: o.title || 'Klingelbrett lesen', html: '<p class="mtxt">' + adPEsc(msg) + '</p>', buttons: btns });
+  }
+  function adPhotoReview(names, o, how, blob) {
+    var ex = {}; (o.existing || []).forEach(function (n) { ex[adPNs(n)] = 1; });
+    var fresh = [], dup = [];
+    names.forEach(function (n) { (ex[adPNs(n)] ? dup : fresh).push(n); });
+    var rows = fresh.slice();
+    var how1 = how === 'ki' ? 'Von der KI gelesen. Bitte kurz prüfen. Das Foto ging dafür an Anthropic (ohne Standort-Daten), die App speichert es nirgends.' : how === 'local' ? 'Mit Texterkennung gelesen. Das Foto hat dein Handy nicht verlassen. Die Erkennung liest Klingelschilder oft falsch, bitte prüfen und korrigieren.' : 'Namen selbst eintippen.';
+    var img = adPhotoUrl && blob ? '<img class="phot-img" alt="Dein Foto" src="' + adPhotoUrl + '">' : '';
+    function listHtml() {
+      return rows.map(function (n, i) {
+        return '<div class="phrow"><input class="in" type="text" value="' + adPEsc(n) + '" data-phi="' + i + '" aria-label="Name ' + (i + 1) + '" autocomplete="off" autocapitalize="words"><button type="button" class="phx" data-phx="' + i + '" aria-label="' + adPEsc(n) + ' entfernen">×</button></div>';
+      }).join('') || '<p class="hint" id="phNone">' + (how === 'hand' ? 'Noch kein Name.' : 'Nichts gelesen. Tipp Namen selbst ein oder fotografier näher dran.') + '</p>';
+    }
+    function count() { return rows.filter(function (n) { return adNameClean(n); }).length; }
+    function setBtn() { var b = document.querySelector('#mBtns button'); if (b) { var c = count(); b.textContent = c ? 'Alle anlegen (' + c + ')' : 'Alle anlegen'; b.disabled = !c; } }
+    function draw() { var l = document.getElementById('phList'); if (l) l.innerHTML = listHtml(); setBtn(); }
+    function readRows() { var ins = document.querySelectorAll('#phList input[data-phi]'); rows = []; for (var i = 0; i < ins.length; i++) rows.push(ins[i].value); }
+    var html = '<div class="phot">' + img + '<p class="mtxt" id="phInfo">' + adPEsc(how1) + '</p>'
+      + (dup.length ? '<p class="hint">Schon da, nicht doppelt: ' + adPEsc(dup.join(', ')) + '</p>' : '')
+      + '<div id="phList">' + listHtml() + '</div>'
+      + '<div class="phadd"><input class="in" type="text" id="phNew" placeholder="Name ergänzen" autocomplete="off" autocapitalize="words" enterkeyhint="done"><button type="button" class="btn" id="phAdd">Dazu</button></div></div>';
+    openModal({
+      title: o.title || 'Klingelbrett lesen', html: html, buttons: [
+        { label: 'Alle anlegen', primary: true, fn: function () {
+          readRows();
+          var seen = {}, out = [];
+          rows.forEach(function (n) { var c = adNameClean(n), k = adPNs(c); if (c && k && !seen[k]) { seen[k] = 1; out.push(c); } });
+          if (!out.length) return;
+          adPhotoRunId++; if (adPhotoUrl) { try { URL.revokeObjectURL(adPhotoUrl); } catch (e) { /* egal */ } adPhotoUrl = ''; }
+          closeModal();
+          if (typeof o.onDone === 'function') o.onDone(out);
+        } },
+        { label: 'Noch ein Foto', fn: function () { closeModal(); setTimeout(function () { adPhotoNames(o); }, 60); } },
+        { label: 'Abbrechen', fn: function () { adPhotoRunId++; if (adPhotoUrl) { try { URL.revokeObjectURL(adPhotoUrl); } catch (e) { /* egal */ } adPhotoUrl = ''; } closeModal(); } }
+      ]
+    });
+    setBtn();
+    var box = document.querySelector('#mBody .phot');
+    if (!box) return;
+    box.addEventListener('click', function (e) {
+      var x = e.target.closest ? e.target.closest('[data-phx]') : null;
+      if (x) { readRows(); rows.splice(+x.getAttribute('data-phx'), 1); draw(); return; }
+      if (e.target && e.target.id === 'phAdd') addNew();
+    });
+    box.addEventListener('input', function (e) { if (e.target && e.target.getAttribute && e.target.getAttribute('data-phi') != null) { readRows(); setBtn(); } });
+    box.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target && e.target.id === 'phNew') { e.preventDefault(); addNew(); } });
+    function addNew() {
+      var f = document.getElementById('phNew'), v = adNameClean(f.value);
+      if (!v) return;
+      readRows(); rows.push(v); draw(); f.value = ''; try { f.focus(); } catch (e) { /* egal */ }
+    }
+  }
+
+  /* Panel „Foto-Lesen“ im Reiter Mehr: Schlüssel für die KI (bleibt auf diesem Gerät) */
+  function adPhotoMount() {
+    var host = document.getElementById('tp-mehr');
+    if (!host || document.getElementById('aiPanel')) return;
+    var sec = document.createElement('section'); sec.className = 'panel aipanel'; sec.id = 'aiPanel'; sec.setAttribute('aria-label', 'Foto-Lesen');
+    sec.innerHTML = '<div class="panel-h"><h3>Foto-Lesen</h3></div>'
+      + '<p class="hint">Klingelbrett fotografieren, die Namen werden gelesen. Ohne Schlüssel liest die Texterkennung auf dem Handy: das Foto bleibt auf dem Gerät, liest aber nicht immer richtig. Mit Schlüssel liest die KI von Anthropic: besser, aber das Foto wird dafür ins Internet geschickt (ohne Standort-Daten) und dort nach Anthropics Standardregeln bis zu 30 Tage gespeichert, nicht fürs Training. In der App und in Sicherungen wird das Foto nie gespeichert, der Schlüssel bleibt nur auf diesem Handy. In deiner Galerie liegt das Foto je nach Handy noch: lösch es dort alle paar Tage.</p>'
+      + '<p class="hint" id="aiClean" hidden><span class="aiCleanT"></span> <button type="button" class="btn" id="aiCleanOk">Fotos sind gelöscht</button></p>'
+      + '<p class="aistate" id="aiState" role="status"></p>'
+      + '<label class="lbl" for="aiKey">Schlüssel der KI (sk-ant-…)</label>'
+      + '<input class="in" id="aiKey" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="optional">'
+      + '<div class="aibtns"><button type="button" class="btn" id="aiSave">Speichern</button><button type="button" class="btn" id="aiTest">Prüfen</button><button type="button" class="btn" id="aiDel">Löschen</button></div>';
+    var box = host.querySelector('.verbox');
+    if (box && box.parentNode) box.parentNode.insertBefore(sec, box); else host.appendChild(sec);
+    function state(msg) {
+      var k = adAiGet();
+      document.getElementById('aiState').textContent = msg || (k ? 'Aktiv: KI (Schlüssel endet auf …' + k.slice(-4) + ').' : 'Aktiv: Texterkennung auf dem Handy.');
+      document.getElementById('aiDel').hidden = !k; document.getElementById('aiTest').hidden = !k;
+    }
+    state();
+    document.getElementById('aiSave').addEventListener('click', function () {
+      var f = document.getElementById('aiKey'), v = f.value.replace(/\s+/g, '');
+      if (!v) { state('Trag zuerst den Schlüssel ein.'); return; }
+      if (!/^sk-ant-/.test(v)) { state('Das sieht nicht wie ein Schlüssel von Anthropic aus (sk-ant-…).'); return; }
+      if (!adAiSet(v)) { state('Speichern hat nicht geklappt.'); return; }
+      f.value = ''; state();
+    });
+    document.getElementById('aiCleanOk').addEventListener('click', function () { adPhWrite(null); adPhPanel(); });
+    adPhPanel(); adPhRemind();
+    document.getElementById('aiDel').addEventListener('click', function () { adAiSet(''); document.getElementById('aiKey').value = ''; state(); });
+    document.getElementById('aiTest').addEventListener('click', function () {
+      var k = adAiGet(); if (!k) return;
+      state('Ich prüfe …');
+      adAiCall(k, 'Antworte nur mit: ok', 8).then(function () { state('Der Schlüssel funktioniert.'); }, function (e) { state((e && e.msg) || 'Prüfen hat nicht geklappt.'); });
+    });
+  }
+  if (window.AD_TEST_EXPOSE) window.__ad = { adPhotoNames: adPhotoNames, adPhotoRun: adPhotoRun, adPhotoMount: adPhotoMount, adNaviUrl: adNaviUrl, adIcsText: adIcsText, adIcsDownload: adIcsDownload, adAiParseNames: adAiParseNames, adOcrNames: adOcrNames, adAiGet: adAiGet, adAiSet: adAiSet };
+
   /* ========== Grundbausteine der Oberfläche ========== */
   function qsa(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
   function grow(el) { el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; }
@@ -1796,7 +2549,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   function lastMiss(d) { for (var i = d.hist.length - 1; i >= 0; i--) { if (ATT[d.hist[i].res]) return d.hist[i]; } return null; }
   function lastEntry(d) { return d.hist.length ? d.hist[d.hist.length - 1] : null; }
   function shortOf(d) { return [has(d.haus) ? d.haus : '', has(d.lage) ? d.lage : (has(d.name) ? d.name : '')].filter(Boolean).join(' · ') || 'Wohnung'; }
-  function doorTitle(d) { return has(d.lage) ? d.lage : (has(d.name) ? d.name : (d.names.length ? d.names.join(', ') : 'Wohnung ?')); }
+  function doorTitle(d) { return has(d.lage) ? d.lage : (has(d.name) ? d.name : (d.names.length ? d.names.join(', ') : 'Ohne Namen')); }
   function visitHist(res, extra) {
     var h = { vid: 'm' + uid(), day: todayKey(), zeit: nowTime(), res: res, fl: 0, nm: '', nz: '', wann: '', wday: '', wzeit: '', einw: '', re: 0 };
     if (extra) Object.keys(extra).forEach(function (k) { h[k] = extra[k]; });
@@ -1818,6 +2571,48 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     var x = lageKey(a.lage), y = lageKey(b.lage);
     return (x.fl - y.fl) || (x.side - y.side) || (x.n - y.n) || String(a.lage).localeCompare(String(b.lage), 'de', { numeric: true }) || String(a.name).localeCompare(String(b.name), 'de');
   }
+
+  /* Bulk-Termin: Ort vorbelegen (zuletzt benutzt, sonst der jüngste Bulk, sonst nichts), und zu einem bekannten Haus der Ort, der dort schon stand */
+  function stadtOfHouse(haus) {
+    var k = hk(haus), best = null;
+    if (!k) return '';
+    state.bulks.forEach(function (t) { if (hk(t.ort) === k && has(t.stadt) && (!best || t.date > best.date)) best = t; });
+    return best ? best.stadt : '';
+  }
+  function defaultStadt() {
+    if (has(state.last.stadt)) return state.last.stadt;
+    var best = null;
+    state.bulks.forEach(function (t) { if (has(t.stadt) && (!best || t.date > best.date)) best = t; });
+    return best ? best.stadt : '';
+  }
+  /* Monat in n Monaten als 'YYYY-MM' (für Vertragsende) */
+  function addMonthsKey(n) { var d = new Date(); d = new Date(d.getFullYear(), d.getMonth() + n, 1); return d.getFullYear() + '-' + pad(d.getMonth() + 1); }
+  /* Welche Tür eines Hauses ist für einen Wiederbesuch dran? Jetzt fälliges Später, dann später heute, dann Später, dann Nicht da, dann nur geflyert. Nie besuchte Türen zählen nicht. */
+  function revisitTarget(items) {
+    var t = todayKey(), nm = nowMin(), best = null, bk = 99;
+    items.slice().sort(cmpDoor).forEach(function (d) {
+      if (d.status !== 'open') return;
+      var lm = lastMiss(d); if (!lm) return;
+      var a = wannAt(lm), k;
+      if (lm.res === 'spaeter') k = a && a.day === t ? (a.m <= nm ? 0 : 1) : 2;
+      else k = lm.res === 'nicht' ? 3 : 4;
+      if (k < bk) { bk = k; best = d; }
+    });
+    return best;
+  }
+
+  /* ---------- Kundentermine (door.termin: date, von, thema, tel, status geplant|erledigt|abgesagt, ergebnis) ---------- */
+  function terminMin(t) { var m = tmin(t.von); return m < 0 ? 9999 : m; }
+  function cmpK(a, b) { return (a.termin.date < b.termin.date ? -1 : a.termin.date > b.termin.date ? 1 : 0) || (terminMin(a.termin) - terminMin(b.termin)) || String(a.name).localeCompare(String(b.name), 'de'); }
+  function kTermine() { return state.doors.filter(function (d) { return d.termin && dayOk(d.termin.date) && d.status !== 'drop'; }).sort(cmpK); }
+  function terminOpen(d) { return !!(d.termin && dayOk(d.termin.date) && d.termin.status === 'geplant' && d.status !== 'drop'); }
+  function terminOverdue(d, today, nm) {
+    if (!terminOpen(d)) return false;
+    var t = d.termin, a = tmin(t.von);
+    return t.date < today || (t.date === today && a >= 0 && a < nm);
+  }
+  function terminsOpenUntil(day) { return kTermine().filter(function (d) { return terminOpen(d) && d.termin.date <= day; }); }
+  function doorAddress(d) { return [has(d.haus) ? d.haus : '', stadtOfHouse(d.haus)].filter(Boolean).join(', '); }
 
   /* ---------- Spalten nach Stand ---------- */
   var LANES = {
@@ -1991,16 +2786,43 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   }
 
   /* ---------- Eine Wohnung anlegen (ohne Besuch) ---------- */
-  function addDoor(g, lage, name) {
+  /* Jeder Name ist ein eigener Kunde, das Stockwerk ist egal. „Trotzdem neu anlegen“ umgeht die Dublettenprüfung (force). */
+  function cleanName(n) { return String(n == null ? '' : n).replace(/\s+/g, ' ').trim().slice(0, 80); }
+  function nameList(s) { return String(s || '').split(/[\n,;]+/).map(cleanName).filter(Boolean); }
+  function nameHas(d, name) { var k = ns(name); return !!k && (ns(d.name) === k || d.names.some(function (n) { return ns(n) === k; })); }
+  function doorsByName(haus, name) { return doorsOfHouse(haus).filter(function (d) { return nameHas(d, name); }); }
+  function addDoor(g, lage, name, force) {
     lage = String(lage || '').replace(/\s+/g, ' ').trim(); name = String(name || '').replace(/\s+/g, ' ').trim();
     if (!lage && !name) return null;
     var haus = g.t ? g.t.ort : g.label;
-    var dup = doorsOfHouse(haus).some(function (d) { return (lage && ns(d.lage) === ns(lage)) || (!lage && name && !has(d.lage) && ns(d.name) === ns(name)); });
+    var dup = !force && doorsOfHouse(haus).some(function (d) { return (lage && ns(d.lage) === ns(lage)) || (!lage && name && nameHas(d, name)); });
     if (dup) return { dup: true };
     var d = normDoor({ haus: haus, lage: lage, name: name, created: Date.now(), hist: [] });
     state.doors.push(d);
     recompute(d);
     return { item: d };
+  }
+  /* Mehrere Kunden auf einmal (Mehrere Namen, Foto vom Klingelbrett): ein Name = eine Tür ohne Stockwerk.
+     Namen, die es im Haus schon gibt, werden übersprungen. Ein snap() für alles, ein Hinweis, neue Karten leuchten kurz. */
+  function addDoorsByNames(g, names) {
+    var list = (Array.isArray(names) ? names : nameList(names)).map(cleanName).filter(Boolean).slice(0, 150), res = { added: [], skipped: [] };
+    if (!g || !list.length) return res;
+    var haus = g.t ? g.t.ort : g.label, have = {};
+    doorsOfHouse(haus).forEach(function (d) { if (has(d.name)) have[ns(d.name)] = 1; d.names.forEach(function (n) { have[ns(n)] = 1; }); });
+    snap();
+    list.forEach(function (n) {
+      if (have[ns(n)]) { res.skipped.push(n); return; }
+      var r = addDoor(g, '', n, true);
+      if (r && r.item) res.added.push(r.item);
+    });
+    if (!res.added.length) { lastDeleted = null; showToast(list.length === 1 ? 'Den Namen gibt es schon im Haus.' : 'Die Namen gibt es alle schon im Haus.', true); return res; }
+    ui.flashSet = {}; res.added.forEach(function (d) { ui.flashSet[d.id] = 1; });
+    ui.flashId = ''; ui.bsel = g.key; ui.lane[g.key + '|neu'] = true;
+    markDirty(); renderAll();
+    var el = document.querySelector('#list [data-id="' + res.added[0].id + '"], #list [data-did="' + res.added[0].id + '"]');
+    if (el) show(el, 'nearest');
+    showToast(plural(res.added.length, 'Kunde', 'Kunden') + ' angelegt' + (res.skipped.length ? ', ' + res.skipped.length + ' gab es schon' : '') + '.');
+    return res;
   }
   var SIDES = { 1: [''], 2: ['links', 'rechts'], 3: ['links', 'Mitte', 'rechts'], 4: ['links', 'Mitte links', 'Mitte rechts', 'rechts'] };
   function genNames(o) {
@@ -2034,10 +2856,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   /* ---------- Reiter ---------- */
   var TABS = ['heute', 'eintragen', 'termine', 'zahlen', 'mehr'];
   function renderBadges() {
-    var t = todayKey(), tt = bulksOn(t).filter(function (x) { return !tdone(x); }).length, due = dueLater(t, nowMin()).filter(function (x) { return x.due; }).length;
+    var t = todayKey(), tt = bulksOn(t).filter(function (x) { return !tdone(x); }).length + terminsOpenUntil(t).length, due = dueLater(t, nowMin()).filter(function (x) { return x.due; }).length;
     function badge(id, v, label) { var b = $(id); if (!b) return; b.hidden = !v; b.textContent = v ? String(v) : ''; if (v) b.setAttribute('aria-label', plural(v, label[0], label[1])); else b.removeAttribute('aria-label'); }
     badge('tbnHeute', due, ['Tür jetzt nochmal', 'Türen jetzt nochmal']);
-    badge('tbnTermine', tt, ['Bulk heute', 'Bulks heute']);
+    badge('tbnTermine', tt, ['Termin offen', 'Termine offen']);
     setText('hdDate', WDS[new Date().getDay()] + ' ' + dm(t));
   }
   function renderActive() {
@@ -2051,25 +2873,51 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   function renderAll() { renderBadges(); updateLists(); renderActive(); setDockH(); }
   function setTab(tab, keepScroll) {
     if (TABS.indexOf(tab) < 0) tab = 'heute';
-    ui.tab = tab; ui.pick = ''; ui.ask = '';
+    ui.tab = tab; ui.pick = ''; ui.ask = ''; ui.bdoor = ''; ui.kact = '';
+    if ($('toast') && $('toast').classList.contains('has-acts')) $('toast').hidden = true; /* Hinweise mit Knöpfen decken sonst die Karten im neuen Reiter zu */
     qsa('.tabp[data-tab]').forEach(function (p) { p.hidden = p.dataset.tab !== tab; });
     qsa('.tabbtn').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.tab === tab)); });
-    saveView();
+    saveView(); adTabSave(tab); adWake(tab === 'eintragen');
     renderAll();
     if (!keepScroll) { try { window.scrollTo(0, 0); } catch (e) { /* egal */ } }
   }
-  function saveView() { try { localStorage.setItem('bz-view', JSON.stringify({ bs: ui.bsel, ts: ui.tagSec })); } catch (e) { /* egal */ } }
+  function saveView() { try { localStorage.setItem('bz-view', JSON.stringify({ bs: ui.bsel, ts: ui.tagSec, hc: ui.hc ? 1 : 0, vw: ui.vw })); } catch (e) { /* egal */ } }
   function loadView() {
     try {
       var v = JSON.parse(localStorage.getItem('bz-view') || 'null');
       if (v && typeof v.bs === 'string') ui.bsel = v.bs;
       if (v && (v.ts === 'tag' || v.ts === 'woche')) ui.tagSec = v.ts;
+      if (v) { ui.hc = !!v.hc; ui.vw = v.vw === 'brett' ? 'brett' : 'liste'; }
     } catch (e) { /* egal */ }
   }
+  function isFlash(id) { return ui.flashId === id || !!(ui.flashSet && ui.flashSet[id]); }
   function flashDone() {
-    if (ui.flashId) { var fid = ui.flashId; ui.flashId = ''; setTimeout(function () { var el = document.querySelector('[data-id="' + fid + '"]'); if (el) el.classList.remove('just'); }, 1700); }
+    var ids = ui.flashId ? [ui.flashId] : [];
+    Object.keys(ui.flashSet || {}).forEach(function (k) { ids.push(k); });
+    if (!ids.length) return;
+    ui.flashId = ''; ui.flashSet = {};
+    setTimeout(function () { ids.forEach(function (fid) { qsa('[data-id="' + fid + '"], [data-did="' + fid + '"]').forEach(function (el) { el.classList.remove('just'); }); }); }, 1700);
   }
   /* ========== Türkarten ========== */
+  var ICO_GO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var ICO_FLYER = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3zM3 7l9 7 9-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+  var ICO_NOT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
+  var ICO_CLOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  var ICO_OK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  /* „Nicht da“ immer mit der Angabe, ob ein Flyer drin ist */
+  function resText(h) {
+    var s = RESLBL[h.res] || '';
+    if (h.res === 'flyer') return s;
+    if (h.fl) return s + ' + Flyer';
+    return h.res === 'nicht' && state.cfg.flyer ? s + ' · ohne Flyer' : s;
+  }
+  function flBadge(h) {
+    if (!h) return '';
+    if (h.res === 'flyer') return '<span class="bdg bdgfl" data-r="flyer" data-fl="1">' + ICO_FLYER + 'Nur geflyert</span>';
+    if (h.res !== 'nicht') return '';
+    if (h.fl) return '<span class="bdg bdgfl" data-r="nicht" data-fl="1">' + ICO_FLYER + 'Nicht da · Flyer drin</span>';
+    return state.cfg.flyer ? '<span class="bdg bdgfl soft" data-fl="0">' + ICO_NOT + 'Nicht da · ohne Flyer</span>' : '';
+  }
   function triesHtml(n) {
     var total = Math.max(3, Math.min(n, 6)), h = '';
     for (var i = 0; i < total; i++) h += '<i' + (i < n ? '' : ' class="o"') + '></i>';
@@ -2090,11 +2938,16 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   function titleHtml(d, withHouse) {
     var who = has(d.name) ? String(d.name).trim() : (d.names.length ? d.names.join(', ') : ''), main = doorTitle(d);
     var h = '<h4 class="door-addr">' + esc(withHouse && has(d.haus) ? d.haus + ' · ' + main : main) + '</h4>';
-    if (who && main !== who) h += '<p class="door-who">' + esc(who) + (has(d.tel) ? ' · ' + esc(d.tel) : '') + '</p>';
+    var sub = [];
+    if (who && main !== who) sub.push(esc(who));
+    if (d.status === 'open' && flyers(d)) sub.push('<span class="fl">Flyer</span>');
+    if (who && main !== who && has(d.tel)) sub.push(esc(d.tel));
+    if (sub.length) h += '<p class="door-who">' + sub.join(' · ') + '</p>';
     return h;
   }
-  function toolsHtml(d, reopen) {
+  function toolsHtml(d, reopen, jump) {
     return '<div class="door-tools">'
+      + (jump ? '<button type="button" class="tool" data-act="godoor" aria-label="In Türen öffnen" title="In Türen öffnen">' + ICO_GO + '</button>' : '')
       + (reopen ? '<button type="button" class="tool" data-act="reopen" aria-label="Wieder öffnen" title="Wieder öffnen">' + ICO_UNDO + '</button>' : '')
       + '<button type="button" class="tool" data-act="edit" aria-label="Bearbeiten" title="Bearbeiten">' + ICO_EDIT + '</button></div>';
   }
@@ -2104,7 +2957,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       var h = d.hist[i];
       if (h.re) continue;
       var w = when(h.day, h.zeit);
-      rows.push('<li><div class="hl-main"><span class="hl-w">' + esc(w) + '</span><b class="hl-r">' + esc(RESLBL[h.res]) + (h.fl && h.res !== 'flyer' ? ' + Flyer' : '') + '</b>' + (has(h.nz) ? '<span class="hl-n">' + esc(h.nz.trim()) + '</span>' : '') + '</div>'
+      rows.push('<li><div class="hl-main"><span class="hl-w">' + esc(w) + '</span><b class="hl-r">' + esc(resText(h)) + '</b>' + (h.kd ? '<span class="hl-n">' + esc(kdLine(h.kd)) + '</span>' : '') + (has(h.nz) ? '<span class="hl-n">' + esc(h.nz.trim()) + '</span>' : '') + '</div>'
         + '<button type="button" class="hl-x" data-act="histx" data-hi="' + i + '" aria-label="Eintrag vom ' + esc(w) + ' entfernen">Entfernen</button></li>');
     }
     if (!rows.length) return '';
@@ -2121,7 +2974,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     var meta = na > 0
       ? '<button type="button" class="trybtn" data-act="hist" aria-expanded="' + opened + '" title="Einträge ansehen oder entfernen">' + triesHtml(n) + '<span>' + esc(cnt) + '</span>' + ICO_CARET + '</button>'
       : triesHtml(n) + '<span>' + esc(cnt) + '</span>';
-    if (lm && lm.res !== 'spaeter') meta += '<span>zuletzt ' + esc(when(lm.day, lm.zeit)) + '</span>';
+    if (lm && lm.res !== 'spaeter') meta += flBadge(lm) + '<span>zuletzt ' + esc(when(lm.day, lm.zeit)) + '</span>';
     if (lm && lm.res === 'spaeter') { var wt = wannText(lm), wa = wannAt(lm), td0 = todayKey(); meta += '<button type="button" class="bdg bdgb" data-r="spaeter" data-act="wannx" title="Ändern, was ausgemacht ist">Später' + (wt ? ' · ' + esc(wt) : ' · was ist ausgemacht?') + '</button>' + (wa && wa.day === td0 && wa.m <= nowMin() ? '<span class="bdg late">Jetzt dran</span>' : '') + '<span>gesagt ' + esc(lm.day === td0 ? 'um ' + lm.zeit : when(lm.day, lm.zeit)) + '</span>'; }
     var nb = d.status === 'open' ? nextBulkFor(d.haus, todayKey()) : null;
     if (lane !== 'neu' && nb && nb.date !== todayKey() && !(boardT && boardT.id === nb.id)) meta += '<span class="pl-term">Nächster Bulk ' + esc(dayChipText(nb.date, todayKey())) + '</span>';
@@ -2137,8 +2990,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
         + '<button type="button" class="act r" data-r="spaeter" data-act="res" data-rv="spaeter">Später<small>Kunde überlegt</small></button>'
         + '<button type="button" class="act ok" data-act="met">Angetroffen<small>Gespräch</small></button></div>';
     }
-    return '<article class="door' + (n >= 3 ? ' hard' : '') + (ui.flashId === d.id ? ' just' : '') + '" data-id="' + esc(d.id) + '" data-ln="' + lane + '" data-st="open" role="listitem">'
-      + '<div class="door-top"><div class="door-id">' + titleHtml(d, withHouse) + '</div>' + toolsHtml(d, false) + '</div>'
+    return '<article class="door' + (n >= 3 ? ' hard' : '') + (isFlash(d.id) ? ' just' : '') + '" data-id="' + esc(d.id) + '" data-ln="' + lane + '" data-st="open" role="listitem">'
+      + '<div class="door-top"><div class="door-id">' + titleHtml(d, withHouse) + '</div>' + toolsHtml(d, false, withHouse) + '</div>'
       + '<div class="door-meta">' + meta + '</div>' + '' + namesBlock(d) + (opened ? histList(d) : '') + (note ? '<p class="door-note">' + esc(note) + '</p>' : '') + acts + '</article>';
   }
   function einwChips(d, le) {
@@ -2149,11 +3002,12 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   function doneCard(d, withHouse) {
     var le = lastEntry(d) || { res: '', day: '', zeit: '', nm: '', nz: '', einw: '' };
     var meta = '<span class="bdg" data-r="' + esc(le.res) + '">' + esc(RESLBL[le.res] || 'Erledigt') + '</span><span>' + esc(when(le.day, le.zeit)) + '</span>';
+    if (le.res === 'kunde') meta += '<button type="button" class="bdg bdgb kdb" data-r="kunde" data-act="kdedit" title="Angaben zum Vertrag ändern">' + esc(le.kd ? kdLine(le.kd) : 'Vertrag eintragen') + '</button>';
     if (has(le.nm) && le.nm.trim() !== String(d.name).trim()) meta += '<span>' + esc(le.nm.trim()) + '</span>';
     if (has(le.einw)) meta += '<span class="chip">' + esc(le.einw) + '</span>';
     if (d.termin && d.termin.date) meta += '<span class="pl-term">Termin ' + esc(dayChipText(d.termin.date, todayKey())) + (d.termin.von ? ' ' + esc(d.termin.von) : '') + '</span>';
     if (tries(d)) meta += '<span class="muted">' + esc(plural(tries(d), 'Versuch', 'Versuche')) + ' davor</span>';
-    return '<article class="door s-done' + (ui.flashId === d.id ? ' just' : '') + '" data-id="' + esc(d.id) + '" data-r="' + esc(le.res) + '" data-st="done" role="listitem">'
+    return '<article class="door s-done' + (isFlash(d.id) ? ' just' : '') + '" data-id="' + esc(d.id) + '" data-r="' + esc(le.res) + '" data-st="done" role="listitem">'
       + '<div class="door-top"><div class="door-id">' + titleHtml(d, withHouse) + '</div>' + toolsHtml(d, true) + '</div>'
       + '<div class="door-meta">' + meta + '</div>' + (ui.ask === d.id && le.res === 'ki' ? einwChips(d, le) : '') + namesBlock(d) + (has(le.nz) ? '<p class="door-note">' + esc(le.nz) + '</p>' : '') + '</article>';
   }
@@ -2187,10 +3041,15 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     snap();
     d.hist.push(visitHist(res, { fl: fl ? 1 : 0 }));
     ui.pick = ''; ui.ask = ''; ui.flashId = d.id;
+    if (ui.bdoor === d.id) ui.bdoor = '';
     recompute(d);
     markDirty(); renderAll();
-    showToast(shortOf(d) + ': ' + (res === 'spaeter' ? 'später' : res === 'flyer' ? 'geflyert' : 'nicht da' + (fl ? ', Flyer drin' : '')) + (MISS[res] ? ' (' + plural(tries(d), 'Versuch', 'Versuche') + ')' : '') + '. Bleibt offen.');
-    if (res === 'spaeter') offerSpaeter(d);
+    laterToast(d, shortOf(d) + ': ' + (res === 'spaeter' ? 'später' : res === 'flyer' ? 'geflyert' : 'nicht da' + (fl ? ', Flyer drin' : '')) + (MISS[res] ? ' (' + plural(tries(d), 'Versuch', 'Versuche') + ')' : '') + '. Bleibt offen.', res === 'spaeter');
+  }
+  /* Später ist mit dem Tipp gespeichert. Wann nochmal, ist nur ein Angebot im Hinweis, kein Zwischenschritt. */
+  function laterToast(d, msg, later, extra) {
+    var acts = (later ? [{ label: 'Wann?', fn: function () { offerSpaeter(d); } }] : []).concat(extra || []);
+    showToast(msg, false, acts.length ? acts : undefined);
   }
   function actDone(d, res) {
     if (MISS[res] || res === 'flyer') { actMiss(d, res, 0); return; }
@@ -2199,8 +3058,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     ui.pick = ''; ui.flashId = d.id;
     recompute(d);
     ui.ask = res === 'ki' ? d.id : '';
+    if (ui.bdoor === d.id && !ui.ask) ui.bdoor = '';
     markDirty(); renderAll();
     if (res === 'termin') { offerTermin(d, shortOf(d) + ': Termin. Erledigt.'); return; }
+    if (res === 'kunde') { offerKunde(d, lastEntry(d), shortOf(d) + ': Schon Kunde. Erledigt.'); return; }
     showToast(shortOf(d) + ': ' + RESLBL[res] + '. Erledigt.');
     if (ui.ask) { var el = document.querySelector('.door[data-id="' + d.id + '"] .pick'); if (el) show(el, 'nearest'); }
   }
@@ -2240,7 +3101,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   }
   function setEinw(d, e) {
     var le = lastEntry(d); if (!le) return;
-    snap(); le.einw = le.einw === e ? '' : e; ui.ask = '';
+    snap(); le.einw = le.einw === e ? '' : e; ui.ask = ''; if (ui.bdoor === d.id) ui.bdoor = '';
     var dd = dayData(le.day, true);
     if (le.einw && !dd.einw.some(function (x) { return x.text === e && x.kunde === shortOf(d); })) dd.einw.push({ id: uid(), text: e, kunde: shortOf(d), antwort: '' });
     markDirty(); renderAll();
@@ -2272,32 +3133,140 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     markDirty(); renderAll();
     showToast(shortOf(d) + ': Eintrag entfernt.');
   }
-  /* Nach „Termin“ an der Tür: wann? */
+  /* Nach „Termin“ an der Tür: wer, was, wann? Name und Telefon zuerst, Thema, Tag und Uhrzeit per Tipp. */
+  var TERMIN_ZEITEN = ['09:00', '10:00', '11:00', '14:00', '16:00', '17:00', '18:00', '19:00'];
+  var THEMEN = ['Glasfaser', 'Tarifwechsel', 'Vertrag', 'Rückruf', 'Anderes'];
+  function nextQuarter() { var m = nowMin() + 20; m = Math.ceil(m / 15) * 15; return m < 24 * 60 ? mtime(m) : ''; }
+  function terminEnde(von) { var m = tmin(von); return m < 0 ? '' : mtime(Math.min(m + 60, 23 * 60 + 59)); }
+  /* Aktionen im Hinweis nach dem Speichern: In Kalender, Navi */
+  function terminActs(d) {
+    var tm = d.termin, acts = [], nu = adNaviUrl(doorAddress(d));
+    if (tm && dayOk(tm.date)) acts.push({ label: 'In Kalender', fn: function () {
+      adIcsDownload({ titel: (tm.thema || 'Termin') + (has(d.name) ? ' · ' + d.name : ''), date: tm.date, von: tm.von, bis: terminEnde(tm.von), ort: doorAddress(d), notiz: [tm.tel || d.tel, d.note].filter(has).join(' · ') });
+    } });
+    if (nu) acts.push({ label: 'Navi', fn: function () { window.open(nu, '_blank', 'noopener'); } });
+    return acts;
+  }
+  /* Kundentermin: erledigt (mit Ergebnis), verschieben, absagen, wieder offen. Das Ergebnis ist nur Text am Termin, es ändert keine Tür. */
+  function kName(d) { return has(d.name) ? String(d.name).trim() : shortOf(d); }
+  function kFocus(d) { var el = document.querySelector('.kcard[data-id="' + d.id + '"] .kc-p input, .kcard[data-id="' + d.id + '"] .kc-p button'); if (el) { focusEl(el); show(el, 'nearest'); } }
+  function kSet(d, st, erg, msg, acts) {
+    snap(); d.termin.status = st; d.termin.ergebnis = erg; ui.kact = ''; ui.flashId = d.id; ui.flashSet = {};
+    markDirty(); renderAll(); showToast(msg, false, acts);
+  }
+  function kDone(d, res) { kSet(d, 'erledigt', res, kName(d) + ': Termin erledigt · ' + res + '.'); }
+  function kCancel(d, why) { kSet(d, 'abgesagt', why, kName(d) + ': Termin abgesagt · ' + why + '.'); }
+  function kReopen(d) { kSet(d, 'geplant', '', kName(d) + ': Termin ist wieder offen.'); }
+  function kMove(d, day, zeit) {
+    if (!dayOk(day)) return;
+    snap(); d.termin.date = day; d.termin.von = timeOk(zeit) ? zeit : ''; d.termin.status = 'geplant'; d.termin.ergebnis = ''; ui.kact = ''; ui.flashId = d.id; ui.flashSet = {};
+    markDirty(); renderAll();
+    showToast(kName(d) + ': Termin verschoben auf ' + dayChipText(day, todayKey()) + (d.termin.von ? ' ' + d.termin.von + ' Uhr' : '') + '.', false, terminActs(d));
+  }
+  function kMoveBy(d, n) { var t = todayKey(), base = d.termin.date < t ? t : d.termin.date; kMove(d, addDays(base, n), d.termin.von); }
+
   function offerTermin(d, msg) {
-    var t = todayKey(), cur = d.termin || {};
-    function done(extra) { closeModal(); showToast((msg || shortOf(d) + ': Termin.') + (extra ? ' ' + extra : '')); }
+    var t = todayKey(), cur = d.termin || {}, selDay = cur.date || addDays(t, 1), selZeit = cur.von || '', days = [], i;
+    for (i = 0; i < 7; i++) days.push(addDays(t, i));
+    var th0 = has(cur.thema) ? (THEMEN.indexOf(cur.thema) >= 0 ? cur.thema : 'Anderes') : 'Glasfaser', thFree = th0 === 'Anderes' && cur.thema !== 'Anderes' ? cur.thema : '';
+    var nq = nextQuarter(), odd = days.indexOf(selDay) < 0 || (selZeit && TERMIN_ZEITEN.indexOf(selZeit) < 0 && selZeit !== nq);
+    function done(text, acts) { closeModal(); showToast(text || msg || shortOf(d) + ': Termin.', false, acts); }
+    var dayChips = days.map(function (k, ix) { return '<button type="button" class="zchip" data-kd="' + k + '" aria-pressed="' + (k === selDay) + '">' + esc(ix === 0 ? 'Heute' : ix === 1 ? 'Morgen' : shortDay(k)) + '</button>'; }).join('');
+    var timeChips = (nq ? '<button type="button" class="zchip" data-kz="' + nq + '" id="mKGleich" aria-pressed="' + (selZeit === nq) + '"' + (selDay === t ? '' : ' hidden') + '>Gleich · ' + nq + '</button>' : '')
+      + TERMIN_ZEITEN.map(function (z) { return '<button type="button" class="zchip" data-kz="' + z + '" aria-pressed="' + (selZeit === z) + '">' + z + '</button>'; }).join('');
+    var themChips = THEMEN.map(function (x) { return '<button type="button" class="zchip" data-kt="' + esc(x) + '" aria-pressed="' + (x === th0) + '">' + esc(x) + '</button>'; }).join('');
     openModal({
       title: 'Termin notieren',
-      html: '<p class="mtxt"><b>' + esc(shortOf(d)) + (has(d.name) ? ' · ' + esc(d.name) : '') + '</b> will einen Termin. Wann?</p>'
-        + '<div class="g2"><div class="f"><label class="mlbl" for="mKDate">Datum</label><input class="in" id="mKDate" type="date" value="' + esc(cur.date || addDays(t, 1)) + '" min="' + t + '"></div>'
-        + '<div class="f"><label class="mlbl" for="mKVon">Uhrzeit</label><input class="in" id="mKVon" type="time" value="' + esc(cur.von || '') + '"></div></div>'
-        + '<label class="mlbl" for="mKName">Name</label><input class="in" id="mKName" type="text" value="' + esc(d.name) + '" autocomplete="off" autocapitalize="words">'
-        + '<label class="mlbl" for="mKTel">Telefon</label><input class="in" id="mKTel" type="tel" value="' + esc(d.tel) + '" autocomplete="off">'
-        + '<label class="mlbl" for="mKThema">Worum geht es?</label><input class="in" id="mKThema" type="text" value="' + esc(cur.thema || 'Glasfaser-Beratung') + '" autocomplete="off">'
-        + '<p class="mnote">Steht dann unter „Termine“ → Aus den Türen und auf „Heute“ an dem Tag.</p>',
+      html: '<p class="mtxt"><b>' + esc(shortOf(d)) + '</b> will einen Termin.</p>'
+        + '<div class="g2"><div class="f"><label class="mlbl" for="mKName">Name</label><input class="in" id="mKName" type="text" value="' + esc(d.name) + '" autocomplete="off" autocapitalize="words"></div>'
+        + '<div class="f"><label class="mlbl" for="mKTel">Telefon</label><input class="in" id="mKTel" type="tel" value="' + esc(cur.tel || d.tel) + '" autocomplete="off"></div></div>'
+        + '<span class="mlbl">Worum geht es?</span><div class="zrow" id="mKThemen" role="group" aria-label="Thema">' + themChips + '</div>'
+        + '<div id="mKFree"' + (th0 === 'Anderes' ? '' : ' hidden') + '><label class="mlbl" for="mKThema">Thema</label><input class="in" id="mKThema" type="text" maxlength="60" value="' + esc(thFree) + '" placeholder="z. B. Hausanschluss klären" autocomplete="off"></div>'
+        + '<span class="mlbl">Tag</span><div class="zrow" id="mKDays" role="group" aria-label="Tag">' + dayChips + '</div>'
+        + '<span class="mlbl">Uhrzeit</span><div class="zrow" id="mKTimes" role="group" aria-label="Uhrzeit">' + timeChips + '</div>'
+        + '<details class="mmore" id="mKMore"' + (odd ? ' open' : '') + '><summary>Anderes Datum oder andere Uhrzeit</summary>'
+        + '<label class="mlbl" for="mKDate">Datum</label><input class="in" id="mKDate" type="date" value="' + esc(selDay) + '" min="' + t + '">'
+        + '<label class="mlbl" for="mKVon">Uhrzeit</label><input class="in" id="mKVon" type="time" value="' + esc(selZeit) + '"></details>'
+        + '<p class="mnote">Steht dann unter „Termine“ und auf „Heute“ an dem Tag.</p>',
       buttons: [
         { label: 'Termin merken', primary: true, fn: function () {
           var dd = $('mKDate').value;
           if (!dayOk(dd)) { setErr('Bitte ein Datum wählen.'); return; }
-          d.termin = normTermin({ date: dd, von: $('mKVon').value, thema: $('mKThema').value });
+          var on = $('mKThemen').querySelector('[aria-pressed="true"]'), kt = on ? on.dataset.kt : 'Glasfaser', th = kt === 'Anderes' ? ($('mKThema').value.trim() || 'Anderes') : kt;
           var nm = $('mKName').value.trim(), tel = $('mKTel').value.trim();
+          d.termin = normTermin({ date: dd, von: $('mKVon').value, thema: th, tel: tel, status: 'geplant', ergebnis: '' });
           if (nm) d.name = nm; if (tel) d.tel = tel;
           markDirty(); renderAll();
-          done('Termin ' + dayChipText(dd, todayKey()) + (d.termin && d.termin.von ? ' ' + d.termin.von + ' Uhr' : '') + ' gemerkt.');
+          done(shortOf(d) + ': Termin ' + dayChipText(dd, todayKey()) + (d.termin && d.termin.von ? ' ' + d.termin.von + ' Uhr' : '') + '. Erledigt.', terminActs(d));
         } },
-        { label: 'Ohne Termin', fn: function () { done(''); } }
+        { label: 'Ohne Termin', fn: function () { done('', undefined); } }
       ]
     });
+    function sync() {
+      var dv = $('mKDate').value, zv = $('mKVon').value;
+      qsa('[data-kd]', $('mBody')).forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.kd === dv)); });
+      qsa('[data-kz]', $('mBody')).forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.kz === zv)); });
+      var g = $('mKGleich'); if (g) g.hidden = dv !== t;
+    }
+    qsa('[data-kd]', $('mBody')).forEach(function (b) { b.addEventListener('click', function () { $('mKDate').value = b.dataset.kd; sync(); }); });
+    qsa('[data-kz]', $('mBody')).forEach(function (b) { b.addEventListener('click', function () { $('mKVon').value = $('mKVon').value === b.dataset.kz ? '' : b.dataset.kz; sync(); }); });
+    qsa('[data-kt]', $('mBody')).forEach(function (b) { b.addEventListener('click', function () {
+      qsa('[data-kt]', $('mBody')).forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      $('mKFree').hidden = b.dataset.kt !== 'Anderes';
+      if (b.dataset.kt === 'Anderes') focusEl($('mKThema'));
+    }); });
+    ['mKDate', 'mKVon'].forEach(function (id) { $(id).addEventListener('input', sync); $(id).addEventListener('change', sync); });
+    sync();
+  }
+
+  /* Schon Kunde: bei wem, was zahlt er, wann läuft der Vertrag aus. Alles freiwillig, nichts davon hält den Eintrag auf. */
+  var KD_ANB = ['Telekom', 'Vodafone', 'O2', '1&1', 'Deutsche Glasfaser'];
+  var KD_ENDE = [['Läuft aus / frei', 0], ['in 3 Monaten', 3], ['in 6 Monaten', 6], ['in 12 Monaten', 12], ['in 24 Monaten', 24]];
+  function offerKunde(d, h, msg) {
+    if (!h || h.res !== 'kunde') return;
+    var cur = h.kd || { anb: '', preis: '', ende: '' }, other = has(cur.anb) && KD_ANB.indexOf(cur.anb) < 0;
+    var chipsA = KD_ANB.concat(['Andere']).map(function (a) { var on = a === 'Andere' ? other : cur.anb === a; return '<button type="button" class="zchip" data-ka="' + esc(a) + '" aria-pressed="' + on + '">' + esc(a) + '</button>'; }).join('');
+    var chipsE = KD_ENDE.map(function (e) { var k = addMonthsKey(e[1]); return '<button type="button" class="zchip" data-ke="' + k + '" aria-pressed="' + (cur.ende === k) + '">' + e[0] + '</button>'; }).join('');
+    function finish(extra) { closeModal(); showToast((msg || shortOf(d) + ': Schon Kunde.') + (extra ? ' ' + extra : ''), !msg); }
+    openModal({
+      title: 'Schon Kunde: Angaben',
+      html: '<p class="mtxt"><b>' + esc(shortOf(d)) + '</b>' + (has(d.name) ? ' · ' + esc(d.name) : '') + '. Bei wem ist er? Alles freiwillig, das geht auch später noch.</p>'
+        + '<span class="mlbl">Anbieter</span><div class="zrow" id="kdA" role="group" aria-label="Anbieter">' + chipsA + '</div>'
+        + '<div id="kdAx"' + (other ? '' : ' hidden') + '><label class="mlbl" for="kdAnbX">Welcher Anbieter?</label><input class="in" id="kdAnbX" type="text" maxlength="40" value="' + esc(other ? cur.anb : '') + '" autocomplete="off" autocapitalize="words"></div>'
+        + '<label class="mlbl" for="kdPreis">Was zahlt er im Monat? (Euro)</label><input class="in" id="kdPreis" type="text" inputmode="decimal" placeholder="z. B. 39,99" value="' + esc(cur.preis === '' ? '' : String(cur.preis).replace('.', ',')) + '" autocomplete="off">'
+        + '<span class="mlbl">Vertragsende</span><div class="zrow" id="kdE" role="group" aria-label="Vertragsende">' + chipsE + '</div>'
+        + '<label class="mlbl" for="kdEnde">Oder genau (Monat)</label><input class="in" id="kdEnde" type="month" value="' + esc(cur.ende) + '">'
+        + '<p class="mnote" id="kdHint"></p>',
+      buttons: [
+        { label: 'Speichern', primary: true, fn: function () { var k = save(); finish(k ? kdLine(k) : ''); } },
+        { label: 'Weiter zum Wechselrechner', fn: function () { var k = save(), u = adRechnerUrl(k); closeModal(); if (u) setTimeout(function () { location.href = u; }, 350); } },
+        { label: 'Ohne Angaben speichern', fn: function () { finish(''); } }
+      ]
+    });
+    var rb = null; qsa('#mBtns button').forEach(function (b) { if (b.textContent === 'Weiter zum Wechselrechner') rb = b; });
+    function read() {
+      var on = $('kdA').querySelector('[aria-pressed="true"]'), a = on ? on.dataset.ka : '';
+      if (a === 'Andere') a = $('kdAnbX').value;
+      return normKd({ anb: a, preis: $('kdPreis').value, ende: $('kdEnde').value });
+    }
+    function save() {
+      var k = read();
+      if (!msg) snap();
+      if (k) h.kd = k; else delete h.kd;
+      markDirty(); renderAll();
+      return k;
+    }
+    function sync() {
+      var k = read(), on = $('kdA').querySelector('[aria-pressed="true"]');
+      $('kdAx').hidden = !(on && on.dataset.ka === 'Andere');
+      qsa('[data-ke]', $('mBody')).forEach(function (b) { b.setAttribute('aria-pressed', String(!!k && k.ende === b.dataset.ke)); });
+      var u = adRechnerUrl(k); if (rb) rb.hidden = !u;
+      setText('kdHint', k ? kdLine(k) : '');
+    }
+    qsa('[data-ka]', $('mBody')).forEach(function (b) { b.addEventListener('click', function () { var was = b.getAttribute('aria-pressed') === 'true'; qsa('[data-ka]', $('mBody')).forEach(function (x) { x.setAttribute('aria-pressed', 'false'); }); if (!was) b.setAttribute('aria-pressed', 'true'); sync(); if (b.dataset.ka === 'Andere' && !was) focusEl($('kdAnbX')); }); });
+    qsa('[data-ke]', $('mBody')).forEach(function (b) { b.addEventListener('click', function () { $('kdEnde').value = $('kdEnde').value === b.dataset.ke ? '' : b.dataset.ke; sync(); }); });
+    ['kdAnbX', 'kdPreis', 'kdEnde'].forEach(function (id) { $(id).addEventListener('input', sync); $(id).addEventListener('change', sync); });
+    sync();
   }
   /* ========== Heute ========== */
   function statSel(t) {
@@ -2332,7 +3301,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       h += '<div class="hero-m"><span class="time">' + esc(bulkTime(e)) + '</span>' + (e.status !== 'geplant' ? '<span class="bdg' + (e.status === 'laeuft' ? ' new' : ' soft') + '">' + TSLBL[e.status] + '</span>' : '') + '</div>';
       if (has(e.notiz)) h += '<p class="hero-why">' + esc(e.notiz) + '</p>';
       if (c.n) h += pbar(c) + '<p class="hero-why">' + progressText(c) + '</p>';
-      else h += '<p class="hero-why">Noch keine Wohnung drin. Leg unter „Türen“ die Liste an (Etagen × Wohnungen), dann ist jede Tür nur noch ein Tipp.</p>';
+      else h += '<p class="hero-why">Noch keine Wohnung drin. Leg unter „Türen“ die Namen an (eintippen oder Klingelbrett fotografieren), dann ist jede Tür nur noch ein Tipp.</p>';
       h += '<div class="hero-a"><button type="button" class="btn k" data-act="board" data-sel="' + esc(e.id) + '">Türen abhaken</button><button type="button" class="btn" data-act="topen" data-tid="' + esc(e.id) + '">Termin</button></div>';
     } else {
       h += '<p class="hero-k"><i></i>' + (pk.today.length ? 'Heute geschafft' : 'Kein Bulk geplant') + '</p><h2 class="hero-t">' + (pk.today.length ? 'Alle Bulks von heute sind durch' : 'Nichts ansteht') + '</h2>'
@@ -2353,7 +3322,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   }
   function renderHeute() {
     boardT = null;
-    renderHero(); renderDue();
+    renderHero(); renderKToday(); renderDue();
     var t = todayKey(), h = '', today = bulksOn(t), later = state.bulks.filter(function (x) { return x.date > t; }).sort(cmpBulk), by = {}, keys = [];
     if (today.length) h += '<section class="grp"><header class="grp-h"><h3>Heute</h3><span class="chip">' + today.length + '</span></header><div class="tl" role="list">' + today.map(function (x) { return bulkRow(x, t, true); }).join('') + '</div></section>';
     later.forEach(function (x) { if (!by[x.date]) { by[x.date] = []; keys.push(x.date); } by[x.date].push(x); });
@@ -2361,8 +3330,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       h += '<section class="grp"><header class="grp-h"><h3>' + esc(dayHead(k, t)) + '</h3><span class="chip">' + by[k].length + '</span></header><div class="tl" role="list">' + by[k].map(function (x) { return bulkRow(x, t); }).join('') + '</div></section>';
     });
     if (keys.length > 10) h += '<p class="pl-note">Weitere Tage unter „Termine“.</p>';
-    var dt = doorTermine(t);
-    if (dt.length) h += '<section class="grp"><header class="grp-h"><h3>Termine aus den Türen</h3><span class="chip">' + dt.length + '</span></header><div class="cards">' + dt.slice(0, 5).map(doorTerminRow).join('') + '</div></section>';
+    var kn = kTermine().filter(function (d) { return d.termin.date > t && d.termin.status === 'geplant'; });
+    if (kn.length) h += '<section class="grp"><header class="grp-h"><h3>Kommende Kundentermine</h3><span class="chip">' + kn.length + '</span></header>' + kcards(kn.slice(0, 5), t, nowMin()) + (kn.length > 5 ? '<p class="pl-note">Weitere unter „Termine“.</p>' : '') + '</section>';
     $('tList').innerHTML = h;
     growAll(); flashDone();
   }
@@ -2389,12 +3358,16 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   function bulkHead(g) {
     var t = g.t, c = g.c, today = todayKey(), h = '', when_ = '';
     if (t) when_ = dayChipText(t.date, today) + ' · ' + bulkTime(t) + (t.status !== 'geplant' ? ' · ' + TSLBL[t.status] : '');
-    h += '<section class="bhead' + (g.closed ? ' closed' : '') + '" data-k="bulk" aria-label="Dieser Bulk"><p class="hero-k"><i></i>' + (g.closed ? 'Abgeschlossen · ' + esc(shortDay(g.closed.closed)) : 'Bulk' + (when_ ? ' · ' + esc(when_) : ' · ohne Termin')) + '</p><h2 class="bh-t">' + esc(g.label) + '</h2>';
+    var fold = !g.closed && ui.hc;
+    h += '<section class="bhead' + (g.closed ? ' closed' : '') + (fold ? ' folded' : '') + '" data-k="bulk" aria-label="Dieser Bulk">'
+      + (g.closed ? '' : '<button type="button" class="bh-fold" data-act="hdx" aria-expanded="' + !fold + '" aria-label="' + (fold ? 'Kopfzeile ausklappen' : 'Kopfzeile einklappen') + '" title="' + (fold ? 'Ausklappen' : 'Einklappen') + '">' + ICO_CARET + '</button>')
+      + '<p class="hero-k"><i></i>' + (g.closed ? 'Abgeschlossen · ' + esc(shortDay(g.closed.closed)) : 'Bulk' + (when_ ? ' · ' + esc(when_) : ' · ohne Termin')) + '</p><h2 class="bh-t">' + esc(g.label) + '</h2>';
     if (g.closed) {
       h += (sub0(g) ? '<p class="hero-s">' + esc(sub0(g)) + '</p>' : '') + '<p class="hero-why">Da bringt nichts mehr was: ' + esc(laneLine(c) || 'keine Wohnung drin') + '.' + (has(g.closed.note) ? ' ' + esc(g.closed.note) : '') + '</p>'
         + '<div class="acts"><button type="button" class="btn" data-act="bopen">Wieder öffnen</button>' + (t ? '<button type="button" class="btn quiet" data-act="topen" data-tid="' + esc(t.id) + '">Termin</button>' : '') + '</div>';
       return h + '</section>';
     }
+    if (fold) return h + '<p class="bh-n bh-mini">' + esc((t ? dayChipText(t.date, today) + ' · ' : '') + (c.n ? c.done + ' von ' + c.n + ' erledigt' : 'noch keine Wohnung')) + '</p></section>';
     var sub = t ? bulkSub(t) : '';
     if (sub) h += '<p class="hero-s">' + esc(sub) + '</p>';
     if (t && has(t.notiz)) h += '<p class="hero-why">' + esc(t.notiz) + '</p>';
@@ -2421,53 +3394,119 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       } }, { label: 'Abbrechen', fn: closeModal }] });
     focusEl($('cNote'));
   }
-  /* Eintragen: Wohnung, Name, was war. Die Wohnung wird angelegt, wenn es sie noch nicht gibt. */
+  /* Eintragen: erst der Name von der Klingel, dann was war. Die Wohnung ist freiwillig. Jeder Name ist ein eigener Kunde. */
+  function houseNames(g) { var nm = []; g.items.forEach(function (d) { if (has(d.name)) nm.push(d.name); nm = nm.concat(d.names); }); return uniqueList(nm, 150); }
   function entryForm(g) {
     var cur = state.last.bres;
     fillList('dlLage', g.items.slice().sort(function (a, b) { return (a.status === 'open' ? 0 : 1) - (b.status === 'open' ? 0 : 1) || cmpDoor(a, b); }).map(function (d) { return d.lage; }));
+    fillList('dlHNames', houseNames(g));
     return '<section class="panel qe" id="qe" data-k="bulk" aria-label="Eintragen" data-bkey="' + esc(g.key) + '">'
-      + '<div class="qe-h"><h3>Eintragen</h3><span class="hint">Wohnung, Name, was war – oder unten in der Liste direkt antippen.</span></div>'
-      + '<div class="g21"><div class="f"><label class="lbl" for="eLage">Wohnung oder Lage</label><input class="in" id="eLage" type="text" list="dlLage" placeholder="z. B. 2. OG links" autocomplete="off" enterkeyhint="next"></div>'
-      + '<div class="f"><label class="lbl" for="eName">Name</label><input class="in" id="eName" type="text" list="dlNames" placeholder="optional" autocomplete="off" autocapitalize="words" enterkeyhint="done"></div></div>'
+      + '<div class="qe-h"><h3>Eintragen</h3><span class="hint">Name von der Klingel, was war. Die Wohnung ist egal.</span></div>'
+      + '<div class="g21"><div class="f"><label class="lbl" for="eName">Name</label><input class="in" id="eName" type="text" list="dlHNames" placeholder="z. B. Huber" autocomplete="off" autocapitalize="words" enterkeyhint="done"></div>'
+      + '<div class="f"><label class="lbl" for="eLage">Wohnung · egal</label><input class="in" id="eLage" type="text" list="dlLage" placeholder="z. B. 2. OG" autocomplete="off" enterkeyhint="done"></div></div>'
+      + '<div class="qe-more"><button type="button" class="btn" data-act="enames">Mehrere Namen</button><button type="button" class="btn" data-act="ephoto">Klingelbrett fotografieren</button></div>'
       + '<div class="f"><span class="lbl">Was war?</span><div class="rsel" id="eRes" role="group" aria-label="Was war an der Tür?">' + ERES.map(function (r) { return '<button type="button" class="rchip" data-er="' + r[0] + '"' + (r[2] ? ' data-r="' + r[2] + '"' : '') + ' aria-pressed="' + (cur === r[0]) + '">' + r[1] + '</button>'; }).join('') + '</div></div>'
       + '<details class="qnote" id="eNoteBox"><summary>Notiz dazu</summary><textarea class="in" id="eNote" rows="1" aria-label="Notiz" placeholder="z. B. Hund, nur abends da, will Partner fragen" enterkeyhint="done"></textarea></details>'
-      + '<div class="savebar"><button type="button" class="btn big k" data-k="bulk" data-act="esave" id="eSave">' + esc(cur === 'neu' ? 'Wohnung anlegen' : 'Eintragen: ' + ERES_LBL[cur]) + '</button></div></section>';
+      + '<div class="savebar"><button type="button" class="btn big k" data-k="bulk" data-act="esave" id="eSave">' + esc(cur === 'neu' ? 'Kunde anlegen' : 'Eintragen: ' + ERES_LBL[cur]) + '</button></div></section>';
   }
+  function groupByKey(key) { var gs = bulkGroups(); for (var i = 0; i < gs.length; i++) { if (gs[i].key === key) return gs[i]; } return null; }
   function saveEntry() {
     var box = $('qe'), g = box ? curBulk(bulkGroups()) : null;
     if (!g || g.key !== box.dataset.bkey) return;
-    var lage = $('eLage').value.replace(/\s+/g, ' ').trim(), name = $('eName').value.replace(/\s+/g, ' ').trim(), res = state.last.bres, note = $('eNote').value.trim();
-    if (!lage && !name) { showToast('Trag die Wohnung ein, z. B. „2. OG links“ – oder den Namen von der Klingel.', true); focusEl($('eLage')); return; }
-    var haus = g.t ? g.t.ort : g.label, d = null, fresh = false;
-    g.items.forEach(function (x) { if (!d && ((lage && ns(x.lage) === ns(lage)) || (!lage && name && !has(x.lage) && ns(x.name) === ns(name)))) d = x; });
-    snap();
-    if (!d) { var r = addDoor(g, lage, name); if (!r || !r.item) { lastDeleted = null; return; } d = r.item; fresh = true; }
+    var lage = cleanName($('eLage').value), name = cleanName($('eName').value), note = $('eNote').value.trim();
+    if (!lage && !name) { showToast('Trag den Namen von der Klingel ein. Die Wohnung ist egal.', true); focusEl($('eName')); return; }
+    doEntry(g.key, { lage: lage, name: name, note: note, res: state.last.bres });
+  }
+  /* Der Besuch (oder „Nur anlegen“) für einen Kunden. Mit Wohnung: die Wohnung im Haus. Nur Name: der Kunde mit dem Namen, sonst neu. */
+  function doEntry(key, o) {
+    var g = groupByKey(key); if (!g) return;
+    var lage = o.lage, name = o.name, res = o.res, note = o.note, d = null, joined = false, fresh = false;
+    if (!o.force) {
+      if (lage) g.items.forEach(function (x) { if (!d && ns(x.lage) === ns(lage)) d = x; });
+      else {
+        var same = g.items.filter(function (x) { return nameHas(x, name); }).sort(function (a, b) { return (a.status === 'open' ? 0 : 1) - (b.status === 'open' ? 0 : 1); });
+        d = same[0] || null; joined = !!d;
+      }
+    }
+    function again() { var o2 = {}; Object.keys(o).forEach(function (k) { o2[k] = o[k]; }); o2.force = true; return o2; }
+    if (d && res === 'neu') {
+      showToast((joined ? name + ' gibt es in diesem Haus schon.' : 'Die Wohnung gibt es in diesem Haus schon.'), true, [{ label: 'Trotzdem neu anlegen', fn: function () { doEntry(key, again()); } }]);
+      focusEl($(joined ? 'eName' : 'eLage')); return;
+    }
+    if (!o.keepSnap) snap();
+    if (!d) { var r = addDoor(g, lage, name, true); if (!r || !r.item) { lastDeleted = null; return; } d = r.item; fresh = true; }
     if (name && !has(d.name)) d.name = name;
-    if (res === 'neu') {
-      if (!fresh) { lastDeleted = null; showToast('Die gibt es in diesem Haus schon.', true); focusEl($('eLage')); return; }
-      if (note) d.note = note;
-    } else {
-      var hr = res === 'nichtfl' ? 'nicht' : res;
+    var vid = '', hr = res === 'nichtfl' ? 'nicht' : res;
+    if (res === 'neu') { if (note) d.note = note; }
+    else {
       if (d.status === 'drop') d.status = 'open';
-      d.hist.push(visitHist(hr, { fl: res === 'nichtfl' ? 1 : 0, nm: name, nz: note }));
+      var he = visitHist(hr, { fl: res === 'nichtfl' ? 1 : 0, nm: name, nz: note }); vid = he.vid;
+      d.hist.push(he);
       recompute(d);
       ui.ask = hr === 'ki' ? d.id : '';
     }
-    ui.flashId = d.id; ui.bsel = g.key; ui.pick = '';
-    $('eLage').value = ''; $('eName').value = ''; $('eNote').value = ''; $('eNoteBox').open = false;
+    ui.flashId = d.id; ui.flashSet = {}; ui.bsel = g.key; ui.pick = '';
+    if ($('eName') && cleanName($('eName').value) === name && cleanName($('eLage').value) === lage) { $('eLage').value = ''; $('eName').value = ''; $('eNote').value = ''; $('eNoteBox').open = false; }
     markDirty(); renderAll();
+    /* Name schon da: der Besuch ging an den bestehenden Kunden. „Trotzdem neu anlegen“ macht daraus einen eigenen. */
+    var extra = joined && vid && res !== 'termin' && res !== 'kunde' ? [{ label: 'Trotzdem neu anlegen', fn: function () {
+      var i, old = d;
+      snap();
+      for (i = 0; i < old.hist.length; i++) { if (old.hist[i].vid === vid) { old.hist.splice(i, 1); break; } }
+      recompute(old);
+      var o2 = again(); o2.keepSnap = true; doEntry(key, o2);
+    } }] : undefined;
     var lbl = shortOf(d);
     if (res === 'neu') showToast(lbl + ' angelegt.');
-    else if (res === 'spaeter') { showToast(lbl + ': später. Bleibt offen.'); offerSpaeter(d); return; }
+    else if (res === 'spaeter') laterToast(d, lbl + ': später. Bleibt offen.', true, extra);
     else if (res === 'termin') { offerTermin(d, lbl + ': Termin. Erledigt.'); return; }
-    else if (res === 'nichtfl' || res === 'nicht') showToast(lbl + ': nicht da' + (res === 'nichtfl' ? ', Flyer drin' : '') + ' (' + plural(tries(d), 'Versuch', 'Versuche') + '). Bleibt offen.');
-    else showToast(lbl + ': ' + RESLBL[hr] + '. Erledigt.');
-    focusEl($('eLage'));
+    else if (res === 'kunde') { offerKunde(d, lastEntry(d), lbl + ': Schon Kunde. Erledigt.'); return; }
+    else if (res === 'nichtfl' || res === 'nicht') showToast(lbl + ': nicht da' + (res === 'nichtfl' ? ', Flyer drin' : '') + ' (' + plural(tries(d), 'Versuch', 'Versuche') + '). Bleibt offen.', false, extra);
+    else showToast(lbl + ': ' + RESLBL[hr] + '. Erledigt.', false, extra);
+    focusEl($('eName'));
+  }
+  /* Mehrere Namen: einer pro Zeile oder mit Komma. Jeder wird ein eigener Kunde, die Wohnung ist egal. */
+  function openNames(g) {
+    var key = g.key, have = {};
+    houseNames(g).forEach(function (n) { have[ns(n)] = 1; });
+    openModal({
+      title: 'Mehrere Namen',
+      html: '<p class="mtxt">Ein Name pro Zeile oder mit Komma getrennt. Jeder Name wird ein eigener Kunde. Die Wohnung ist egal.</p>'
+        + '<label class="mlbl" for="mNames">Namen</label><textarea class="in" id="mNames" rows="6" placeholder="Huber&#10;Schmid&#10;Meier" autocomplete="off" autocapitalize="words" spellcheck="false"></textarea>'
+        + '<p class="mnote" id="mNamesHint" role="status"></p>',
+      buttons: [
+        { label: 'Alle anlegen', primary: true, fn: function () {
+          var names = nameList($('mNames').value);
+          if (!names.length) { setErr('Trag mindestens einen Namen ein.'); focusEl($('mNames')); return; }
+          closeModal(); addDoorsByNames(groupByKey(key) || g, names);
+        } },
+        { label: 'Abbrechen', fn: closeModal }
+      ]
+    });
+    function hint() {
+      var names = nameList($('mNames').value), fresh = names.filter(function (n) { return !have[ns(n)]; }), bt = document.querySelector('#mBtns button');
+      setText('mNamesHint', names.length ? plural(names.length, 'Name', 'Namen') + (names.length > fresh.length ? ', ' + (names.length - fresh.length) + ' gibt es schon im Haus' : '') + '.' : '');
+      if (bt) bt.textContent = fresh.length ? 'Alle anlegen (' + fresh.length + ')' : 'Alle anlegen';
+    }
+    $('mNames').addEventListener('input', hint);
+    focusEl($('mNames'));
+  }
+  /* Klingelbrett fotografieren: die Namen kommen aus dem Foto, das Foto selbst wird nicht gespeichert */
+  function openPhoto(g) {
+    var key = g.key;
+    adPhotoNames({ title: 'Klingelbrett lesen', existing: houseNames(g), onDone: function (names) { addDoorsByNames(groupByKey(key) || g, names); } });
   }
   function laneOpen(key, lane) {
     var k = key + '|' + lane;
     if (ui.lane[k] !== undefined) return !!ui.lane[k];
     return lane !== 'done' && lane !== 'drop';
+  }
+  /* Türen ohne Stockwerk stehen am Ende, mit eigener Überschrift, wenn es im selben Fach auch Türen mit Stockwerk gibt */
+  function noFloor(d) { return lageKey(d.lage).fl === 500; }
+  function cardsHtml(list, withHouse) {
+    var a = list.filter(function (d) { return !noFloor(d); }), b = list.filter(noFloor), mk = function (l) { return '<div class="cards grid" role="list">' + l.map(function (d) { return card(d, withHouse); }).join('') + '</div>'; };
+    if (!a.length || !b.length) return mk(list);
+    return mk(a) + '<h5 class="nofl-h">Ohne Stockwerk</h5>' + mk(b);
   }
   function laneHtml(key, lane, list, withHouse) {
     var L = LANES[lane], open = laneOpen(key, lane), sum = '', h;
@@ -2477,10 +3516,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       sum = Object.keys(by).sort(function (a, b) { return by[b] - by[a]; }).map(function (r) { return by[r] + ' ' + (RESLBL[r] || 'Erledigt'); }).join(' · ');
     }
     h = '<section class="lane" data-ln="' + lane + '" aria-label="' + esc(L.t) + '"><button type="button" class="lane-h" data-act="lanex" data-lk="' + esc(key + '|' + lane) + '" aria-expanded="' + open + '"><i class="lane-dot" aria-hidden="true"></i><span class="lane-t"><b>' + esc(L.t) + '</b>' + (sum ? '<span>' + esc(sum) + '</span>' : (L.s && open ? '<span>' + esc(L.s) + '</span>' : '')) + '</span><span class="chip">' + list.length + '</span>' + ICO_CARET + '</button>';
-    if (open) h += '<div class="cards grid" role="list">' + list.map(function (d) { return card(d, withHouse); }).join('') + '</div>';
+    if (open) h += cardsHtml(list, withHouse);
     else {
       /* zugeklappt: die gerade erledigte Tür trotzdem kurz zeigen (für Einwand, Rückgängig) */
-      var peek = list.filter(function (d) { return d.id === ui.ask || d.id === ui.flashId || d.id === ui.edit; });
+      var peek = list.filter(function (d) { return d.id === ui.ask || isFlash(d.id) || d.id === ui.edit; });
       if (peek.length) h += '<div class="cards grid" role="list">' + peek.map(function (d) { return card(d, withHouse); }).join('') + '</div>';
     }
     return h + '</section>';
@@ -2495,6 +3534,53 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     q = ns(q);
     return state.doors.filter(function (d) { return ns([d.haus, d.lage, d.name, d.names.join(' '), d.note, d.tel].join(' ')).indexOf(q) >= 0; });
   }
+  /* ---------- Klingelbrett: große Häuser als Tafel statt langer Liste ---------- */
+  var BRETT_AB = 8;
+  var LAGE_PRE = /^(ug|keller|souterrain|eg|erdgeschoss|parterre|dg|dachgeschoss|\d+\.?\s*(og|stock|etage|st\.?|obergeschoss))\b[\s,.\-]*/i;
+  function floorLabel(d) {
+    var k = lageKey(d.lage).fl;
+    return k === -1 ? 'UG' : k === 0 ? 'EG' : k === 99 ? 'DG' : k > 0 && k < 99 ? k + '. OG' : '';
+  }
+  function tileLabel(d) {
+    var s = has(d.lage) ? String(d.lage).trim() : '', r = s.replace(LAGE_PRE, '').trim();
+    return r || s || (has(d.name) ? String(d.name).trim() : (d.names.length ? d.names[0] : 'Ohne Namen'));
+  }
+  function tileState(d) {
+    var lane = laneOf(d), le = lastEntry(d), lm = lastMiss(d);
+    if (lane === 'done') return { ico: ICO_OK, txt: (le && RESLBL[le.res]) || 'Erledigt' };
+    if (lane === 'drop') return { ico: ICO_NOT, txt: 'Gestrichen' };
+    if (lane === 'neu') return { ico: '<i class="bt-o" aria-hidden="true"></i>', txt: 'Offen' };
+    if (lane === 'spaeter') { var wa = wannAt(lm); return { ico: ICO_CLOCK, txt: 'Später' + (wa && wa.day === todayKey() && wa.m <= nowMin() ? ' · jetzt' : '') }; }
+    if (lane === 'flyer') return { ico: ICO_FLYER, txt: 'Nur geflyert' };
+    return lm && lm.fl ? { ico: ICO_FLYER, txt: 'Nicht da' } : { ico: ICO_NOT, txt: state.cfg.flyer ? 'Nicht da, kein Flyer' : 'Nicht da' };
+  }
+  function tileHtml(d) {
+    var st = tileState(d), who = !has(d.lage) ? '' : has(d.name) ? String(d.name).trim() : (d.names.length ? d.names[0] : ''), fl = d.status === 'open' && flyers(d), le = lastEntry(d);
+    var line2 = (who ? esc(who) : '') + (who && fl ? ' · ' : '') + (fl ? '<span class="fl">Flyer</span>' : '');
+    return '<button type="button" class="bt' + (isFlash(d.id) ? ' just' : '') + '" data-act="bt" data-did="' + esc(d.id) + '" data-ln="' + laneOf(d) + '"' + (d.status === 'done' && le ? ' data-r="' + esc(le.res) + '"' : '') + ' aria-pressed="' + (ui.bdoor === d.id) + '"'
+      + ' aria-label="' + esc(tileLabel(d) + (who ? ', ' + who : '') + ', ' + st.txt + (fl ? ', Flyer drin' : '')) + '">'
+      + '<span class="bt-n">' + esc(tileLabel(d)) + '</span>' + (line2 ? '<span class="bt-w">' + line2 + '</span>' : '')
+      + '<span class="bt-s">' + st.ico + '<span>' + esc(st.txt) + '</span></span></button>';
+  }
+  function brettHtml(g) {
+    var rows = [], by = {}, fk = function (d) { var f = lageKey(d.lage).fl; return f === 500 ? -1000 : f; }, list = g.items.slice().sort(function (a, b) { return (fk(b) - fk(a)) || cmpDoor(a, b); });
+    list.forEach(function (d) { var k = lageKey(d.lage).fl; if (!by[k]) { by[k] = { label: floorLabel(d), items: [] }; rows.push(by[k]); } by[k].items.push(d); });
+    var h = '<div class="brett" role="group" aria-label="Klingelbrett">';
+    rows.forEach(function (r) {
+      if (!r.label && rows.length > 1) h += '<p class="bnofl">Ohne Stockwerk</p>';
+      h += '<div class="brow' + (r.label ? '' : ' nofl') + '"' + (r.label ? ' role="group" aria-label="' + esc(r.label) + '"' : '') + '>' + (r.label ? '<span class="bfl">' + esc(r.label) + '</span>' : '') + '<div class="bcells">' + r.items.map(tileHtml).join('') + '</div></div>';
+      r.items.forEach(function (d) {
+        if (ui.bdoor === d.id) h += '<div class="bdoorcard">' + card(d, false) + '<div class="acts"><button type="button" class="btn quiet" data-act="bdx">Karte schließen</button></div></div>';
+      });
+    });
+    return h + '</div>';
+  }
+  function viewBar(g) {
+    var br = ui.vw === 'brett';
+    return '<div class="bvw" data-k="bulk"><div class="seg" role="group" aria-label="Ansicht der Türen"><button type="button" data-vw="liste" aria-pressed="' + !br + '">Liste</button><button type="button" data-vw="brett" aria-pressed="' + br + '">Klingelbrett</button></div>'
+      + (br ? '<p class="dlegend" aria-label="Zeichenerklärung"><span>' + ICO_NOT + 'Nicht da, kein Flyer</span><span>' + ICO_FLYER + 'Nicht da, Flyer drin</span><span>' + ICO_CLOCK + 'Später</span><span>' + ICO_OK + 'Erledigt</span></p>' : '') + '</div>';
+  }
+
   var boardT = null;
   function renderBoard() {
     var gs = bulkGroups(), g = curBulk(gs), h = '', sub = '', q = String(ui.q || '').trim();
@@ -2507,14 +3593,56 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     } else if (!g) {
       h = '<div class="empty"><b>Noch kein Bulk</b><p>Ein Bulk ist der Einsatz mit dem Techniker in einem Haus. Leg den Termin an, dann die Wohnungen, und hak hier jede Tür ab.</p><div class="acts"><button type="button" class="btn primary" data-act="tnew">Bulk-Termin anlegen</button><button type="button" class="btn" data-bk="load">Sicherung einlesen</button></div></div>';
     } else {
-      h = bulkHead(g) + (g.closed ? '' : entryForm(g)) + boardHtml(g.key, g.items, false);
+      var many = g.items.length >= BRETT_AB;
+      h = bulkHead(g) + (g.closed ? '' : entryForm(g)) + (many ? viewBar(g) : '') + (many && ui.vw === 'brett' ? brettHtml(g) : boardHtml(g.key, g.items, false));
       sub = g.c.n ? plural(g.c.n, 'Wohnung', 'Wohnungen') + ' · ' + g.c.open + ' offen' : '';
     }
     $('list').innerHTML = h;
     setText('drSub', sub);
     growAll(); flashDone();
   }
-  function openBoard(sel) { ui.bsel = sel || ui.bsel; ui.q = ''; $('q').value = ''; saveView(); setTab('eintragen'); }
+  /* Zur Türkarte springen: Spalte aufklappen, im Klingelbrett die Karte öffnen, Karte ansteuern und markieren */
+  function jumpDoor(key, d) {
+    ui.lane[key + '|' + laneOf(d)] = true;
+    ui.bdoor = d.id; ui.pick = ''; ui.ask = '';
+    renderBoard();
+    var el = $('list').querySelector('.door[data-id="' + d.id + '"]');
+    if (el) adFlash(el);
+  }
+  /* Bekanntes Haus (da war schon wer dran): gleich zur Tür, die als Nächstes dran ist */
+  function openBoard(sel) {
+    ui.bsel = sel || ui.bsel; ui.q = ''; $('q').value = ''; saveView(); setTab('eintragen');
+    var g = curBulk(bulkGroups()), tg = g && !g.closed ? revisitTarget(g.items) : null;
+    if (tg) jumpDoor(g.key, tg);
+  }
+  /* Eine bestimmte Tür öffnen (aus „In Türen öffnen“ und aus Verweisen anderer Apps) */
+  function openDoor(id) {
+    var d = doorById(id); if (!d) return false;
+    var key = '', gs = bulkGroups();
+    gs.forEach(function (g) { if (!key && g.items.indexOf(d) >= 0) key = g.key; });
+    ui.q = ''; $('q').value = '';
+    if (key) ui.bsel = key;
+    else { key = 'q'; ui.q = has(d.lage) ? d.lage : (has(d.name) ? d.name : d.haus); $('q').value = ui.q; }
+    ui.edit = '';
+    saveView(); setTab('eintragen');
+    jumpDoor(key, d);
+    return true;
+  }
+  function openBulkById(id) {
+    var t = bulkById(id); if (!t) return false;
+    ui.tedit = t.id;
+    if (t.date < todayKey()) ui.tpast = true;
+    setTab('termine');
+    var el = document.querySelector('.trow[data-tid="' + t.id + '"]');
+    if (el) adFlash(el);
+    return true;
+  }
+  /* Verweis von außen: #door=<id> oder #bulk=<id>. Überstimmt den gemerkten Reiter. */
+  function deepLink(o) {
+    if (!o) return;
+    if (o.door) { if (!openDoor(o.door)) showToast('Eintrag nicht gefunden', true); return; }
+    if (o.bulk) { if (!openBulkById(o.bulk)) showToast('Eintrag nicht gefunden', true); }
+  }
   function genRead() {
     var mode = $('gMode').value === 'nr' ? 'nr' : 'et';
     return { mode: mode, og: Math.max(0, Math.min(30, parseInt($('gOg').value, 10) || 0)), je: Math.max(1, Math.min(4, parseInt($('gJe').value, 10) || 2)), eg: $('gEg').checked, dg: $('gDg').checked, n: Math.max(1, Math.min(120, parseInt($('gN').value, 10) || 0)) };
@@ -2558,7 +3686,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   }
   function terminForm(t) {
     return '<div class="tform" data-tid="' + esc(t.id) + '">'
-      + '<div class="g3">' + tField(t, 'date', 'Datum', 'date') + tField(t, 'von', 'Von', 'time', ' class="in ktime"') + tField(t, 'bis', 'Bis', 'time') + '</div>'
+      + '<div class="g3 tdt">' + tField(t, 'date', 'Datum', 'date') + tField(t, 'von', 'Von', 'time') + tField(t, 'bis', 'Bis', 'time') + '</div>'
+      + '<div class="zrow tnow"><button type="button" class="zchip" data-act="tjetzt" data-tid="' + esc(t.id) + '" title="Heute, Beginn jetzt">Jetzt</button><span class="hint">setzt Heute und die Uhrzeit von jetzt</span></div>'
       + '<div class="g21">' + tField(t, 'ort', 'Haus (Straße Nr.)', 'text', ' list="dlHaus" autocapitalize="words"') + tField(t, 'stadt', 'Ort', 'text', ' list="dlOrt" autocapitalize="words"') + '</div>'
       + '<div class="g2">' + tField(t, 'tech', 'Techniker', 'text', ' list="dlTech" autocapitalize="words"') + tField(t, 'team', 'Team', 'text', ' list="dlTeam"') + '</div>'
       + '<div class="f"><label class="lbl" for="tf_notiz">Notiz</label><textarea class="in" id="tf_notiz" rows="1" data-tf="notiz" placeholder="z. B. Schlüssel beim Hausmeister, Kellertür offen">\n' + esc(t.notiz || '') + '</textarea></div>'
@@ -2574,43 +3703,88 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     if (open) h += '<div class="tr-body">' + terminForm(t) + '<div class="acts"><button type="button" class="btn k" data-k="bulk" data-act="board" data-sel="' + esc(t.id) + '">Türen abhaken</button>' + (c.n ? '<span class="hint">' + esc(laneLine(c)) + '</span>' : '<span class="hint">Noch keine Wohnung drin.</span>') + '</div></div>';
     return h + '</article>';
   }
-  function doorTermine(today) {
-    return state.doors.filter(function (d) { return d.termin && d.termin.date && d.termin.date >= today && d.status !== 'drop'; })
-      .sort(function (a, b) { return (a.termin.date < b.termin.date ? -1 : a.termin.date > b.termin.date ? 1 : 0) || (tmin(a.termin.von) - tmin(b.termin.von)); });
+  /* ---------- Kundentermine (door.termin): Karte mit Zeit, Name, Thema, Telefon, Navi und den drei Wegen: erledigt, verschieben, absagen ---------- */
+  var K_RES = ['Abschluss', 'Kein Abschluss', 'Nachfassen', 'Nicht angetroffen'];
+  var K_CANCEL = ['Kunde sagt ab', 'Nicht erreicht', 'Verschoben'];
+  var ICO_WARN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l9.5 16.5h-19z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 10v4.4M12 17.4v.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
+  function telHref(s) { return 'tel:' + String(s).replace(/[^\d+]/g, ''); }
+  function kPanel(d, mode) {
+    var tm = d.termin, t = todayKey();
+    if (mode === 'done') return '<div class="kc-p" role="group" aria-label="Wie ist es gelaufen?"><span class="mlbl">Wie ist es gelaufen?</span><div class="zrow">' + K_RES.map(function (x) { return '<button type="button" class="zchip" data-act="kres" data-v="' + esc(x) + '">' + esc(x) + '</button>'; }).join('') + '</div><button type="button" class="btn quiet" data-act="kx">Zurück</button></div>';
+    if (mode === 'cancel') return '<div class="kc-p" role="group" aria-label="Warum abgesagt?"><span class="mlbl">Warum abgesagt?</span><div class="zrow">' + K_CANCEL.map(function (x) { return '<button type="button" class="zchip" data-act="kcn" data-v="' + esc(x) + '">' + esc(x) + '</button>'; }).join('') + '</div><button type="button" class="btn quiet" data-act="kx">Zurück</button></div>';
+    if (mode === 'move') return '<div class="kc-p" role="group" aria-label="Verschieben auf"><span class="mlbl">Verschieben auf</span><div class="zrow"><button type="button" class="zchip" data-act="kmv" data-v="1">+1 Tag</button><button type="button" class="zchip" data-act="kmv" data-v="7">Nächste Woche</button><button type="button" class="zchip" data-act="kmv" data-v="x">Anderer Tag</button></div><button type="button" class="btn quiet" data-act="kx">Zurück</button></div>';
+    if (mode === 'movex') return '<div class="kc-p" role="group" aria-label="Anderer Tag"><span class="mlbl">Anderer Tag</span><div class="g2"><div class="f"><label class="mlbl" for="kmDate">Datum</label><input class="in" id="kmDate" type="date" value="' + esc(tm.date < t ? t : tm.date) + '" min="' + t + '"></div><div class="f"><label class="mlbl" for="kmTime">Uhrzeit</label><input class="in" id="kmTime" type="time" value="' + esc(tm.von) + '"></div></div><div class="acts"><button type="button" class="btn primary" data-act="kmgo">Verschieben</button><button type="button" class="btn quiet" data-act="kx">Zurück</button></div></div>';
+    return '';
   }
-  function doorTerminRow(d) {
-    var tt = d.termin, t = todayKey();
-    return '<article class="trow" data-k="termin" data-id="' + esc(d.id) + '" role="listitem"><div class="tr-t"><b>' + esc(tt.von || '–') + '</b><span>' + esc(dayChipText(tt.date, t)) + '</span></div>'
-      + '<div class="tr-m"><span class="tr-k">Termin</span><h4>' + esc([has(d.name) ? d.name : '', shortOf(d)].filter(Boolean).join(' · ')) + '</h4><p>' + esc([tt.thema, d.tel].filter(has).join(' · ')) + '</p></div>'
-      + '<div class="tr-s">' + (has(d.tel) ? '<a class="btn k" href="tel:' + esc(d.tel.replace(/[^\d+]/g, '')) + '">Anrufen</a>' : '') + '<button type="button" class="tool" data-act="tdoor" aria-label="Termin ändern">' + ICO_EDIT + '</button></div></article>';
+  function kcard(d, today, nm) {
+    var tm = d.termin, od = terminOverdue(d, today, nm), tel = has(tm.tel) ? tm.tel : d.tel, navi = adNaviUrl(doorAddress(d)), ka = String(ui.kact || '').split('|'), mode = ka[0] === d.id ? ka[1] : '';
+    var title = has(d.name) ? String(d.name).trim() : (has(d.lage) ? d.lage : 'Ohne Namen'), where = [has(d.haus) ? d.haus : '', has(d.name) && has(d.lage) ? d.lage : ''].filter(Boolean).join(' · ');
+    var badge = '';
+    if (tm.status === 'erledigt') badge = '<span class="bdg ok">' + ICO_OK + 'Erledigt' + (has(tm.ergebnis) ? ' · ' + esc(tm.ergebnis) : '') + '</span>';
+    else if (tm.status === 'abgesagt') badge = '<span class="bdg soft">' + ICO_NOT + 'Abgesagt' + (has(tm.ergebnis) ? ' · ' + esc(tm.ergebnis) : '') + '</span>';
+    else if (od) badge = '<span class="bdg late kc-od">' + ICO_WARN + 'Überfällig</span>';
+    var links = (navi ? '<a class="btn k" data-k="termin" href="' + esc(navi) + '" target="_blank" rel="noopener">Navi</a>' : '') + (has(tel) ? '<a class="btn" href="' + esc(telHref(tel)) + '">Anrufen</a>' : '');
+    var acts = tm.status === 'geplant'
+      ? '<button type="button" class="btn" data-act="kdone" aria-expanded="' + (mode === 'done') + '">Erledigt</button><button type="button" class="btn" data-act="kmove" aria-expanded="' + (mode === 'move' || mode === 'movex') + '">Verschieben</button><button type="button" class="btn" data-act="kcancel" aria-expanded="' + (mode === 'cancel') + '">Absagen</button>'
+      : '<button type="button" class="btn" data-act="kopen">Wieder offen</button>';
+    return '<article class="kcard' + (isFlash(d.id) ? ' just' : '') + '" data-k="termin" data-id="' + esc(d.id) + '" data-st="' + esc(tm.status) + '"' + (od ? ' data-od="1"' : '') + ' role="listitem">'
+      + '<div class="kc-t"><b>' + esc(tm.von || '–') + '</b><span>' + esc(dayChipText(tm.date, today)) + '</span></div>'
+      + '<div class="kc-m"><span class="tr-k">Kundentermin</span><h4>' + esc(title) + '</h4>' + (where ? '<p class="kc-w">' + esc(where) + '</p>' : '')
+      + (has(tm.thema) ? '<p class="kc-th">' + esc(tm.thema) + '</p>' : '') + (has(tel) ? '<p class="kc-tel">' + esc(tel) + '</p>' : '') + (has(d.note) ? '<p class="kc-note">' + esc(String(d.note).trim()) + '</p>' : '')
+      + (badge ? '<p class="kc-b">' + badge + '</p>' : '') + '</div>'
+      + '<div class="kc-s"><button type="button" class="tool" data-act="tdoor" aria-label="Termin ändern" title="Termin ändern">' + ICO_EDIT + '</button></div>'
+      + (links ? '<div class="kc-l">' + links + '</div>' : '')
+      + '<div class="kc-a">' + acts + '</div>' + (mode ? kPanel(d, mode) : '') + '</article>';
+  }
+  function kcards(list, t, nm) { return '<div class="cards" role="list">' + list.map(function (d) { return kcard(d, t, nm); }).join('') + '</div>'; }
+  /* Heute: offene Kundentermine von heute (und überfällige) ganz oben */
+  function renderKToday() {
+    var el = $('ktoday'); if (!el) return;
+    var t = todayKey(), nm = nowMin(), list = terminsOpenUntil(t), od = list.filter(function (d) { return terminOverdue(d, t, nm); }).length;
+    if (!list.length) { el.hidden = true; el.innerHTML = ''; return; }
+    el.innerHTML = '<div class="panel-h"><h3>Kundentermine <span class="chip">' + list.length + '</span></h3><span class="hint">' + esc(od ? plural(od, 'ist', 'sind') + ' überfällig' : 'heute') + '</span></div>' + kcards(list, t, nm);
+    el.hidden = false;
   }
   function renderTermine() {
-    var t = todayKey(), all = state.bulks.slice().sort(cmpBulk), up = all.filter(function (x) { return x.date >= t; }), past = all.filter(function (x) { return x.date < t; }).reverse();
-    var h = '', by = {}, keys = [];
-    up.forEach(function (x) { if (!by[x.date]) { by[x.date] = []; keys.push(x.date); } by[x.date].push(x); });
-    if (!all.length) h = '<div class="empty"><b>Noch keine Bulk-Termine</b><p>Ein Bulk-Termin ist der Einsatz mit dem Techniker: Tag, Uhrzeit, Haus, Techniker. Leg ihn hier an oder lies die Wochenplan-Sicherung ein.</p><div class="acts"><button type="button" class="btn primary" data-act="tnew">Bulk-Termin anlegen</button><button type="button" class="btn" data-bk="load">Wochenplan einlesen</button></div></div>';
+    var t = todayKey(), nm = nowMin(), f = ui.tfilt === 'bulk' || ui.tfilt === 'kunden' ? ui.tfilt : 'alle', showB = f !== 'kunden', showK = f !== 'bulk';
+    var all = state.bulks.slice().sort(cmpBulk), ks = kTermine();
+    var h = '', by = {}, keys = [], past = [], over = [];
+    var fl = $('tFilt');
+    if (fl) fl.innerHTML = [['alle', 'Alle'], ['bulk', 'Bulk'], ['kunden', 'Kunden']].map(function (x) { return '<button type="button" class="zchip" data-tfilt="' + x[0] + '" aria-pressed="' + (f === x[0]) + '">' + x[1] + '</button>'; }).join('');
+    function put(date, min, kind, obj) { if (!by[date]) { by[date] = []; keys.push(date); } by[date].push({ min: min, kind: kind, o: obj }); }
+    if (showB) all.forEach(function (x) { if (x.date >= t) put(x.date, tmin(x.von) < 0 ? 9999 : tmin(x.von), 'b', x); else past.push({ date: x.date, min: tmin(x.von), kind: 'b', o: x }); });
+    if (showK) ks.forEach(function (d) {
+      var tm = d.termin;
+      if (tm.date >= t) put(tm.date, terminMin(tm), 'k', d);
+      else if (tm.status === 'geplant') over.push(d);
+      else past.push({ date: tm.date, min: terminMin(tm), kind: 'k', o: d });
+    });
+    keys.sort();
+    var nbAll = all.length, nkAll = ks.length;
+    if (!nbAll && !nkAll) h = '<div class="empty"><b>Noch keine Termine</b><p>Ein Bulk-Termin ist der Einsatz mit dem Techniker: Tag, Uhrzeit, Haus, Techniker. Kundentermine entstehen, wenn an einer Tür „Termin“ gesagt wird.</p><div class="acts"><button type="button" class="btn primary" data-act="tnew">Bulk-Termin anlegen</button><button type="button" class="btn" data-bk="load">Wochenplan einlesen</button></div></div>';
     else {
-      if (!keys.length) h += '<div class="empty"><p>Nichts Kommendes. Alles, was war, steht unten.</p></div>';
+      if (over.length) h += '<section class="grp kc-over"><header class="grp-h"><h3>Überfällig</h3><span class="chip">' + over.length + '</span></header><p class="pl-note">Offen und schon vorbei. Erledigt, verschieben oder absagen.</p>' + kcards(over, t, nm) + '</section>';
+      if (!keys.length && !over.length) h += '<div class="empty"><p>' + (f === 'kunden' ? 'Keine Kundentermine. Sie entstehen, wenn an einer Tür „Termin“ gesagt wird.' : f === 'bulk' ? 'Kein Bulk geplant.' : 'Nichts Kommendes.') + (past.length ? ' Alles, was war, steht unten.' : '') + '</p></div>';
       keys.forEach(function (k) {
-        h += '<section class="grp"><header class="grp-h"><h3>' + esc(dayHead(k, t)) + '</h3><span class="chip">' + by[k].length + '</span></header><div class="cards" role="list">' + by[k].map(function (x) { return terminRow(x, t); }).join('') + '</div></section>';
+        var items = by[k].sort(function (a, b) { return a.min - b.min; });
+        h += '<section class="grp"><header class="grp-h"><h3>' + esc(dayHead(k, t)) + '</h3><span class="chip">' + items.length + '</span></header><div class="cards" role="list">' + items.map(function (x) { return x.kind === 'b' ? terminRow(x.o, t) : kcard(x.o, t, nm); }).join('') + '</div></section>';
       });
       if (past.length) {
+        past.sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : (b.min - a.min); });
         h += '<section class="grp"><header class="grp-h"><h3 class="muted">Vergangene</h3><span class="chip">' + past.length + '</span><button type="button" class="gmove" data-act="tpast" aria-expanded="' + !!ui.tpast + '">' + (ui.tpast ? 'Zuklappen' : 'Anzeigen') + '</button></header>';
-        if (ui.tpast) h += '<div class="cards" role="list">' + past.slice(0, 60).map(function (x) { return '<div class="tform"><p class="hint">' + esc(longDay(x.date)) + '</p>' + terminRow(x, t) + '</div>'; }).join('') + '</div>';
+        if (ui.tpast) h += '<div class="cards" role="list">' + past.slice(0, 60).map(function (x) { return '<div class="tform"><p class="hint">' + esc(longDay(x.date)) + '</p>' + (x.kind === 'b' ? terminRow(x.o, t) : kcard(x.o, t, nm)) + '</div>'; }).join('') + '</div>';
         h += '</section>';
       }
     }
-    var dt = doorTermine(t);
-    if (dt.length) h += '<section class="grp"><header class="grp-h"><h3>Aus den Türen</h3><span class="chip">' + dt.length + '</span></header><p class="pl-note">Wer an der Tür „Termin“ gesagt hat. Trag ihn auch in den Wochenplan ein.</p><div class="cards" role="list">' + dt.map(doorTerminRow).join('') + '</div></section>';
     $('trList').innerHTML = h;
-    var nb = up.filter(function (x) { return !tdone(x); }).length;
-    setText('trSub', all.length ? plural(nb, 'Bulk', 'Bulks') + ' offen' : '');
+    var nb = all.filter(function (x) { return x.date >= t && !tdone(x); }).length, nk = ks.filter(terminOpen).length;
+    setText('trSub', [nbAll ? plural(nb, 'Bulk', 'Bulks') + ' offen' : '', nkAll ? plural(nk, 'Kundentermin', 'Kundentermine') + ' offen' : ''].filter(Boolean).join(' · '));
     growAll(); flashDone();
   }
   function addBulk(o) { var t = normBulk(Object.assign({ id: uid(), created: Date.now() }, o)); if (!t) return null; state.bulks.push(t); return t; }
   function newTermin(day) {
     snap();
-    var t = addBulk({ date: dayOk(day) ? day : todayKey(), stadt: state.last.stadt, tech: state.last.tech, team: state.last.team });
+    var t = addBulk({ date: dayOk(day) ? day : todayKey(), stadt: defaultStadt(), tech: state.last.tech, team: state.last.team });
     ui.tedit = t.id;
     markDirty();
     if (ui.tab !== 'termine') setTab('termine'); else renderTermine();
@@ -2649,8 +3823,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   function visitCard(v) {
     var d = v.d, h = v.h;
     return '<article class="vcard" data-iid="' + esc(d.id) + '" data-hi="' + v.i + '" data-r="' + esc(h.res) + '"><div class="vc-t"><b>' + esc(h.zeit || '–') + '</b></div>'
-      + '<div class="vc-m"><b>' + esc(shortOf(d)) + '</b>' + (has(h.nm) || has(d.name) ? '<span>' + esc(has(h.nm) ? h.nm : d.name) + '</span>' : '') + (has(h.einw) ? '<span>Einwand: ' + esc(h.einw) + '</span>' : '') + (has(h.nz) ? '<span>' + esc(h.nz) + '</span>' : '') + '</div>'
-      + '<div class="vc-r"><span class="bdg" data-r="' + esc(h.res) + '">' + esc(RESLBL[h.res]) + (h.fl && h.res !== 'flyer' ? ' + Flyer' : '') + '</span><button type="button" class="tool" data-act="vdel" aria-label="Eintrag entfernen" title="Eintrag entfernen">×</button></div></article>';
+      + '<div class="vc-m"><b>' + esc(shortOf(d)) + '</b>' + (has(h.nm) || has(d.name) ? '<span>' + esc(has(h.nm) ? h.nm : d.name) + '</span>' : '') + (h.kd ? '<span>' + esc(kdLine(h.kd)) + '</span>' : '') + (has(h.einw) ? '<span>Einwand: ' + esc(h.einw) + '</span>' : '') + (has(h.nz) ? '<span>' + esc(h.nz) + '</span>' : '') + '</div>'
+      + '<div class="vc-r"><span class="bdg" data-r="' + esc(h.res) + '">' + esc(resText(h)) + '</span><button type="button" class="tool" data-act="vdel" aria-label="Eintrag entfernen" title="Eintrag entfernen">×</button></div></article>';
   }
   function houseStats(vs) {
     var by = {}, order = [];
@@ -2672,7 +3846,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     return '<div class="srows">' + list.map(function (x) { return '<div class="srow"><b>' + esc(x.label) + '</b><span>' + esc((withBulks ? plural(x.bulks, 'Bulk', 'Bulks') + ' · ' : '') + (statLine(x.s) || 'keine Türen')) + '</span></div>'; }).join('') + '</div>';
   }
   function einwPanel(day) {
-    var d = dayData(day, false), h = '<section class="panel" aria-label="Einwände"><div class="panel-h"><h3>Einwände</h3><span class="hint">Was die Leute sagen, mit deiner Antwort.</span></div>'
+    var d = dayData(day, false), h = '<section class="panel" id="zs-einw" aria-label="Einwände"><div class="panel-h"><h3>Einwände</h3><span class="hint">Was die Leute sagen, mit deiner Antwort.</span></div>'
       + '<div class="zrow">' + EINW.map(function (e) { return '<button type="button" class="zchip" data-ew="' + esc(e) + '">' + esc(e) + '</button>'; }).join('') + '<button type="button" class="zchip" data-ew="">+ Eigener</button></div>';
     if (d && d.einw.length) h += '<div class="cards">' + d.einw.map(function (e) {
       return '<article class="ecard" data-eid="' + esc(e.id) + '"><div class="g21"><div class="f"><label class="lbl">Einwand</label><input class="in" type="text" data-e="text" value="' + esc(e.text) + '" placeholder="Was wurde gesagt?"></div><div class="f"><label class="lbl">Wer</label><input class="in" type="text" data-e="kunde" value="' + esc(e.kunde) + '" placeholder="Tür"></div></div>'
@@ -2681,7 +3855,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     return h + '</section>';
   }
   function notesPanel(day) {
-    var d = dayData(day, false), h = '<section class="panel" aria-label="Notizen"><div class="panel-h"><h3>Notizen</h3><button type="button" class="btn" data-act="tnadd">' + ICO_PLUS + 'Notiz</button></div>';
+    var d = dayData(day, false), h = '<section class="panel" id="zs-notiz" aria-label="Notizen"><div class="panel-h"><h3>Notizen</h3><button type="button" class="btn" data-act="tnadd">' + ICO_PLUS + 'Notiz</button></div>';
     if (d && d.notes.length) h += '<div class="cards">' + d.notes.map(function (n) {
       return '<article class="ncard" data-nid="' + esc(n.id) + '"><div class="f"><input class="in" type="text" data-n="titel" value="' + esc(n.titel) + '" placeholder="Titel" aria-label="Titel"></div><div class="f"><textarea class="in" rows="2" data-n="text" placeholder="Text" aria-label="Text">\n' + esc(n.text) + '</textarea></div><div class="acts end"><button type="button" class="btn quiet" data-act="tndel">Löschen</button></div></article>';
     }).join('') + '</div>';
@@ -2689,34 +3863,42 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     return h + '</section>';
   }
   function goalRow(l, v, g) { return '<div class="grow' + (g && v >= g ? ' ok' : '') + '"><span>' + l + '</span><b>' + v + (g ? ' / ' + g : '') + '</b>' + (g ? '<i style="width:' + Math.min(100, Math.round(v / g * 100)) + '%"></i>' : '') + '</div>'; }
+  /* Sprung-Chips: statt neun Abschnitte untereinander gleich zum richtigen */
+  function jumpsHtml(list) {
+    if (list.length < 2) return '';
+    return '<nav class="jumps" aria-label="Springen zu">' + list.map(function (j) { return '<button type="button" data-jump="' + j[0] + '">' + esc(j[1]) + '</button>'; }).join('') + '</nav>';
+  }
   function weekPanel(day) {
-    var w = weekOf(day), vs = visitsBetween(w.from, w.to), s = statsFor(vs), z = state.cfg.ziele, h = '';
-    h += '<section class="panel"><div class="panel-h"><h3>Woche ' + esc(dm(w.from) + '–' + dm(w.to)) + '</h3><span class="hint">' + esc(plural(state.bulks.filter(function (t) { return t.date >= w.from && t.date <= w.to && t.status !== 'abgesagt'; }).length, 'Bulk', 'Bulks')) + '</span></div>' + tilesHtml(s)
-      + '<div class="goals">' + goalRow('Türen', s.n, z.wohnungen) + goalRow('Gespräche', s.ang, z.gespraeche) + goalRow('Termine', s.termin, z.termine) + goalRow('Abschlüsse', s.abschluss, z.abschluesse) + '</div>'
-      + (z.wohnungen || z.gespraeche || z.termine || z.abschluesse ? '' : '<p class="hint">Wochenziele legst du unter „Mehr“ fest.</p>') + '</section>';
+    var w = weekOf(day), vs = visitsBetween(w.from, w.to), s = statsFor(vs), z = state.cfg.ziele, h = '', jp = [['zs-woche', 'Zahlen']];
+    /* Ziele ohne Vorgabe bekommen keinen leeren Balken */
+    var gl = [['Türen', s.n, z.wohnungen], ['Gespräche', s.ang, z.gespraeche], ['Termine', s.termin, z.termine], ['Abschlüsse', s.abschluss, z.abschluesse]].filter(function (x) { return x[2] > 0; }).map(function (x) { return goalRow(x[0], x[1], x[2]); });
+    h += '<section class="panel" id="zs-woche"><div class="panel-h"><h3>Woche ' + esc(dm(w.from) + '–' + dm(w.to)) + '</h3><span class="hint">' + esc(plural(state.bulks.filter(function (t) { return t.date >= w.from && t.date <= w.to && t.status !== 'abgesagt'; }).length, 'Bulk', 'Bulks')) + '</span></div>' + tilesHtml(s)
+      + (gl.length ? '<div class="goals">' + gl.join('') + '</div>' : '<p class="hint">Wochenziele legst du unter „Mehr“ fest.</p>') + '</section>';
     var days = [];
     for (var d = w.from; d <= w.to; d = addDays(d, 1)) { var dv = visitsOn(d); if (dv.length) days.push({ label: shortDay(d), s: statsFor(dv) }); }
-    if (days.length) h += '<section class="panel"><div class="panel-h"><h3>Tage</h3></div>' + statRows(days) + '</section>';
-    var hs = houseStats(vs); if (hs.length) h += '<section class="panel"><div class="panel-h"><h3>Häuser</h3></div>' + statRows(hs) + '</section>';
-    var ts = techStats(w.from, w.to); if (ts.length) h += '<section class="panel"><div class="panel-h"><h3>Techniker</h3><span class="hint">Mit wem läuft es am besten?</span></div>' + statRows(ts, true) + '</section>';
+    if (days.length) { jp.push(['zs-tage', 'Tage']); h += '<section class="panel" id="zs-tage"><div class="panel-h"><h3>Tage</h3></div>' + statRows(days) + '</section>'; }
+    var hs = houseStats(vs); if (hs.length) { jp.push(['zs-haus', 'Häuser']); h += '<section class="panel" id="zs-haus"><div class="panel-h"><h3>Häuser</h3></div>' + statRows(hs) + '</section>'; }
+    var ts = techStats(w.from, w.to); if (ts.length) { jp.push(['zs-tech', 'Techniker']); h += '<section class="panel" id="zs-tech"><div class="panel-h"><h3>Techniker</h3><span class="hint">Mit wem läuft es am besten?</span></div>' + statRows(ts, true) + '</section>'; }
     var cnt = {};
     Object.keys(state.days).forEach(function (k) { if (k >= w.from && k <= w.to) state.days[k].einw.forEach(function (e) { var tx = e.text.trim(); if (tx) cnt[tx] = (cnt[tx] || 0) + 1; }); });
     var ek = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; });
-    if (ek.length) h += '<section class="panel"><div class="panel-h"><h3>Einwände der Woche</h3></div><div class="srows">' + ek.map(function (k) { return '<div class="srow"><b>' + esc(k) + '</b><span>' + cnt[k] + '×</span></div>'; }).join('') + '</div></section>';
-    return h;
+    if (ek.length) { jp.push(['zs-einw', 'Einwände']); h += '<section class="panel" id="zs-einw"><div class="panel-h"><h3>Einwände der Woche</h3></div><div class="srows">' + ek.map(function (k) { return '<div class="srow"><b>' + esc(k) + '</b><span>' + cnt[k] + '×</span></div>'; }).join('') + '</div></section>'; }
+    var kz = vs.length ? statLine(s) : 'In der Woche ist noch nichts eingetragen.';
+    return '<p class="kurz" id="zs-kurz"><b>Woche ' + esc(dm(w.from) + '–' + dm(w.to)) + ':</b> ' + esc(kz) + '</p>' + jumpsHtml(jp) + h;
   }
   function renderZahlen() {
     var t = todayKey(), day = tagDay(), h = '';
     var nav = '<div class="tagnav-r"><button type="button" class="btn" data-tg="-1" aria-label="Tag zurück">‹</button><label class="zchip dt on"><span>' + esc(dayHead(day, t)) + '</span><input type="date" id="tgDate" value="' + day + '" aria-label="Tag wählen"></label><button type="button" class="btn" data-tg="1" aria-label="Tag vor">›</button>' + (day !== t ? '<button type="button" class="btn quiet" data-tg="0">Heute</button>' : '') + '</div>'
       + '<div class="seg" role="group" aria-label="Ansicht"><button type="button" data-ts="tag" aria-pressed="' + (ui.tagSec === 'tag') + '">Tag</button><button type="button" data-ts="woche" aria-pressed="' + (ui.tagSec === 'woche') + '">Woche</button></div>';
     $('tagnav').innerHTML = nav;
-    if (ui.tagSec === 'woche') { $('tagBody').innerHTML = weekPanel(day) + '<div class="acts end"><button type="button" class="btn quiet" data-act="pdf">PDF Wochenbericht</button></div>'; growAll(); return; }
-    var vs = visitsOn(day), s = statsFor(vs), bl = bulksOn(day);
-    h += '<section class="panel"><div class="panel-h"><h3>' + esc(longDay(day)) + '</h3><span class="hint">' + esc(bl.length ? plural(bl.length, 'Bulk', 'Bulks') + ': ' + bl.map(bulkLabel).join(', ') : 'kein Bulk') + '</span></div>' + tilesHtml(s) + (vs.length ? '' : '<p class="hint">An dem Tag ist noch nichts eingetragen.</p>') + '</section>';
-    var hs = houseStats(vs); if (hs.length > 1) h += '<section class="panel"><div class="panel-h"><h3>Je Haus</h3></div>' + statRows(hs) + '</section>';
-    if (vs.length) h += '<section class="panel"><div class="panel-h"><h3>Protokoll</h3><span class="hint">' + esc(plural(vs.length, 'Eintrag', 'Einträge')) + '</span></div><div class="cards">' + vs.map(visitCard).join('') + '</div></section>';
-    h += einwPanel(day) + notesPanel(day) + '<div class="acts end"><button type="button" class="btn quiet" data-act="pdf">PDF Protokoll</button></div>';
-    $('tagBody').innerHTML = h;
+    if (ui.tagSec === 'woche') { $('tagBody').innerHTML = weekPanel(day); growAll(); return; }
+    var vs = visitsOn(day), s = statsFor(vs), bl = bulksOn(day), jp = [['zs-zahlen', 'Zahlen']];
+    h += '<section class="panel" id="zs-zahlen"><div class="panel-h"><h3>' + esc(longDay(day)) + '</h3><span class="hint">' + esc(bl.length ? plural(bl.length, 'Bulk', 'Bulks') + ': ' + bl.map(bulkLabel).join(', ') : 'kein Bulk') + '</span></div>' + tilesHtml(s) + '</section>';
+    var hs = houseStats(vs); if (hs.length > 1) { jp.push(['zs-haus', 'Je Haus']); h += '<section class="panel" id="zs-haus"><div class="panel-h"><h3>Je Haus</h3></div>' + statRows(hs) + '</section>'; }
+    if (vs.length) { jp.push(['zs-prot', 'Protokoll']); h += '<section class="panel" id="zs-prot"><div class="panel-h"><h3>Protokoll</h3><span class="hint">' + esc(plural(vs.length, 'Eintrag', 'Einträge')) + '</span></div><div class="cards">' + vs.map(visitCard).join('') + '</div></section>'; }
+    jp.push(['zs-einw', 'Einwände'], ['zs-notiz', 'Notizen']);
+    h += einwPanel(day) + notesPanel(day);
+    $('tagBody').innerHTML = '<p class="kurz" id="zs-kurz"><b>' + esc(dayChipText(day, t)) + ':</b> ' + esc(vs.length ? statLine(s) : 'noch nichts eingetragen') + '</p>' + jumpsHtml(jp) + h;
     growAll();
   }
 
@@ -2769,7 +3951,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     try { localStorage.setItem('bz-test', '1'); var ok = localStorage.getItem('bz-test') === '1'; localStorage.removeItem('bz-test'); return ok; }
     catch (e) { return false; }
   }
-  function persistLocal() { try { localStorage.setItem(LS, JSON.stringify(state)); storeOk = true; } catch (e) { storeOk = false; } }
+  function persistLocal() { try { localStorage.setItem(LS, JSON.stringify(state)); storeOk = true; } catch (e) { storeOk = false; } adStoreState(storeOk); }
   function markDirty() { state.mod = Date.now(); persistLocal(); setStatus('local'); updateBackupInfo(); }
   function readSync() {
     if (syncMem) return syncMem;
@@ -2811,7 +3993,9 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     var bz = $('mBusy'); bz.textContent = txt || ''; bz.hidden = !on;
   }
   function closeModal() {
+    var wasOpen = modalOpen;
     $('modal').hidden = true; modalOpen = false; modalBusy = false;
+    if (wasOpen && !adFromPop) adBackPop();
     $('mBody').textContent = '';
     if (modalPrev && modalPrev.focus) { try { modalPrev.focus(); } catch (e) { /* egal */ } }
   }
@@ -2834,7 +4018,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     for (var i = 0; i < ins.length; i++) ins[i].addEventListener('keydown', function (e) { if (e.key === 'Enter' && modalPrimary && !modalBusy) { e.preventDefault(); modalPrimary.click(); } });
     var sh = $('mShow');
     if (sh) sh.addEventListener('change', function () { for (var k = 0; k < ins.length; k++) ins[k].type = sh.checked ? 'text' : 'password'; });
-    $('modal').hidden = false; modalOpen = true;
+    $('modal').hidden = false; if (!modalOpen) adBackPush(); modalOpen = true;
     var first = ins[0] || bx.querySelector('button');
     if (first) { try { first.focus(); } catch (e) { /* egal */ } }
   }
@@ -3314,7 +4498,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     var bs = t.closest('[data-bsel]');
     if (bs) { ui.bsel = bs.dataset.bsel; ui.pick = ''; ui.badd = false; ui.q = ''; $('q').value = ''; saveView(); renderBoard(); return; }
     var er = t.closest('[data-er]');
-    if (er) { state.last.bres = er.dataset.er; persistLocal(); qsa('#eRes [data-er]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === er)); }); setText('eSave', er.dataset.er === 'neu' ? 'Wohnung anlegen' : 'Eintragen: ' + ERES_LBL[er.dataset.er]); return; }
+    if (er) { state.last.bres = er.dataset.er; persistLocal(); qsa('#eRes [data-er]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === er)); }); setText('eSave', er.dataset.er === 'neu' ? 'Kunde anlegen' : 'Eintragen: ' + ERES_LBL[er.dataset.er]); return; }
     var ts = t.closest('[data-ts]');
     if (ts) { ui.tagSec = ts.dataset.ts; saveView(); renderZahlen(); return; }
     var tg = t.closest('[data-tg]');
@@ -3328,10 +4512,14 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       if (ec) { show(ec, 'nearest'); focusEl(ec.querySelector(ne.text ? '[data-e="kunde"]' : '[data-e="text"]')); }
       return;
     }
+    var tf = t.closest('[data-tfilt]');
+    if (tf) { ui.tfilt = tf.dataset.tfilt === 'bulk' || tf.dataset.tfilt === 'kunden' ? tf.dataset.tfilt : 'alle'; ui.kact = ''; renderTermine(); return; }
+    var vw = t.closest('[data-vw]');
+    if (vw) { ui.vw = vw.dataset.vw === 'brett' ? 'brett' : 'liste'; ui.bdoor = ''; saveView(); renderBoard(); return; }
     var b = t.closest('button');
     if (!b) return;
     if (b.id === 'toastUndo') { undo(); return; }
-    var act = b.dataset.act, cardEl = b.closest('.door'), d = cardEl ? doorById(cardEl.dataset.id) : null;
+    var act = b.dataset.act, cardEl = b.closest('.door'), d = cardEl ? doorById(cardEl.dataset.id) : null, kcEl = b.closest('.kcard'), kd = kcEl ? doorById(kcEl.dataset.id) : null;
     if (b.dataset.res && d) { actDone(d, b.dataset.res); return; }
     if (b.dataset.einw !== undefined && d) { setEinw(d, b.dataset.einw); return; }
     if (!act) return;
@@ -3341,7 +4529,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       case 'met': if (d) { ui.pick = d.id; ui.ask = ''; renderActive(); var pk = document.querySelector('.door[data-id="' + d.id + '"] .pick'); if (pk) show(pk, 'nearest'); } break;
       case 'pickx': ui.pick = ''; renderActive(); break;
       case 'wannx': if (d) offerSpaeter(d); break;
-      case 'askx': ui.ask = ''; renderActive(); break;
+      case 'askx': ui.ask = ''; if (d && ui.bdoor === d.id) ui.bdoor = ''; renderActive(); break;
       case 'edit': if (d) { ui.edit = ui.edit === d.id ? '' : d.id; ui.pick = ''; renderActive(); if (ui.edit) { var fi = document.querySelector('.editing input'); if (fi) fi.focus(); } } break;
       case 'editdone': ui.edit = ''; renderAll(); break;
       case 'hist': if (d) { ui.hist = ui.hist === d.id ? '' : d.id; ui.pick = ''; renderActive(); } break;
@@ -3352,10 +4540,25 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       case 'nrm': if (d) { var ni = parseInt(b.dataset.ni, 10); if (ni >= 0 && ni < d.names.length) { d.names.splice(ni, 1); markDirty(); renderActive(); } } break;
       case 'nadd': if (d) { var ne2 = splitNames($('e_nadd') ? $('e_nadd').value : ''); if (ne2.length) { d.names = cleanNames(d.names.concat(ne2)); markDirty(); renderActive(); focusEl($('e_nadd')); } } break;
       case 'tdoor': { var dc = b.closest('[data-id]'), dd = dc ? doorById(dc.dataset.id) : null; if (dd) offerTermin(dd, shortOf(dd) + ': Termin geändert.'); break; }
+      /* Kundentermine: erledigt, verschieben, absagen */
+      case 'kdone': case 'kmove': case 'kcancel': if (kd && kd.termin) { var kn2 = kd.id + '|' + (act === 'kdone' ? 'done' : act === 'kmove' ? 'move' : 'cancel'); ui.kact = ui.kact === kn2 || (act === 'kmove' && ui.kact === kd.id + '|movex') ? '' : kn2; renderActive(); kFocus(kd); } break;
+      case 'kx': ui.kact = ''; renderActive(); break;
+      case 'kres': if (kd && kd.termin) kDone(kd, b.dataset.v); break;
+      case 'kcn': if (kd && kd.termin) kCancel(kd, b.dataset.v); break;
+      case 'kmv': if (kd && kd.termin) { if (b.dataset.v === 'x') { ui.kact = kd.id + '|movex'; renderActive(); kFocus(kd); } else kMoveBy(kd, parseInt(b.dataset.v, 10) || 1); } break;
+      case 'kmgo': if (kd && kd.termin) { var kdv = $('kmDate').value, ktv = $('kmTime').value; if (!dayOk(kdv)) { showToast('Bitte ein Datum wählen.', true); break; } kMove(kd, kdv, timeOk(ktv) ? ktv : kd.termin.von); } break;
+      case 'kopen': if (kd && kd.termin) kReopen(kd); break;
+      case 'godoor': if (d) openDoor(d.id); break;
+      case 'kdedit': if (d) { var kle = lastEntry(d); if (kle && kle.res === 'kunde') offerKunde(d, kle, ''); } break;
       /* Türen */
       case 'board': openBoard(b.dataset.sel); break;
+      case 'hdx': ui.hc = !ui.hc; saveView(); renderBoard(); break;
+      case 'bt': { var bd = doorById(b.dataset.did); if (bd) { ui.bdoor = ui.bdoor === bd.id ? '' : bd.id; ui.pick = ''; ui.ask = ''; ui.edit = ''; renderBoard(); if (ui.bdoor) show(document.querySelector('.bdoorcard'), 'nearest'); } break; }
+      case 'bdx': ui.bdoor = ''; ui.pick = ''; ui.ask = ''; ui.edit = ''; renderBoard(); break;
       case 'lanex': ui.lane[b.dataset.lk] = b.getAttribute('aria-expanded') !== 'true'; renderBoard(); break;
       case 'esave': saveEntry(); break;
+      case 'enames': { var gn = curBulk(bulkGroups()); if (gn) openNames(gn); break; }
+      case 'ephoto': { var gp = curBulk(bulkGroups()); if (gp) openPhoto(gp); break; }
       case 'bclose': { var gc = curBulk(bulkGroups()); if (gc && !gc.closed) offerClose(gc); break; }
       case 'bopen': { var go = curBulk(bulkGroups()); if (go && go.closed) { snap(); reopenHouse(go.label); markDirty(); renderAll(); showToast(go.label + ' ist wieder offen.'); } break; }
       case 'showclosed': ui.showClosed = !ui.showClosed; renderBoard(); break;
@@ -3365,6 +4568,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       case 'topen': openTermin(b.dataset.tid); break;
       case 'tx': ui.tedit = ui.tedit === b.dataset.tid ? '' : b.dataset.tid; renderTermine(); if (ui.tedit) { var tr = document.querySelector('.trow[data-tid="' + ui.tedit + '"]'); if (tr) show(tr, 'start'); } break;
       case 'tdel': delTermin(b.dataset.tid); break;
+      case 'tjetzt': { var tj = bulkById(b.dataset.tid); if (tj) { tj.date = todayKey(); tj.von = nowTime(); markDirty(); renderAll(); } break; }
       case 'tpast': ui.tpast = !ui.tpast; renderTermine(); break;
       /* Zahlen */
       case 'vdel': { var vcd = b.closest('.vcard'), vd = vcd ? doorById(vcd.dataset.iid) : null; if (vd) delVisit(vd, parseInt(vcd.dataset.hi, 10)); break; }
@@ -3387,7 +4591,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       var k = el.dataset.tf;
       if (k === 'date') { if (dayOk(el.value)) { tt.date = el.value; markDirty(); renderAll(); } else el.value = tt.date; }
       else if (k === 'von' || k === 'bis') { tt[k] = timeOk(el.value) ? el.value : ''; markDirty(); renderAll(); }
-      else if (k === 'ort') { markDirty(); renderAll(); }
+      else if (k === 'ort') { if (!has(tt.stadt)) { var sv = stadtOfHouse(tt.ort); if (sv) tt.stadt = sv; } markDirty(); renderAll(); }
       return;
     }
   });
@@ -3422,8 +4626,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     var el = e.target;
     if (!el || !el.id || e.isComposing) return;
     if (e.key === 'Enter') {
-      if (el.id === 'eLage') { e.preventDefault(); focusEl($('eName')); return; }
-      if (el.id === 'eName' || (el.id === 'eNote' && !e.shiftKey)) { e.preventDefault(); saveEntry(); return; }
+      if (el.id === 'eLage' || el.id === 'eName' || (el.id === 'eNote' && !e.shiftKey)) { e.preventDefault(); saveEntry(); return; }
       if (el.id === 'e_nadd') { e.preventDefault(); var cardEl = el.closest('.door'), d = cardEl ? doorById(cardEl.dataset.id) : null, add = splitNames(el.value); if (d && add.length) { d.names = cleanNames(d.names.concat(add)); markDirty(); renderActive(); focusEl($('e_nadd')); } return; }
       if (el.id === 'tf_ort') { e.preventDefault(); focusEl($('tf_stadt')); return; }
       if (el.id === 'tf_stadt') { e.preventDefault(); focusEl($('tf_tech')); return; }
@@ -3452,7 +4655,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     loadView();
     setStatus('local');
     sigNow = timeSig();
-    setTab('heute', true);
+    setTab(adTabRecall(TABS), true); adInit(); adPhotoMount();
+    adOnHash(deepLink);
     updateBackupInfo();
     try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { /* egal */ }
   }
