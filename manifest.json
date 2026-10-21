@@ -1,16 +1,26 @@
 {
- "name": "Außendienst-Apps",
- "short_name": "Apps",
- "id": "aussendienst-start",
- "start_url": "./index.html",
- "scope": "./index.html",
- "display": "browser",
+ "name": "Auftragsbuch",
+ "short_name": "Aufträge",
+ "id": "aussendienst-auftraege",
+ "start_url": "./",
+ "scope": "./",
  "lang": "de",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#F6F4F7",
+ "theme_color": "#E20074",
+ "description": "Meine Termine und Meetings, Aufträge mit Nummer und Status, wichtige Infos.",
  "icons": [
   {
-   "src": "cockpit/icon-192.png",
+   "src": "icon-192.png",
    "sizes": "192x192",
    "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
   }
  ]
 }
