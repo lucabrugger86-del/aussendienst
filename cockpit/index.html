@@ -1070,7 +1070,7 @@ small { font-size: 13px; }
           <li>„Heute“ zeigt Bulks, Kundentermine, Stopps und Später-Türen. „Öffnen“ springt direkt in den Eintrag in der jeweiligen App. Die Lupe oben sucht in beiden zugleich.</li>
           <li>„Termine“ und „Zahlen“ fassen beide Bereiche zusammen. Unter „Zahlen“ springst du mit den Chips zum Abschnitt.</li>
           <li>Eigene Notizen und Aufgaben stehen unter „Notizen“.</li>
-          <li>„Alles sichern“ macht eine Datei mit Bulk, Nachvermarktung, Wechselrechner und Cockpit, mit oder ohne Passwort, und teilt sie zum Beispiel an Drive. „Sicherung laden“ liest sie wieder ein. Was du nicht ersetzen willst, nimmst du vorher raus.</li>
+          <li>„Alles sichern“ macht eine Datei mit Bulk, Nachvermarktung, Wechselrechner, Auftragsbuch und Cockpit, mit oder ohne Passwort, und teilt sie zum Beispiel an Drive. „Sicherung laden“ liest sie wieder ein. Was du nicht ersetzen willst, nimmst du vorher raus.</li>
           <li>Hast du einen Stand von Hand eingelesen und er ist älter als zwei Tage, sage ich es dir oben auf „Heute“.</li>
         </ol>
       </details>
@@ -4950,7 +4950,7 @@ function BulkEngine(data) {
   function startSave() {
     openModal({
       title: 'Alles sichern',
-      html: '<p class="mtxt">Eine Datei mit allem: Bulk, Nachvermarktung, Wechselrechner und deinen Cockpit-Notizen. Die schickst du aufs andere Gerät oder hebst sie auf, zum Beispiel in Drive.</p>'
+      html: '<p class="mtxt">Eine Datei mit allem: Bulk, Nachvermarktung, Wechselrechner, Auftragsbuch und deinen Cockpit-Notizen. Die schickst du aufs andere Gerät oder hebst sie auf, zum Beispiel in Drive.</p>'
         + '<label class="mlbl" for="mPw">Passwort</label><input class="in" id="mPw" type="password" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false">'
         + '<label class="mlbl" for="mPw2">Passwort wiederholen</label><input class="in" id="mPw2" type="password" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false">'
         + '<label class="pdfopt"><input type="checkbox" id="mShow"> Passwort anzeigen</label>'
@@ -4981,11 +4981,11 @@ function BulkEngine(data) {
       .then(function (env) { finish(env, true); }, function (e) { setBusy(false); setErr(e && e.code === 'nocrypto' ? 'Verschlüsseln geht in diesem Browser nicht. Speichere ohne Passwort.' : 'Verschlüsseln hat nicht geklappt.'); });
   }
 
-  /* ---------- Alles in einem Schritt: Bulk, Nachvermarktung, Wechselrechner (und Cockpit) ---------- */
-  var ALL_KEYS = { bulk: 'bulk-zentrale-v1', nv: 'nachvermarktung-v1', rechner: 'wechselrechner-v1' };
-  var ALL_SAFE = { bulk: 'bulk-zentrale-v1-vorher', nv: 'nachvermarktung-v1-vorher', rechner: 'wechselrechner-v1-vorher' };
-  var ALL_SYNC = { bulk: 'bz-sync-v1', nv: 'nv-sync-v1' };
-  var ALL_NAME = { ck: 'Cockpit', bulk: 'Bulk-Zentrale', nv: 'Nachvermarktung', rechner: 'Wechselrechner' };
+  /* ---------- Alles in einem Schritt: Bulk, Nachvermarktung, Wechselrechner, Auftragsbuch (und Cockpit) ---------- */
+  var ALL_KEYS = { bulk: 'bulk-zentrale-v1', nv: 'nachvermarktung-v1', rechner: 'wechselrechner-v1', ab: 'auftragsbuch-v1' };
+  var ALL_SAFE = { bulk: 'bulk-zentrale-v1-vorher', nv: 'nachvermarktung-v1-vorher', rechner: 'wechselrechner-v1-vorher', ab: 'auftragsbuch-v1-vorher' };
+  var ALL_SYNC = { bulk: 'bz-sync-v1', nv: 'nv-sync-v1', ab: 'ab-bk-v1' };
+  var ALL_NAME = { ck: 'Cockpit', bulk: 'Bulk-Zentrale', nv: 'Nachvermarktung', rechner: 'Wechselrechner', ab: 'Auftragsbuch' };
   function readAllParts() {
     var out = {};
     Object.keys(ALL_KEYS).forEach(function (k) {
@@ -5003,11 +5003,13 @@ function BulkEngine(data) {
     if (!d || typeof d !== 'object') return false;
     if (k === 'bulk') return Array.isArray(d.doors) && Array.isArray(d.bulks);
     if (k === 'nv') return Array.isArray(d.items) && Array.isArray(d.termine);
+    if (k === 'ab') return Array.isArray(d.auftraege) && Array.isArray(d.termine) && Array.isArray(d.infos);
     return Array.isArray(d.tarife) && Array.isArray(d.verlauf);
   }
   function allSummary(k, d) {
     if (k === 'bulk') return plural(d.doors.length, 'Wohnung', 'Wohnungen') + ', ' + plural(d.bulks.length, 'Bulk', 'Bulks');
     if (k === 'nv') return plural(d.items.length, 'Tür', 'Türen') + ', ' + plural(d.termine.length, 'Termin', 'Termine');
+    if (k === 'ab') return plural(d.auftraege.length, 'Auftrag', 'Aufträge') + ', ' + plural(d.termine.length, 'Termin', 'Termine');
     return plural(d.verlauf.length, 'Vergleich', 'Vergleiche');
   }
   function curPart(k) { try { var s = localStorage.getItem(ALL_KEYS[k]); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
@@ -5025,7 +5027,7 @@ function BulkEngine(data) {
       var older = r.has && r.mod && r.cur && r.mod < r.cur;
       return '<label class="pdfopt"><input type="checkbox" data-allk="' + r.k + '"' + (older ? '' : ' checked') + '><span><b>' + esc(ALL_NAME[r.k]) + '</b> <span class="muted">' + esc(r.sum) + (r.mod ? ' · Stand ' + esc(stamp(r.mod)) : '')
         + (older ? ' · älter als dein jetziger Stand (' + esc(stamp(r.cur)) + ')' : '') + '</span></span></label>';
-    }).join('') + '</div><p class="mnote">Der jetzige Stand bleibt als Kopie. In Bulk und Nachvermarktung holst du ihn unter „Mehr“ mit „Stand von vorher zurückholen“ zurück.</p>';
+    }).join('') + '</div><p class="mnote">Der jetzige Stand bleibt als Kopie. In Bulk, Nachvermarktung und Auftragsbuch holst du ihn unter „Mehr“ mit „Stand von vorher zurückholen“ zurück.</p>';
     openModal({ title: 'Alles einlesen?', html: html, buttons: [
       { label: 'Einlesen', primary: true, fn: function () {
         var sel = qsa('#mBody input[data-allk]').filter(function (c) { return c.checked; }).map(function (c) { return c.dataset.allk; });
