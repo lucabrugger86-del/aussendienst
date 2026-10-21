@@ -13,6 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#6B4EE6">
+<meta name="app-version" content="20.10.2026">
 <script>try{var t=localStorage.getItem("wp-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <style>
 :root{color-scheme:light;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
@@ -1407,11 +1408,39 @@ body.kv-open { overflow: hidden; }
   var rz = null;
   window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(setDockH, 150); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(setDockH);
+  /* Aus Bulk oder Nachvermarktung („Schon Kunde“ → Weiter zum Wechselrechner): #anb=Vodafone&preis=39.99&ende=2027-03 */
+  function monthsUntil(ym) {
+    var m = /^(\d{4})-(\d{2})$/.exec(ym || ''); if (!m) return 0;
+    var n = new Date(), d = (+m[1] - n.getFullYear()) * 12 + (+m[2] - 1 - n.getMonth());
+    return Math.max(0, Math.min(24, d));
+  }
+  function inputHasData(i) { return has(i.anbieter) || has(i.aPreis) || has(i.aSpeed) || has(i.preis) || has(i.tarif); }
+  function applyHash() {
+    var h = (location.hash || '').replace(/^#/, ''); if (!h) return;
+    var o = {};
+    h.split('&').forEach(function (kv) { var i = kv.indexOf('='); if (i > 0) { try { o[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); } catch (e) { /* egal */ } } });
+    try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* egal */ }
+    if (!has(o.anb) && !has(o.preis) && !has(o.ende)) return;
+    var inp = blankInput(), p = num(o.preis), rest = monthsUntil(o.ende);
+    inp.anbieter = txt(o.anb || '', 60);
+    if (p > 0) inp.aPreis = eurIn(p);
+    inp.rest = rest;
+    var what = [inp.anbieter, p > 0 ? eur(p) : '', /^\d{4}-\d{2}$/.test(o.ende || '') ? (rest ? 'Vertrag noch ' + plural(rest, 'Monat', 'Monate') : 'Vertrag läuft jetzt aus') : ''].filter(has).join(' · ');
+    function go() { state.inp = inp; persist(); setTab('rechnen'); renderAll(); showToast('Kunde übernommen: ' + what, true); }
+    if (inputHasData(state.inp)) {
+      openModal({ title: 'Neuer Kunde aus der Tür', html: '<p class="mtxt">Im Rechner steht schon ein Vergleich. Mit „Neu beginnen“ ersetzt du ihn durch diesen Kunden: ' + esc(what) + '.</p>',
+        buttons: [{ label: 'Neu beginnen', primary: true, fn: function () { closeModal(); go(); } }, { label: 'Behalten', fn: closeModal }] });
+    } else go();
+  }
+  window.addEventListener('hashchange', applyHash);
+  /* Wurde im Cockpit „Alles einlesen“ gewählt, lädt sich dieses Fenster neu */
+  try { var bc = new BroadcastChannel('ad-sync'); bc.onmessage = function (m) { var d = m && m.data; if (d && d.t === 'reload' && Array.isArray(d.keys) && d.keys.indexOf(LS) >= 0) location.reload(); }; } catch (e) { /* egal */ }
   function init() {
     try { localStorage.setItem('wr-test', '1'); localStorage.removeItem('wr-test'); storeOk = true; } catch (e) { storeOk = false; }
     adopt(readLocal());
     setStatus();
     setTab('rechnen', true);
+    applyHash();
     try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { /* egal */ }
   }
   init();
