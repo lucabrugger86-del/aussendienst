@@ -13,7 +13,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#E20074">
-<meta name="app-version" content="21.10.2026">
+<meta name="app-version" content="13.11.2026">
 <script>try{var t=localStorage.getItem("wp-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <style>
 /* Grundlage (in der Claude-Ansicht kommt das vom Rahmen) */
@@ -1762,6 +1762,15 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
   /* ---------- Nachvermarktung: Grundlagen (Kern wie in der Zentrale) ---------- */
   var LS = 'nachvermarktung-v1';
+  /* Einmaliger Neustart (13.11.2026): alle Gebiet-Daten auf diesem Gerät löschen. Läuft pro Gerät nur einmal. */
+  (function () {
+    var RK = 'nv-neustart-20261113';
+    try {
+      if (localStorage.getItem(RK)) return;
+      ['nachvermarktung-v1', 'nv-sync-v1', 'nachvermarktung-v1-vorher'].forEach(function (k) { localStorage.removeItem(k); });
+      localStorage.setItem(RK, String(Date.now()));
+    } catch (e) { /* ohne Speicher nichts zu löschen */ }
+  })();
   var APP_ID = 'nachvermarktung-zentrale';
   var ZT_ID = 'aussendienst-zentrale', NH_ID = 'nochmal-hin-aussendienst', KD_ID = 'kundenliste-aussendienst', WP_ID = 'wochenplan-teamleitung', FL_ID = 'flyer-tour-aussendienst', FB_ID = 'feedback-tag-team';
   /* Schlüssel der alten Einzel-Werkzeuge im Browser (zum Übernehmen) */
